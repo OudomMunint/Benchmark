@@ -87,5 +87,9 @@ using (var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_VideoCon
 }
 
 
-// Run benchmark
-BenchmarkRunner.Run<MyBenchmark>();
+Console.Write("Continue to benchmark? (y/n): ");
+var input = Console.ReadLine();
+if (input.ToLower() == "y")
+{
+    BenchmarkRunner.Run<MyBenchmark>();
+}
