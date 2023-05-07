@@ -8,7 +8,8 @@
 
 # Output
 <img src="results.png"/>
--Scroll down to see results, `Runtime` should be the benchmark
+- Scroll down to see results
+- `Runtime` should be the benchmark
 
 # Compare your results to mine!
 ## MacBookPro 15" 2018
