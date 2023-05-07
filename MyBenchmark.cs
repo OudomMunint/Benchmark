@@ -16,10 +16,10 @@ using System.Threading.Tasks;
 
 namespace Benchmark
 {
-    [Config(typeof(SingleThreadPerCoreConfig))]
+    //[Config(typeof(SingleThreadPerCoreConfig))]
     public class MyBenchmark
     {
-        private const int N = 10000;
+        private const int N = 100000;
         private readonly byte[] data;
 
         private readonly SHA256 sha256 = SHA256.Create();
@@ -42,17 +42,18 @@ namespace Benchmark
         public byte[] Md5() => md5.ComputeHash(data);
     }
 
-    public class SingleThreadPerCoreConfig : ManualConfig
-    {
-        public SingleThreadPerCoreConfig()
-        {
-            var job = Job.Default.WithRuntime(CoreRuntime.Core70).WithId("SingleThreadPerCore")
-                .WithJit(Jit.RyuJit).WithGcServer(false).WithGcConcurrent(false)
-                .WithEnvironmentVariable("COMPlus_EnablePreferredAffinity", "1")
-                .WithEnvironmentVariable("COMPlus_ThreadPool_ForceMinWorkerThreads", "20");
-            Add(job);
-        }
-    }
+    //public class SingleThreadPerCoreConfig : ManualConfig
+    //{
+    //    [Obsolete]
+    //    public SingleThreadPerCoreConfig()
+    //    {
+    //        //var job = Job.Default.WithRuntime(CoreRuntime.Core70).WithId("SingleThreadPerCore")
+    //        //    .WithJit(Jit.RyuJit).WithGcServer(false).WithGcConcurrent(false)
+    //        //    .WithEnvironmentVariable("COMPlus_EnablePreferredAffinity", "1")
+    //        //    .WithEnvironmentVariable("COMPlus_ThreadPool_ForceMinWorkerThreads", "20");
+    //        //Add(job);
+    //    }
+    //}
 
     public class Program
     {
