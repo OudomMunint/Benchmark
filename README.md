@@ -5,11 +5,12 @@
 - Run the benchmark in `Release` mode.
 - Check your if system specs is correct
 - `Y` to continue
-- 
+
 # Results
 <img src="results.png"/>
 
 # Compare your results to mine!
+## MacBookPro 15" 2018
 ``` ini
 Intel Core i7-8850H CPU 2.60GHz (Coffee Lake), 1 CPU, 12 logical and 6 physical cores (6P/0E)
 ```
@@ -21,7 +22,7 @@ Intel Core i7-8850H CPU 2.60GHz (Coffee Lake), 1 CPU, 12 logical and 6 physical 
 ``` ini
 Runtime: 216s
 ```
-
+## Desktop
 ``` ini
 Intel Core i7-8700K CPU 3.70GHz (Coffee Lake), 1 CPU, 12 logical and 6 physical cores (6P/0E)
 ```
@@ -34,6 +35,7 @@ Intel Core i7-8700K CPU 3.70GHz (Coffee Lake), 1 CPU, 12 logical and 6 physical 
 Runtime: 151s
 ```
 
+## Dell latitude 5531
 ``` ini
 Intel Core i7-12800H CPU 1.80GHz (Alder Lake), 1 CPU, 20 logical and 14 physical cores (6P/8E)
 ```
