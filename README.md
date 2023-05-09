@@ -1,4 +1,7 @@
 # Benchmark
+
+[![CI Build](https://github.com/OudomMunint/Benchmark/actions/workflows/main.yml/badge.svg)](https://github.com/OudomMunint/Benchmark/actions/workflows/main.yml)
+
 - A C# console program that gathers your system details then runs a hash benchmark on MD5, SHA256, SHA512
 - Used <a href="https://github.com/dotnet/BenchmarkDotNet"> `BenchmarkDotNet` </a>
 
