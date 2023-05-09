@@ -33,6 +33,9 @@ jobs:
 
     - name: Restore dependencies
       run: dotnet restore Benchmark.csproj
+      
+    - name: Dotnet restore
+      run:  dotnet workload restore Benchmark.csproj
 
     - name: Build
       run: dotnet publish Benchmark.csproj -c Release -f net7.0-android --no-restore
