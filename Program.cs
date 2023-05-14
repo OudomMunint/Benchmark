@@ -9,7 +9,6 @@ using System.Runtime.InteropServices;
 Console.WriteLine("Welcome to the best benchmark in the entire universe");
 Console.WriteLine("-----------------------------------------------------------");
 
-
 if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
     {
         static void Main(string[] args)
@@ -17,27 +16,17 @@ if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             Console.WriteLine("Welcome to the best benchmark in the entire universe");
             Console.WriteLine("-----------------------------------------------------------");
 
-        string processorName = string.Empty;
-        Process process = new Process();
-        process.StartInfo.FileName = "/usr/sbin/system_profiler";
-        process.StartInfo.Arguments = "SPHardwareDataType";
-        process.StartInfo.RedirectStandardOutput = true;
-        process.StartInfo.UseShellExecute = false;
-        process.Start();
-        while (!process.StandardOutput.EndOfStream)
-        {
-            string line = process.StandardOutput.ReadLine();
-            if (line.Contains("Processor Name"))
-            {
-                processorName = line.Substring(line.IndexOf(":") + 1).Trim();
-                break;
-            }
-        }
-        process.WaitForExit();
+            // Get CPU information
+            Console.WriteLine("[CPU information]");
+            Console.WriteLine(GetShellOutput("sysctl -n machdep.cpu.brand_string"));
+            Console.WriteLine("Physical Cores: " + GetShellOutput("system_profiler SPSoftwareDataType SPHardwareDataType"));
+            Console.WriteLine("Logical Cores: " + GetShellOutput("sysctl -n hw.logicalcpu"));
+            Console.WriteLine("Max Frequency: " + GetShellOutput("sysctl -n machdep.cpu.max_frequency") + " Hz");
+            Console.WriteLine("L3 Cache Size: " + (long.Parse(GetShellOutput("sysctl -n hw.l3cachesize")) / 1024 / 1024) + " MB");
+            Console.WriteLine("-----------------------------------------------------------");
 
-
-        // Get RAM information
-        Console.WriteLine("[Memory Information]");
+            // Get RAM information
+            Console.WriteLine("[Memory Information]");
             Console.WriteLine("Total Capacity: " + (long.Parse(GetShellOutput("sysctl -n hw.memsize")) / 1024 / 1024 / 1024) + " GB");
             Console.WriteLine(GetShellOutput("system_profiler SPMemoryDataType | grep \"Type:\\|Size:\""));
             Console.WriteLine("-----------------------------------------------------------");
@@ -154,5 +143,5 @@ Console.Write("Continue to benchmark? (y/n): ");
 var input = Console.ReadLine();
 if (input.ToLower() == "y")
 {
-    BenchmarkRunner.Run<MultithreadingBenchmark>();
+    BenchmarkRunner.Run<MyBenchmark>();
 }
