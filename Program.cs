@@ -13,48 +13,24 @@ if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to the best benchmark in the entire universe");
-            Console.WriteLine("-----------------------------------------------------------");
+        var startInfo = new ProcessStartInfo
+        {
+            FileName = "/usr/sbin/system_profiler",
+            Arguments = "SPSoftwareDataType SPHardwareDataType",
+            RedirectStandardOutput = true,
+            UseShellExecute = false
+        };
 
-            // Get CPU information
-            Console.WriteLine("[CPU information]");
-            Console.WriteLine(GetShellOutput("sysctl -n machdep.cpu.brand_string"));
-            Console.WriteLine("Physical Cores: " + GetShellOutput("system_profiler SPSoftwareDataType SPHardwareDataType"));
-            Console.WriteLine("Logical Cores: " + GetShellOutput("sysctl -n hw.logicalcpu"));
-            Console.WriteLine("Max Frequency: " + GetShellOutput("sysctl -n machdep.cpu.max_frequency") + " Hz");
-            Console.WriteLine("L3 Cache Size: " + (long.Parse(GetShellOutput("sysctl -n hw.l3cachesize")) / 1024 / 1024) + " MB");
-            Console.WriteLine("-----------------------------------------------------------");
+        var process = new Process { StartInfo = startInfo };
+        process.Start();
 
-            // Get RAM information
-            Console.WriteLine("[Memory Information]");
-            Console.WriteLine("Total Capacity: " + (long.Parse(GetShellOutput("sysctl -n hw.memsize")) / 1024 / 1024 / 1024) + " GB");
-            Console.WriteLine(GetShellOutput("system_profiler SPMemoryDataType | grep \"Type:\\|Size:\""));
-            Console.WriteLine("-----------------------------------------------------------");
-
-            // Get GPU information
-            Console.WriteLine("[GPU Information]");
-            Console.WriteLine(GetShellOutput("system_profiler SPDisplaysDataType | grep \"Chipset Model:\" | awk '{print $3 \" \" $4}'"));
-            Console.WriteLine("VRAM: " + GetShellOutput("system_profiler SPDisplaysDataType | grep \"VRAM (Dynamic, Max):\" | awk '{print $4}'"));
-            Console.WriteLine("-----------------------------------------------------------");
+        while (!process.StandardOutput.EndOfStream)
+        {
+            string line = process.StandardOutput.ReadLine();
+            Console.WriteLine(line);
         }
 
-        static string GetShellOutput(string command)
-        {
-            var process = new Process()
-            {
-                StartInfo = new ProcessStartInfo
-                {
-                    FileName = "/bin/bash",
-                    Arguments = $"-c \"{command}\"",
-                    RedirectStandardOutput = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true,
-                }
-            };
-            process.Start();
-            string output = process.StandardOutput.ReadToEnd();
-            process.WaitForExit();
-            return output.Trim();
+        process.WaitForExit();
         }
     }
 
