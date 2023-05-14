@@ -10,8 +10,18 @@
 - Check your if system specs is correct
 - `Y` to continue
 
-# Output
-<img src="results.png"/> <img src="macresults.png"/>
+# Output 
+<table>
+  <tr>
+    <td> <h2>Windows 11</h2> </td>
+    <td> <h2>MacOS Ventura</h2>  </td>
+  </tr>
+  <tr>
+    <td> <img src="results.png"/> </td>
+    <td> <img src="macresults.png"/> </td>
+  </tr>
+</table>
+
 
 - Scroll down to see results.
 - `Runtime` in `seconds(s)` should be the benchmark.
