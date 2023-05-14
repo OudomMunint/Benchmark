@@ -4,10 +4,62 @@ using BenchmarkDotNet.Running;
 using System.Management;
 using System.Diagnostics;
 using Microsoft.CodeAnalysis;
+using System.Runtime.InteropServices;
 
 Console.WriteLine("Welcome to the best benchmark in the entire universe");
 Console.WriteLine("-----------------------------------------------------------");
 
+if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+{
+    static void Main(string[] args)
+    {
+        Console.WriteLine("Welcome to the best benchmark in the entire universe");
+        Console.WriteLine("-----------------------------------------------------------");
+
+        // Get CPU information
+        Console.WriteLine("[CPU information]");
+        Console.WriteLine(GetShellOutput("sysctl -n machdep.cpu.brand_string"));
+        Console.WriteLine("Physical Cores: " + GetShellOutput("sysctl -n hw.physicalcpu"));
+        Console.WriteLine("Logical Cores: " + GetShellOutput("sysctl -n hw.logicalcpu"));
+        Console.WriteLine("Max Frequency: " + GetShellOutput("sysctl -n machdep.cpu.max_frequency") + " Hz");
+        Console.WriteLine("L3 Cache Size: " + (long.Parse(GetShellOutput("sysctl -n hw.l3cachesize")) / 1024 / 1024) + " MB");
+        Console.WriteLine("-----------------------------------------------------------");
+
+        // Get RAM information
+        Console.WriteLine("[Memory Information]");
+        Console.WriteLine("Total Capacity: " + (long.Parse(GetShellOutput("sysctl -n hw.memsize")) / 1024 / 1024 / 1024) + " GB");
+        Console.WriteLine(GetShellOutput("system_profiler SPMemoryDataType | grep \"Type:\\|Size:\""));
+        Console.WriteLine("-----------------------------------------------------------");
+
+        // Get GPU information
+        Console.WriteLine("[GPU Information]");
+        Console.WriteLine(GetShellOutput("system_profiler SPDisplaysDataType | grep \"Chipset Model:\" | awk '{print $3 \" \" $4}'"));
+        Console.WriteLine("VRAM: " + GetShellOutput("system_profiler SPDisplaysDataType | grep \"VRAM (Dynamic, Max):\" | awk '{print $4}'"));
+        Console.WriteLine("-----------------------------------------------------------");
+    }
+
+    static string GetShellOutput(string command)
+    {
+        var process = new Process()
+        {
+            StartInfo = new ProcessStartInfo
+            {
+                FileName = "/bin/bash",
+                Arguments = $"-c \"{command}\"",
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+            }
+        };
+        process.Start();
+        string output = process.StandardOutput.ReadToEnd();
+        process.WaitForExit();
+        return output.Trim();
+    }
+}
+
+else
+{
 // GET CPU info
 // Windows specific
 using (var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_Processor"))
@@ -85,58 +137,11 @@ using (var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_VideoCon
         }
     }
 }
-
-#if MACOS
-static void Main(string[] args)
-    {
-        Console.WriteLine("Welcome to the best benchmark in the entire universe");
-        Console.WriteLine("-----------------------------------------------------------");
-
-        // Get CPU information
-        Console.WriteLine("[CPU information]");
-        Console.WriteLine(GetShellOutput("sysctl -n machdep.cpu.brand_string"));
-        Console.WriteLine("Physical Cores: " + GetShellOutput("sysctl -n hw.physicalcpu"));
-        Console.WriteLine("Logical Cores: " + GetShellOutput("sysctl -n hw.logicalcpu"));
-        Console.WriteLine("Max Frequency: " + GetShellOutput("sysctl -n machdep.cpu.max_frequency") + " Hz");
-        Console.WriteLine("L3 Cache Size: " + (long.Parse(GetShellOutput("sysctl -n hw.l3cachesize")) / 1024 / 1024) + " MB");
-        Console.WriteLine("-----------------------------------------------------------");
-
-        // Get RAM information
-        Console.WriteLine("[Memory Information]");
-        Console.WriteLine("Total Capacity: " + (long.Parse(GetShellOutput("sysctl -n hw.memsize")) / 1024 / 1024 / 1024) + " GB");
-        Console.WriteLine(GetShellOutput("system_profiler SPMemoryDataType | grep \"Type:\\|Size:\""));
-        Console.WriteLine("-----------------------------------------------------------");
-
-        // Get GPU information
-        Console.WriteLine("[GPU Information]");
-        Console.WriteLine(GetShellOutput("system_profiler SPDisplaysDataType | grep \"Chipset Model:\" | awk '{print $3 \" \" $4}'"));
-        Console.WriteLine("VRAM: " + GetShellOutput("system_profiler SPDisplaysDataType | grep \"VRAM (Dynamic, Max):\" | awk '{print $4}'"));
-        Console.WriteLine("-----------------------------------------------------------");
-    }
-
-    static string GetShellOutput(string command)
-    {
-        var process = new Process()
-        {
-            StartInfo = new ProcessStartInfo
-            {
-                FileName = "/bin/bash",
-                Arguments = $"-c \"{command}\"",
-                RedirectStandardOutput = true,
-                UseShellExecute = false,
-                CreateNoWindow = true,
-            }
-        };
-        process.Start();
-        string output = process.StandardOutput.ReadToEnd();
-        process.WaitForExit();
-        return output.Trim();
-    }
-#endif
+}
 
 Console.Write("Continue to benchmark? (y/n): ");
 var input = Console.ReadLine();
 if (input.ToLower() == "y")
 {
-    BenchmarkRunner.Run<MultithreadingBenchmark>();
+    BenchmarkRunner.Run<MyBenchmark>();
 }
