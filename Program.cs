@@ -15,7 +15,7 @@ if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
          var startInfo = new ProcessStartInfo
         {
             FileName = "/usr/sbin/system_profiler",
-            Arguments = " sudo SPSoftwareDataType SPHardwareDataType",
+            Arguments = " sudo SPHardwareDataType SPDisplaysDataType",
             RedirectStandardOutput = true,
             UseShellExecute = false
         };
