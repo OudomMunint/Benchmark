@@ -11,7 +11,7 @@
 - `Y` to continue
 
 # Output
-<img src="results.png"/>
+<img src="results.png"/> <img src="macresults.png"/>
 
 - Scroll down to see results.
 - `Runtime` in `seconds(s)` should be the benchmark.
