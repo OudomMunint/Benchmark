@@ -12,8 +12,8 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-
+  contents: read, write
+  
 env:
   DOTNET_NOLOGO: true                     # Disable the .NET logo
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true # Disable the .NET first time experience
