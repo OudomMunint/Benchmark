@@ -94,3 +94,8 @@ jobs:
       
     - name: Build sln
       run: dotnet build Benchmark.sln -c Release -f net7.0
+      
+    - name: Create Release
+      uses: ncipollo/release-action@v1.12.0
+      with:
+          tag: v1.0.1
