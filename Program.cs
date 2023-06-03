@@ -11,12 +11,11 @@ Console.WriteLine("-----------------------------------------------------------")
 
 if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
     {
-        static void Main(string[] args)
-        {
-        var startInfo = new ProcessStartInfo
+        
+         var startInfo = new ProcessStartInfo
         {
             FileName = "/usr/sbin/system_profiler",
-            Arguments = "SPSoftwareDataType SPHardwareDataType",
+            Arguments = " sudo SPHardwareDataType SPDisplaysDataType",
             RedirectStandardOutput = true,
             UseShellExecute = false
         };
@@ -31,7 +30,7 @@ if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         }
 
         process.WaitForExit();
-        }
+        
     }
 
 else

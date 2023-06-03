@@ -12,8 +12,8 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-
+  contents: write
+  
 env:
   DOTNET_NOLOGO: true                     # Disable the .NET logo
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true # Disable the .NET first time experience
@@ -94,3 +94,8 @@ jobs:
       
     - name: Build sln
       run: dotnet build Benchmark.sln -c Release -f net7.0
+      
+    - name: Create Release
+      uses: ncipollo/release-action@v1.12.0
+      with:
+          tag: v1.0.1
