@@ -6,9 +6,13 @@
 - Used <a href="https://github.com/dotnet/BenchmarkDotNet"> `BenchmarkDotNet` </a>
 
 # Getting Started
+- Open the solution and set as startup project
 - Run the benchmark in `Release` mode.
 - Check your if system specs is correct
 - `Y` to continue
+- For `VSCode` you will need to install the `C#` extention for vscode
+- For `VSCode` you also need to create `launch.JSON` and `task.JSON` files if you want to run in different configurations.
+- If not you can use the provided JSON files.
 
 # Output 
 <table>
