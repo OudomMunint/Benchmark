@@ -118,5 +118,6 @@ Console.Write("Continue to benchmark? (y/n): ");
 var input = Console.ReadLine();
 if (input.ToLower() == "y")
 {
-    BenchmarkRunner.Run<MyBenchmark>();
+    // BenchmarkRunner.Run<MyBenchmark>();
+    BenchmarkRunner.Run<MultithreadingBenchmark>();
 }
