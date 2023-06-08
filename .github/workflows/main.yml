@@ -5,6 +5,7 @@ on:
     branches: [ master ]
     paths-ignore:
       - '**/*.md'
+      - '**.md'
       - '**/*.gitignore'
       - '**/*.gitattributes'
       - '**/README.md'
