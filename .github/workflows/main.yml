@@ -3,10 +3,7 @@ name: CI Build
 on:
   push:
     branches: [ master ]
-    paths:
-      - '**/*.gitignore'
-      - '**/*.gitattributes'
-      - '**/*.md'
+
   pull_request:
     branches: [ master ]
   workflow_dispatch:
@@ -52,4 +49,4 @@ jobs:
         if: matrix.os == 'windows-latest'
         uses: ncipollo/release-action@v1.12.0
         with:
-          tag: v1.3.1
+          tag: v1.3.2
