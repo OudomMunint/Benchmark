@@ -12,6 +12,7 @@
 - Run the benchmark in `Release` mode.
 - Check your if system specs is correct
 - `Y` to continue
+- Use 1, 2 or 3 to select which benchmarks to run
 - For `VSCode` you will need to install the `C#` extention for vscode
 - For `VSCode` you also need to create `launch.JSON` and `task.JSON` files if you want to run in different configurations.
 - If not you can use the provided JSON files.
