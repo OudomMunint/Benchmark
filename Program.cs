@@ -1,5 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-using Benchmark;
+﻿using Benchmark;
 using BenchmarkDotNet.Running;
 using System.Management;
 using System.Diagnostics;
@@ -117,6 +116,29 @@ Console.Write("Continue to benchmark? (y/n): ");
 var input = Console.ReadLine();
 if (input.ToLower() == "y")
 {
-    // BenchmarkRunner.Run<MyBenchmark>();
-    BenchmarkRunner.Run<MultithreadingBenchmark>();
-}
+    
+            Console.WriteLine("Choose a benchmark to run:");
+            Console.WriteLine("1. Hashing Benchmark");
+            Console.WriteLine("2. Encryption Benchmark");
+            Console.WriteLine("3. Multithreading Benchmark");
+            Console.Write("Enter the number of your choice: ");
+
+            string choice = Console.ReadLine();
+
+            switch (choice)
+            {
+                case "1":
+                    var hashingSummary = BenchmarkRunner.Run<HashingBenchmark>();
+                    break;
+                case "2":
+                    var encryptionSummary = BenchmarkRunner.Run<EncryptionBenchmark>();
+                    break;
+                case "3":
+                    var multithreadingSummary = BenchmarkRunner.Run<MultithreadingBenchmark>();
+                    break;
+                default:
+                    Console.WriteLine("Invalid choice.");
+                    break;
+            }
+        
+    }

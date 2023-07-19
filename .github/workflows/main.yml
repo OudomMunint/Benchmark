@@ -26,7 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install Node.js v16
+      - name: Install Node.js v18
         uses: actions/setup-node@v2
         with:
           node-version: '18.x'
@@ -49,4 +49,4 @@ jobs:
         if: matrix.os == 'windows-latest'
         uses: ncipollo/release-action@v1.12.0
         with:
-          tag: v1.3.4
+          tag: v1.4.0
