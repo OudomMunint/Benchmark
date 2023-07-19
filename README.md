@@ -1,9 +1,11 @@
 # Benchmark
-
-[![CI Build](https://github.com/OudomMunint/Benchmark/actions/workflows/main.yml/badge.svg)](https://github.com/OudomMunint/Benchmark/actions/workflows/main.yml) [![CodeQL](https://github.com/OudomMunint/Benchmark/actions/workflows/codeql.yml/badge.svg)](https://github.com/OudomMunint/Benchmark/actions/workflows/codeql.yml) ![maintenance-status](https://img.shields.io/badge/maintenance-actively--developed-brightgreen.svg)
-
 - A C# console program that gathers your system details then runs a hash benchmark on MD5, SHA256, SHA512
-- Used <a href="https://github.com/dotnet/BenchmarkDotNet"> `BenchmarkDotNet` </a>
+- Using <a href="https://github.com/dotnet/BenchmarkDotNet"> `BenchmarkDotNet` </a>
+# Maintenance
+ ![maintenance-status](https://img.shields.io/badge/maintenance-actively--developed-brightgreen.svg)
+
+# CI/CD & CodeQL
+[![CI Build](https://github.com/OudomMunint/Benchmark/actions/workflows/main.yml/badge.svg)](https://github.com/OudomMunint/Benchmark/actions/workflows/main.yml) [![CodeQL](https://github.com/OudomMunint/Benchmark/actions/workflows/codeql.yml/badge.svg)](https://github.com/OudomMunint/Benchmark/actions/workflows/codeql.yml)
 
 # Getting Started
 - Open the solution and set as startup project
