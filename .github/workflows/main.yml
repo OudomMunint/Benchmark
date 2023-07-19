@@ -29,7 +29,7 @@ jobs:
       - name: Install Node.js v16
         uses: actions/setup-node@v2
         with:
-          node-version: '16.x'
+          node-version: '18.x'
 
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v2
@@ -49,4 +49,4 @@ jobs:
         if: matrix.os == 'windows-latest'
         uses: ncipollo/release-action@v1.12.0
         with:
-          tag: v1.3.3
+          tag: v1.3.4
