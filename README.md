@@ -1,5 +1,8 @@
 # Benchmark
-- A C# console program that gathers your system details then runs a hash benchmark on MD5, SHA256, SHA512
+- A C# console program that gathers your system details then lets you run benchmarks on your system.
+- You can run a Hashing benchmark with MD5, SHA256 and SHA512.
+- Or a single thread and multi thread benchmark.
+- Or a encrypt/decrypt benchmark (May need admin privileges)
 - Using <a href="https://github.com/dotnet/BenchmarkDotNet"> `BenchmarkDotNet` </a>
 # Maintenance
  ![maintenance-status](https://img.shields.io/badge/maintenance-actively--developed-brightgreen.svg)
