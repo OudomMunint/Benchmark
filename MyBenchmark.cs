@@ -62,20 +62,16 @@ namespace Benchmark
        [Benchmark]
        public byte[] AesEncrypt()
        {
-           using (var encryptor = aes.CreateEncryptor(key, aes.IV))
-           {
-               return encryptor.TransformFinalBlock(plainData, 0, plainData.Length);
-           }
-       }
+            using var encryptor = aes.CreateEncryptor(key, aes.IV);
+            return encryptor.TransformFinalBlock(plainData, 0, plainData.Length);
+        }
 
        [Benchmark]
        public byte[] AesDecrypt()
        {
-           using (var decryptor = aes.CreateDecryptor(key, aes.IV))
-           {
-               return decryptor.TransformFinalBlock(AesEncrypt(), 0, N);
-           }
-       }
+            using var decryptor = aes.CreateDecryptor(key, aes.IV);
+            return decryptor.TransformFinalBlock(AesEncrypt(), 0, N);
+        }
     }
 
     public class MultithreadingBenchmark
@@ -112,12 +108,12 @@ namespace Benchmark
             });
         }
 
-        private void DoWork(int index)
+        private static void DoWork(int index)
         {
             // simulate some work
             var result = Math.Pow(index, 2);
             result = Math.Pow(result, 2);
-            result = Math.Pow(result, 2);
+            _ = Math.Pow(result, 2);
         }
     }
 
@@ -126,7 +122,7 @@ namespace Benchmark
     {
         public static void Main(string[] args)
         {
-            var summary = BenchmarkRunner.Run<MultithreadingBenchmark>();
+            _ = BenchmarkRunner.Run<MultithreadingBenchmark>();
         }
     }
 }

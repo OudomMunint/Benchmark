@@ -1,5 +1,8 @@
 # Benchmark
-- A C# console program that gathers your system details then runs a hash benchmark on MD5, SHA256, SHA512
+- A C# console program that gathers your system details then lets you run benchmarks on your system.
+- You can run a Hashing benchmark with MD5, SHA256 and SHA512.
+- Or a single thread and multi thread benchmark.
+- Or a encrypt/decrypt benchmark (May need admin privileges)
 - Using <a href="https://github.com/dotnet/BenchmarkDotNet"> `BenchmarkDotNet` </a>
 # Maintenance
  ![maintenance-status](https://img.shields.io/badge/maintenance-actively--developed-brightgreen.svg)
@@ -12,7 +15,8 @@
 - Run the benchmark in `Release` mode.
 - Check your if system specs is correct
 - `Y` to continue
-- Use 1, 2 or 3 to select which benchmarks to run
+- Use `1`, `2` or `3` to select which benchmarks to run
+- Use `4` to run all benchmarks
 - For `VSCode` you will need to install the `C#` extention for vscode
 - For `VSCode` you also need to create `launch.JSON` and `task.JSON` files if you want to run in different configurations.
 - If not you can use the provided JSON files.

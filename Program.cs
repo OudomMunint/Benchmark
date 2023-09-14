@@ -96,7 +96,7 @@ else
                 Console.WriteLine("Name: {0}", item["Name"]);
                 Console.WriteLine("Manufacturer: {0}", manufacturer);
                 Console.WriteLine("Driver Version: {0}", item["DriverVersion"]);
-                Console.WriteLine("VRAM: {0}MB", Convert.ToUInt32(item["AdapterRAM"]) / (1024 * 1024));
+                Console.WriteLine("VRAM: {0}MB", Convert.ToUInt64(item["AdapterRAM"]) / (1024 * 1024));
                 Console.WriteLine("-----------------------------------------------------------");
             }
             else
@@ -105,7 +105,7 @@ else
                 Console.WriteLine("Name: {0}", item["Name"]);
                 Console.WriteLine("Manufacturer: {0}", manufacturer);
                 Console.WriteLine("Driver Version: {0}", item["DriverVersion"]);
-                Console.WriteLine("VRAM: {0}MB", Convert.ToUInt32(item["AdapterRAM"]) / (1024 * 1024));
+                Console.WriteLine("VRAM: {0}MB", item["AdapterRam"]);
                 Console.WriteLine("-----------------------------------------------------------");
             }
         }
@@ -121,6 +121,7 @@ if (input.ToLower() == "y")
             Console.WriteLine("1. Hashing Benchmark");
             Console.WriteLine("2. Encryption Benchmark");
             Console.WriteLine("3. Multithreading Benchmark");
+            Console.WriteLine("4. Run all benchmarks");
             Console.Write("Enter the number of your choice: ");
 
             string choice = Console.ReadLine();
@@ -130,15 +131,21 @@ if (input.ToLower() == "y")
                 case "1":
                     var hashingSummary = BenchmarkRunner.Run<HashingBenchmark>();
                     break;
+
                 case "2":
                     var encryptionSummary = BenchmarkRunner.Run<EncryptionBenchmark>();
                     break;
+
                 case "3":
                     var multithreadingSummary = BenchmarkRunner.Run<MultithreadingBenchmark>();
                     break;
+
+                case "4":
+                    var runAll = BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).RunAllJoined();
+                    break;
+
                 default:
                     Console.WriteLine("Invalid choice.");
                     break;
             }
-        
     }
