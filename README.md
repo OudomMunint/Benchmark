@@ -38,7 +38,20 @@
 - `Runtime` in `seconds(s)` should be the benchmark.
 
 # Compare your results to mine!
-## MacBookPro 15" 2018
+
+## MacBookPro 13" 2017 `MacOS 13`
+``` ini
+Intel Core i5-7660U CPU 2.20GHz (Kaby Lake), 1 CPU, 4 logical and 2 physical cores (2P/0E)
+```
+- Runtime: `573s`
+
+| Method |     Mean |   Error |   StdDev |
+|------- |---------:|--------:|---------:|
+| Sha256 | 751.3 us | 12.29 us | 39.97 us |
+| Sha512 | 455.8 us | 1.81 us |  1.23 us |
+|    Md5 | 361.9 us | 3.42 us |  3.02 us |
+
+## MacBookPro 15" 2018 `Windows 10 bootcamp`
 ``` ini
 Intel Core i7-8850H CPU 2.60GHz (Coffee Lake), 1 CPU, 12 logical and 6 physical cores (6P/0E)
 ```
