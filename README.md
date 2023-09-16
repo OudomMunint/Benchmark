@@ -1,4 +1,4 @@
-# Benchmark
+# Benchmark (.NET 7)
 - A C# console program that gathers your system details then lets you run benchmarks on your system.
 - You can run a Hashing benchmark with MD5, SHA256 and SHA512.
 - Or a single thread and multi thread benchmark.
