@@ -39,6 +39,18 @@
 
 # Compare your results to mine!
 
+## MacBookPro 14" 2023 `macOS 13`
+``` ini
+Apple M2 Pro 10/16, 1 CPU, 10 logical and 10 physical cores (6P/4E)
+```
+- Runtime: `92s`
+
+| Method |     Mean |   Error |  StdDev |
+|------- |---------:|--------:|--------:|
+| Sha256 | 229.9 ns | 2.91 ns | 8.81 ns |
+| Sha512 | 553.0 ns | 1.59 ns | 12.18 ns |
+|    Md5 | 341.1 ns | 7.42 ns | 9.71 ns |
+
 ## MacBookPro 13" 2017 `MacOS 13`
 ``` ini
 Intel Core i5-7660U CPU 2.20GHz (Kaby Lake), 1 CPU, 4 logical and 2 physical cores (2P/0E)
@@ -98,3 +110,10 @@ Intel Core i7-12800H CPU 1.80GHz (Alder Lake), 1 CPU, 20 logical and 14 physical
 | Sha256 | 192.9 ns | 3.86 ns | 5.28 ns |
 | Sha512 | 449.0 ns | 8.52 ns | 7.97 ns |
 |    Md5 | 271.1 ns | 5.49 ns | 7.14 ns |
+
+Ranking:
+1. Dell latitude 5531 `46s`
+2. MacBook Pro 14" 2023 `92s`
+3. Desktop `151s`
+4. MacBook Pro 15" 2018 `191s`
+5. MacBook Pro 13" 2017 `573s`
