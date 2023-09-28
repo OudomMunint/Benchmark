@@ -39,7 +39,19 @@
 
 # Compare your results to mine!
 
-## MacBookPro 14" 2023 `macOS 13`
+## MacBookPro 16" 2021 `macOS 13.6`
+``` ini
+Apple M1 Max 10/32, 1 CPU, 10 logical and 10 physical cores (8P/2E)
+```
+- Runtime: `98s`
+
+| Method |     Mean |   Error |  StdDev |
+|------- |---------:|--------:|--------:|
+| Sha256 | 334.8 ns | 2.10 ns | 9.11 ns |
+| Sha512 | 560.0 ns | 2.89 ns | 14.21 ns |
+|    Md5 | 412.2 ns | 8.53 ns | 10.11 ns |
+
+## MacBookPro 14" 2023 `macOS 13.6`
 ``` ini
 Apple M2 Pro 10/16, 1 CPU, 10 logical and 10 physical cores (6P/4E)
 ```
