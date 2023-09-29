@@ -123,9 +123,17 @@ Intel Core i7-12800H CPU 1.80GHz (Alder Lake), 1 CPU, 20 logical and 14 physical
 | Sha512 | 449.0 ns | 8.52 ns | 7.97 ns |
 |    Md5 | 271.1 ns | 5.49 ns | 7.14 ns |
 
-Ranking:
+## Ranking:
 1. Dell latitude 5531 `46s`
 2. MacBook Pro 14" 2023 `92s`
-3. Desktop `151s`
+2. MacBook Pro 16" 2021 `98s`
+3. 8700K Desktop `151s`
 4. MacBook Pro 15" 2018 `191s`
 5. MacBook Pro 13" 2017 `573s`
+
+# Minimum system requirements
+- .NET 7
+- Dual core CPU
+- Windows 10 or MacOS 12
+- 4GB RAM
+- 1GB Storage
