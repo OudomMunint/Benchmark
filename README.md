@@ -28,7 +28,7 @@
     <td> <h3>MacOS Ventura</h3>  </td>
   </tr>
   <tr>
-    <td> <img src="results.png"/> </td>
+    <td> <img src="results.png" height=500 width=900/> </td>
     <td> <img src="macos.png"/> </td>
   </tr>
 </table>
