@@ -49,4 +49,4 @@ jobs:
         if: matrix.os == 'windows-latest'
         uses: ncipollo/release-action@v1.12.0
         with:
-          tag: v1.4.5.5
+          tag: v1.4.5.6
