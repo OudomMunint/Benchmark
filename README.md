@@ -1,4 +1,4 @@
-# Benchmark (.NET 7)
+# Benchmark (.NET 8)
 - A C# console program that gathers your system details then lets you run benchmarks on your system.
 - You can run a Hashing benchmark with MD5, SHA256 and SHA512.
 - Or a single thread and multi thread benchmark.
@@ -123,7 +123,7 @@ Intel Core i7-12800H CPU 1.80GHz (Alder Lake), 1 CPU, 20 logical and 14 physical
 | Sha512 | 449.0 ns | 8.52 ns | 7.97 ns |
 |    Md5 | 271.1 ns | 5.49 ns | 7.14 ns |
 
-## Ranking:
+## .NET 7 Ranking:
 1. Dell latitude 5531 `46s`
 2. MacBook Pro 14" 2023 `92s`
 2. MacBook Pro 16" 2021 `98s`
@@ -131,8 +131,11 @@ Intel Core i7-12800H CPU 1.80GHz (Alder Lake), 1 CPU, 20 logical and 14 physical
 4. MacBook Pro 15" 2018 `191s`
 5. MacBook Pro 13" 2017 `573s`
 
+## .NET 8 Ranking:
+Testing comenced
+
 # Minimum system requirements
-- .NET 7
+- .NET 8.0.2
 - Dual core CPU
 - Windows 10 or MacOS 12
 - 4GB RAM
