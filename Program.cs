@@ -105,7 +105,7 @@ else
                 Console.WriteLine("Name: {0}", item["Name"]);
                 Console.WriteLine("Manufacturer: {0}", manufacturer);
                 Console.WriteLine("Driver Version: {0}", item["DriverVersion"]);
-                Console.WriteLine("VRAM: {0}MB", item["AdapterRam"]);
+                Console.WriteLine("VRAM: {0}MB", Convert.ToUInt64(item["AdapterRAM"]) / (1024 * 1024));
                 Console.WriteLine("-----------------------------------------------------------");
             }
         }

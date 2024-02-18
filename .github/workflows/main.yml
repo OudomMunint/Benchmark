@@ -32,22 +32,22 @@ jobs:
           node-version: latest
           check-latest: true
 
-      - name: Setup .NET Core
+      - name: Setup .NET Core V8
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '7.0.x'
+          dotnet-version: '8.0.x'
 
       - name: Restore dependencies
         run: dotnet restore Benchmark.csproj
 
       - name: Build Proj
-        run: dotnet build Benchmark.csproj -c Release -f net7.0
+        run: dotnet build Benchmark.csproj -c Release -f net8.0
 
       - name: Build sln
-        run: dotnet build Benchmark.sln -c Release -f net7.0
+        run: dotnet build Benchmark.sln -c Release -f net8.0
 
       - name: Create Release
         if: matrix.os == 'windows-latest'
         uses: ncipollo/release-action@v1.14.0
         with:
-          tag: v1.4.6
+          tag: v1.4.7
