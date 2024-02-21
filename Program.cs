@@ -111,7 +111,7 @@ else
                 Console.WriteLine("Name: {0}", item["Name"]);
                 Console.WriteLine("Manufacturer: {0}", manufacturer);
                 Console.WriteLine("Driver Version: {0}", item["DriverVersion"]);
-            }
+                }
         }
     }
 
@@ -121,10 +121,10 @@ else
         {
             var desc = adapter.Description;
             Console.WriteLine("Total VRAM: {0}MB", desc.DedicatedVideoMemory / (1024 * 1024));
-            Console.WriteLine("-----------------------------------------------------------");
+                Console.WriteLine("-----------------------------------------------------------");
+            }
         }
     }
-}
 
 Console.Write("Continue to benchmark? (y/n): ");
 var input = Console.ReadLine();
