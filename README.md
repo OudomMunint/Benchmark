@@ -21,6 +21,16 @@
 - For `VSCode` you also need to create `launch.JSON` and `task.JSON` files if you want to run in different configurations.
 - If not you can use the provided JSON files.
 
+# Running the EXE
+- Open the solution with preferred IDE
+- Set the startup project to `Benchmark`
+- Build with `dotnet build -c Release`
+- Publish with `dotnet publish -c Release`
+- Run `Benchmark.exe` in the `C:\Users\<Path to project>\Benchmark\bin\Release\net8.0\publish\` folder.
+
+# Required SDKs
+- .NET 8.0.2 from <a href="https://dotnet.microsoft.com/download/dotnet/8.0"> `here` </a>
+
 # Output 
 <table>
   <tr>
