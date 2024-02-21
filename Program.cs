@@ -3,6 +3,12 @@ using BenchmarkDotNet.Running;
 using System.Management;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using SharpDX.Direct3D11;
+using SharpDX.DXGI;
+using SharpDX.Direct3D;
+using System;
+using Device = SharpDX.Direct3D11.Device;
 
 Console.WriteLine("Welcome to the best benchmark in the entire universe");
 Console.WriteLine("-----------------------------------------------------------");
@@ -105,16 +111,24 @@ else
                 Console.WriteLine("Name: {0}", item["Name"]);
                 Console.WriteLine("Manufacturer: {0}", manufacturer);
                 Console.WriteLine("Driver Version: {0}", item["DriverVersion"]);
-                Console.WriteLine("VRAM: {0}MB", Convert.ToUInt64(item["AdapterRAM"]) / (1024 * 1024));
+                }
+        }
+    }
+
+    using (var factory = new Factory1())
+    {
+        using (var adapter = factory.GetAdapter(0))
+        {
+            var desc = adapter.Description;
+            Console.WriteLine("Total VRAM: {0}MB", desc.DedicatedVideoMemory / (1024 * 1024));
                 Console.WriteLine("-----------------------------------------------------------");
             }
         }
     }
-}
 
 Console.Write("Continue to benchmark? (y/n): ");
 var input = Console.ReadLine();
-if (input.ToLower() == "y")
+if (string.Equals("y", "Y"))
 {
     
             Console.WriteLine("Choose a benchmark to run:");
