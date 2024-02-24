@@ -143,26 +143,21 @@ if (string.Equals("y", "Y"))
 
             string choice = Console.ReadLine();
 
-            switch (choice)
+        var benchmarkActions = new Dictionary<string, Action>
             {
-                case "1":
-                    var hashingSummary = BenchmarkRunner.Run<HashingBenchmark>();
-                    break;
+            ["1"] = () => BenchmarkRunner.Run<HashingBenchmark>(),
+            ["2"] = () => BenchmarkRunner.Run<EncryptionBenchmark>(),
+            ["3"] = () => BenchmarkRunner.Run<MultithreadingBenchmark>(),
+            ["4"] = () => BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).RunAllJoined()
+        };
 
-                case "2":
-                    var encryptionSummary = BenchmarkRunner.Run<EncryptionBenchmark>();
-                    break;
-
-                case "3":
-                    var multithreadingSummary = BenchmarkRunner.Run<MultithreadingBenchmark>();
-                    break;
-
-                case "4":
-                    var runAll = BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).RunAllJoined();
-                    break;
-
-                default:
+        if (benchmarkActions.TryGetValue(choice, out Action benchmarkAction))
+        {
+            benchmarkAction.Invoke();
+        }
+        else
+        {
                     Console.WriteLine("Invalid choice.");
-                    break;
+        }
             }
     }
