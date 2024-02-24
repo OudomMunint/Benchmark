@@ -51,6 +51,7 @@ else
             Console.WriteLine("Core: {0}", item["NumberOfCores"]);
             Console.WriteLine("Threads: {0}", item["NumberOfLogicalProcessors"]);
             Console.WriteLine("Clock Speed: {0}MHz", item["MaxClockSpeed"]);
+                Console.WriteLine("L2 Cache: {0}MB", (Convert.ToInt64(item["L2CacheSize"]) / 1024));
             Console.WriteLine("L3 Cache: {0}MB", (Convert.ToInt64(item["L3CacheSize"]) / 1024));
             Console.WriteLine("Voltage: {0}V", item["CurrentVoltage"]);
             Console.WriteLine("-----------------------------------------------------------");
@@ -108,6 +109,7 @@ else
             else
             {
                 Console.WriteLine("[Dedicated GPU]");
+                    Console.WriteLine("Number of GPUs: {0}", searcher.Get().Count);
                 Console.WriteLine("Name: {0}", item["Name"]);
                 Console.WriteLine("Manufacturer: {0}", manufacturer);
                 Console.WriteLine("Driver Version: {0}", item["DriverVersion"]);
@@ -120,7 +122,8 @@ else
         using (var adapter = factory.GetAdapter(0))
         {
             var desc = adapter.Description;
-            Console.WriteLine("Total VRAM: {0}MB", desc.DedicatedVideoMemory / (1024 * 1024));
+                Console.WriteLine("Dedicated GPU Memory", desc.DedicatedVideoMemory / (1024 * 1024));
+                Console.WriteLine("Shared GPU Memory: {0}MB", desc.SharedSystemMemory / (1024 * 1024));
                 Console.WriteLine("-----------------------------------------------------------");
             }
         }
