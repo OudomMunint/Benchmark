@@ -29,7 +29,7 @@ if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
     while (!process.StandardOutput.EndOfStream)
     {
         string line = process.StandardOutput.ReadLine();
-        if (!line.Contains("Serial Number (system):"))
+        if (!line.Contains("Serial Number (system):") && !line.Contains("Hardware UUID:") && !line.Contains("Provisioning UDID:"))
         {
             Console.WriteLine(line);
         }
