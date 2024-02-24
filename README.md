@@ -26,6 +26,12 @@
 - For `VSCode` you also need to create `launch.JSON` and `task.JSON` files if you want to run in different configurations.
 - If not you can use the provided JSON files.
 
+# Running on OSX
+- Open the solution and set as startup project.
+- Run the benchmark in `Release` mode.
+- If the app is terminated, open Benchmark.sln or csproj in terminal.
+- Or `cd` into the `Benchmark` folder and run `dotnet run -c Release`
+
 # Running the EXE
 
 - Open the solution with preferred IDE
