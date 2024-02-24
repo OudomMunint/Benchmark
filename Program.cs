@@ -15,11 +15,10 @@ Console.WriteLine("-----------------------------------------------------------")
 
 if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
 {
-
     var startInfo = new ProcessStartInfo
     {
         FileName = "/usr/sbin/system_profiler",
-        Arguments = " sudo SPHardwareDataType SPDisplaysDataType",
+        Arguments = "SPHardwareDataType SPDisplaysDataType",
         RedirectStandardOutput = true,
         UseShellExecute = false
     };
@@ -30,11 +29,13 @@ if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
     while (!process.StandardOutput.EndOfStream)
     {
         string line = process.StandardOutput.ReadLine();
-        Console.WriteLine(line);
+        if (!line.Contains("Serial Number (system):"))
+        {
+            Console.WriteLine(line);
+        }
     }
 
     process.WaitForExit();
-
 }
 
 else
