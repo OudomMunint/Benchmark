@@ -18,7 +18,7 @@ if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
     var startInfo = new ProcessStartInfo
     {
         FileName = "/usr/sbin/system_profiler",
-        Arguments = "SPHardwareDataType SPDisplaysDataType",
+        Arguments = " SPSoftwareDataType SPHardwareDataType SPMemoryDataType SPDisplaysDataType",
         RedirectStandardOutput = true,
         UseShellExecute = false
     };
@@ -29,7 +29,8 @@ if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
     while (!process.StandardOutput.EndOfStream)
     {
         string line = process.StandardOutput.ReadLine();
-        if (!line.Contains("Serial Number (system):") && !line.Contains("Hardware UUID:") && !line.Contains("Provisioning UDID:"))
+        if (!line.Contains("Serial Number (system):") && !line.Contains("Hardware UUID:") &&!line.Contains("Model Number:") && !line.Contains("Provisioning UDID:") && !line.Contains("Boot Volume:")
+            && !line.Contains("Boot Mode:") && !line.Contains("Computer Name:") && !line.Contains("User Name:"))
         {
             Console.WriteLine(line);
         }
