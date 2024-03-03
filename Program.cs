@@ -29,7 +29,7 @@ if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
     while (!process.StandardOutput.EndOfStream)
     {
         string line = process.StandardOutput.ReadLine();
-        if (!line.Contains("Serial Number (system):") && !line.Contains("Hardware UUID:") &&!line.Contains("Model Number:") && !line.Contains("Provisioning UDID:") && !line.Contains("Boot Volume:")
+        if (!line.Contains("Serial Number (system):") && !line.Contains("Hardware UUID:") && !line.Contains("Model Number:") && !line.Contains("Provisioning UDID:") && !line.Contains("Boot Volume:")
             && !line.Contains("Boot Mode:") && !line.Contains("Computer Name:") && !line.Contains("User Name:"))
         {
             Console.WriteLine(line);
@@ -126,23 +126,37 @@ else
                 }
                 else
                 {
+                    // shorten Advanced Micro Devices, Inc. to AMD
+                    if (manufacturer.ToLower().Contains("advanced micro devices"))
+                    {
+                        manufacturer = "AMD";
+                    }
+
                     Console.WriteLine("[Dedicated GPU]");
                     Console.WriteLine("Number of GPUs: {0}", searcher.Get().Count);
                     Console.WriteLine("Name: {0}", item["Name"]);
                     Console.WriteLine("Manufacturer: {0}", manufacturer);
                     Console.WriteLine("Driver Version: {0}", item["DriverVersion"]);
-                }
-            }
-        }
 
-        using (var factory = new Factory1())
-        {
-            using (var adapter = factory.GetAdapter(0))
-            {
-                var desc = adapter.Description;
-                Console.WriteLine("Dedicated GPU Memory", desc.DedicatedVideoMemory / (1024 * 1024));
-                Console.WriteLine("Shared GPU Memory: {0}MB", desc.SharedSystemMemory / (1024 * 1024));
-                Console.WriteLine("-----------------------------------------------------------");
+                    using (var factory = new Factory1())
+                    {
+                        using (var adapter = factory.GetAdapter(0))
+                        {
+                            var desc = adapter.Description;
+
+                            Console.WriteLine("Shared GPU Memory: {0}MB", desc.SharedSystemMemory / (1024 * 1024));
+                            if (desc.DedicatedVideoMemory == 0)
+                            {
+                                Console.WriteLine("No dedicated GPU memory found");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Dedicated GPU Memory: {0}MB", desc.DedicatedVideoMemory / (1024 * 1024));
+                            }
+                            Console.WriteLine("-----------------------------------------------------------");
+                        }
+                    }
+                }
             }
         }
     }
@@ -151,8 +165,8 @@ else
         Console.WriteLine("An error occurred while retrieving GPU information: " + ex.Message);
     }
 
-Console.Write("Continue to benchmark? (y/n): ");
-var input = Console.ReadLine();
+    Console.Write("Continue to benchmark? (y/n): ");
+    var input = Console.ReadLine();
 
     if (string.Equals(input, "y", StringComparison.OrdinalIgnoreCase))
     {
