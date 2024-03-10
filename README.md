@@ -4,7 +4,7 @@
 - You can run a Hashing benchmark with MD5, SHA256 and SHA512.
 - Or a single thread and multi thread benchmark.
 - Or a encrypt/decrypt benchmark (May need admin privileges)
-- Using <a href="https://github.com/dotnet/BenchmarkDotNet"> `BenchmarkDotNet` </a>
+- Using <a href="https://github.com/dotnet/BenchmarkDotNet"> `BenchmarkDotNet` </a> and SharpDX.
 
 # Maintenance
 
@@ -12,10 +12,10 @@
 
 # CI/CD & CodeQL
 
-[![CI Build](https://github.com/OudomMunint/Benchmark/actions/workflows/main.yml/badge.svg)](https://github.com/OudomMunint/Benchmark/actions/workflows/main.yml) [![CodeQL](https://github.com/OudomMunint/Benchmark/actions/workflows/codeql.yml/badge.svg)](https://github.com/OudomMunint/Benchmark/actions/workflows/codeql.yml)
+[![CI Build](https://github.com/OudomMunint/Benchmark/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/OudomMunint/Benchmark/actions/workflows/main.yml) [![CodeQL](https://github.com/OudomMunint/Benchmark/actions/workflows/codeql.yml/badge.svg)](https://github.com/OudomMunint/Benchmark/actions/workflows/codeql.yml)
 
 # Getting Started
-
+- Install `.NET 8 SDK` from <a href="https://dotnet.microsoft.com/download/dotnet/8.0"> `here` </a>
 - Open the solution and set as startup project
 - Run the benchmark in `Release` mode.
 - Check your if system specs is correct
@@ -27,6 +27,7 @@
 - If not you can use the provided JSON files.
 
 # Running on OSX
+- Install `.NET 8 SDK` for macOS from <a href="https://dotnet.microsoft.com/download/dotnet/8.0"> `here` </a>
 - Open the solution and set as startup project.
 - Run the benchmark in `Release` mode.
 - If the app is terminated, open Benchmark.sln or csproj in terminal.
@@ -162,16 +163,16 @@ Intel Core i7-12800H CPU 1.80GHz (Alder Lake), 1 CPU, 20 logical and 14 physical
 
 ## .NET 7 Ranking:
 
-1. Dell latitude 5531 `46s`
-2. MacBook Pro 14" 2023 `92s`
-3. MacBook Pro 16" 2021 `98s`
-4. 8700K Desktop `151s`
-5. MacBook Pro 15" 2018 `191s`
-6. MacBook Pro 13" 2017 `573s`
+1. Dell latitude 5531 - i7-12700H @ 55W `46s`
+2. MacBook Pro 14" 2023 - M2 Pro 10 Core CPU (6P + 4E) `92s`
+3. MacBook Pro 16" 2021 - M1 Max 10 Core CPU (8P + 2E) `98s`
+4. Desktop - i7-8700K @ 4.7ghz `151s`
+5. MacBook Pro 15" 2018 - i7-8850H @ 45W `191s`
+6. MacBook Pro 13" 2017 - i5-7660U @ 15W `573s`
 
 ## .NET 8 Ranking:
 
-Testing comenced
+Testing...
 
 # Minimum system requirements
 
