@@ -28,8 +28,8 @@ if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
 
     while (!process.StandardOutput.EndOfStream)
     {
-        string line = process.StandardOutput.ReadLine();
-        if (!line.Contains("Serial Number (system):") && !line.Contains("Hardware UUID:") && !line.Contains("Model Number:") && !line.Contains("Provisioning UDID:") && !line.Contains("Boot Volume:")
+        string? line = process.StandardOutput.ReadLine();
+        if (line != null && !line.Contains("Serial Number (system):") && !line.Contains("Hardware UUID:") && !line.Contains("Model Number:") && !line.Contains("Provisioning UDID:") && !line.Contains("Boot Volume:")
             && !line.Contains("Boot Mode:") && !line.Contains("Computer Name:") && !line.Contains("User Name:"))
         {
             Console.WriteLine(line);
@@ -75,16 +75,16 @@ else
         {
             // GET total MEM
             long totalCapacity = 0;
-            string manufacturer = null;
+            string? manufacturer = null;
             foreach (ManagementObject item in searcher.Get())
             {
                 totalCapacity += Convert.ToInt64(item["Capacity"]);
-                manufacturer = item["Manufacturer"].ToString().Trim();
+                manufacturer = item["Manufacturer"]?.ToString()?.Trim();
             }
 
             Console.WriteLine("[Memory Information]");
             Console.WriteLine("Total Capacity: {0} GB", totalCapacity / (1024 * 1024 * 1024));
-            Console.WriteLine("Manufacturer: {0}", manufacturer);
+            Console.WriteLine("Manufacturer: {0}", manufacturer ?? "Unknown");
 
             // GET Capacity per stick
             searcher.Query = new ObjectQuery("SELECT * FROM Win32_PhysicalMemory");
@@ -113,9 +113,9 @@ else
         {
             foreach (var item in searcher.Get())
             {
-                var manufacturer = item["AdapterCompatibility"].ToString();
-                var VideoMemoryType = item["VideoMemoryType"].ToString();
-                if (manufacturer.ToLower().Contains("intel") || manufacturer.ToLower().Contains("amd"))
+                var manufacturer = item["AdapterCompatibility"]?.ToString();
+                var VideoMemoryType = item["VideoMemoryType"]?.ToString();
+                if (manufacturer != null && (manufacturer.ToLower().Contains("intel") || manufacturer.ToLower().Contains("amd")))
                 {
                     Console.WriteLine("[Integrated GPU]");
                     Console.WriteLine("Name: {0}", item["Name"]);
@@ -127,7 +127,7 @@ else
                 else
                 {
                     // shorten Advanced Micro Devices, Inc. to AMD
-                    if (manufacturer.ToLower().Contains("advanced micro devices"))
+                    if (manufacturer != null && manufacturer.ToLower().Contains("advanced micro devices"))
                     {
                         manufacturer = "AMD";
                     }
@@ -135,7 +135,7 @@ else
                     Console.WriteLine("[Dedicated GPU]");
                     Console.WriteLine("Number of GPUs: {0}", searcher.Get().Count);
                     Console.WriteLine("Name: {0}", item["Name"]);
-                    Console.WriteLine("Manufacturer: {0}", manufacturer);
+                    Console.WriteLine("Manufacturer: {0}", manufacturer ?? "Unknown");
                     Console.WriteLine("Driver Version: {0}", item["DriverVersion"]);
 
                     using (var factory = new Factory1())
@@ -177,7 +177,7 @@ else
         Console.WriteLine("4. Run all benchmarks");
         Console.Write("Enter the number of your choice: ");
 
-        string choice = Console.ReadLine();
+        string? choice = Console.ReadLine();
 
         var benchmarkActions = new Dictionary<string, Action>
         {
@@ -187,9 +187,9 @@ else
             ["4"] = () => BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).RunAllJoined()
         };
 
-        if (benchmarkActions.TryGetValue(choice, out Action benchmarkAction))
+        if (choice != null && benchmarkActions.TryGetValue(choice, out Action? benchmarkAction))
         {
-            benchmarkAction.Invoke();
+            benchmarkAction?.Invoke();
         }
         else
         {
