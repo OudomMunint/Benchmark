@@ -12,7 +12,7 @@
 
 # CI/CD & CodeQL
 
-[![CI Build](https://github.com/OudomMunint/Benchmark/actions/workflows/main.yml/badge.svg)](https://github.com/OudomMunint/Benchmark/actions/workflows/main.yml) [![CodeQL](https://github.com/OudomMunint/Benchmark/actions/workflows/codeql.yml/badge.svg)](https://github.com/OudomMunint/Benchmark/actions/workflows/codeql.yml)
+[![CI Build](https://github.com/OudomMunint/Benchmark/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/OudomMunint/Benchmark/actions/workflows/main.yml) [![CodeQL](https://github.com/OudomMunint/Benchmark/actions/workflows/codeql.yml/badge.svg)](https://github.com/OudomMunint/Benchmark/actions/workflows/codeql.yml)
 
 # Getting Started
 - Install `.NET 8 SDK` from <a href="https://dotnet.microsoft.com/download/dotnet/8.0"> `here` </a>
