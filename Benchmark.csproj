@@ -10,9 +10,9 @@
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.13.12" />
     <PackageReference Include="Hardware.Info" Version="100.1.0" />
+    <PackageReference Include="NvAPIWrapper.Net" Version="0.8.1.101" />
     <PackageReference Include="SharpDX" Version="4.2.0" />
     <PackageReference Include="SharpDX.Direct3D11" Version="4.2.0" />
-    <PackageReference Include="System.Spec" Version="3.1.3" />
   </ItemGroup>
 
 </Project>
