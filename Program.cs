@@ -13,6 +13,8 @@ using NvAPIWrapper;
 using NvAPIWrapper.Display;
 using NvAPIWrapper.GPU;
 using Hardware.Info;
+using NvAPIWrapper.DRS.SettingValues;
+using System.Linq;
 
 Console.ForegroundColor = ConsoleColor.Green;
 Console.WriteLine("Welcome to the best benchmark in the entire universe");
@@ -167,99 +169,110 @@ else
     {
         using (var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_VideoController"))
         {
-            bool hasNvidiaGPU = false;
+            bool hasNvidiaGPU = PhysicalGPU.GetPhysicalGPUs().Any(gpu => gpu.FullName.Contains("NVIDIA"));
+
+            if (hasNvidiaGPU)
+            {
+                NVIDIA.Initialize();
+
+                //var nvidiaGPUs = PhysicalGPU.GetPhysicalGPUs().Where(gpu => gpu.FullName.Contains("NVIDIA")).ToList();
+                var nvidiaGPUs = PhysicalGPU.GetPhysicalGPUs();
+                var driver = NVIDIA.DriverVersion;
+                var driverbranch = NVIDIA.DriverBranchVersion;
+
+                foreach (var gpu in nvidiaGPUs)
+                {
+                    //Header
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.WriteLine("[GPU Information]");
+
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write("GPU Type: ");
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine(gpu.GPUType);
+
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write("Name: ");
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine(gpu.FullName);
+
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write("GPU Core: ");
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine(gpu.ArchitectInformation.ShortName);
+
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write("Shaders: ");
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine(gpu.ArchitectInformation.NumberOfCores);
+
+                    var graphicsClockKHz = gpu.BoostClockFrequencies.GraphicsClock.Frequency;
+                    var graphicsClockMHz = graphicsClockKHz / 1000;
+
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write("GPU Core Speed: ");
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("{0} MHz", graphicsClockMHz);
+
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write("VRAM: ");
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("{0} MB", gpu.MemoryInformation.DedicatedVideoMemoryInkB / 1024); // Convert kB to MB
+
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write("VRAM Type: ");
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine(gpu.MemoryInformation.RAMType);
+
+                    var memoryClockKHz = gpu.BoostClockFrequencies.MemoryClock.Frequency;
+                    var memoryClockMHz = memoryClockKHz / 1000;
+
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write("VRAM Frequency: ");
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("{0} MHz", memoryClockMHz);
+
+                }
+            }
+
             foreach (var item in searcher.Get())
             {
                 var manufacturer = item["AdapterCompatibility"]?.ToString();
                 var VideoMemoryType = item["VideoMemoryType"]?.ToString();
 
-                if (manufacturer != null && manufacturer.ToLower().Contains("nvidia"))
-                {
-                    hasNvidiaGPU = true;
-                    break;  // Exit the loop if an NVIDIA GPU is found
-                }
-
-                if (hasNvidiaGPU)
-                {
-                    NVIDIA.Initialize();
-
-                    var gpus = PhysicalGPU.GetPhysicalGPUs();
-                    var driver = NVIDIA.DriverVersion;
-                    var driverbranch = NVIDIA.DriverBranchVersion;
-
-                    foreach (var gpu in gpus)
-                    {
-                        //Header
-                        Console.ForegroundColor = ConsoleColor.Cyan;
-                        Console.WriteLine("[GPU Information]");
-
-                        Console.ForegroundColor = ConsoleColor.White;
-                        Console.Write("Number of GPUs: ");
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine(searcher.Get().Count);
-
-                        Console.ForegroundColor = ConsoleColor.White;
-                        Console.Write("GPU Type: ");
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine(gpu.GPUType);
-
-                        Console.ForegroundColor = ConsoleColor.White;
-                        Console.Write("Driver Version: ");
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine(item["DriverVersion"]);
-
-                        Console.ForegroundColor = ConsoleColor.White;
-                        Console.Write("Name: ");
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine(gpu.FullName);
-
-                        Console.ForegroundColor = ConsoleColor.White;
-                        Console.Write("GPU Core: ");
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine(gpu.ArchitectInformation.ShortName);
-
-                        Console.ForegroundColor = ConsoleColor.White;
-                        Console.Write("Shaders: ");
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine(gpu.ArchitectInformation.NumberOfCores);
-
-                        var graphicsClockKHz = gpu.BoostClockFrequencies.GraphicsClock.Frequency;
-                        var graphicsClockMHz = graphicsClockKHz / 1000;
-
-                        Console.ForegroundColor = ConsoleColor.White;
-                        Console.Write("GPU Core Speed: ");
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine("{0} MHz", graphicsClockMHz);
-
-                        Console.ForegroundColor = ConsoleColor.White;
-                        Console.Write("VRAM: ");
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine("{0} MB", gpu.MemoryInformation.DedicatedVideoMemoryInkB / 1024); // Convert kB to MB
-
-                        Console.ForegroundColor = ConsoleColor.White;
-                        Console.Write("VRAM Type: ");
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine(gpu.MemoryInformation.RAMType);
-
-                        var memoryClockKHz = gpu.BoostClockFrequencies.MemoryClock.Frequency;
-                        var memoryClockMHz = memoryClockKHz / 1000;
-
-                        Console.ForegroundColor = ConsoleColor.White;
-                        Console.Write("VRAM Frequency: ");
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine("{0} MHz", memoryClockMHz);
-                    }
-                }
+                //if (manufacturer != null && manufacturer.ToLower().Contains("nvidia"))
+                //{
+                //    hasNvidiaGPU = true;
+                //    break;  // Exit the loop if an NVIDIA GPU is found
+                //}
 
                 if (manufacturer != null && (manufacturer.ToLower().Contains("intel") || manufacturer.ToLower().Contains("amd")))
                 {
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    Console.WriteLine("-----------------------------------------------------------");
+
                     Console.ForegroundColor = ConsoleColor.Cyan;
                     Console.WriteLine("[Integrated GPU]");
 
-                    Console.WriteLine("Name: {0}", item["Name"]);
-                    Console.WriteLine("Manufacturer: {0}", manufacturer);
-                    Console.WriteLine("Driver Version: {0}", item["DriverVersion"]);
-                    Console.WriteLine("VRAM: {0}MB", Convert.ToUInt64(item["AdapterRAM"]) / (1024 * 1024));
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write("Name: ");
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine(item["Name"]);
+
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write("Manufacturer: ");
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine(manufacturer);
+
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write("Driver Version: ");
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine(item["DriverVersion"]);
+
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write("VRAM: ");
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("{0} MB", Convert.ToUInt64(item["AdapterRAM"]) / (1024 * 1024));            
 
                     Console.ForegroundColor = ConsoleColor.Magenta;
                     Console.WriteLine("-----------------------------------------------------------");
@@ -272,47 +285,50 @@ else
                         manufacturer = "AMD";
                     }
 
-                    using (var factory = new Factory1())
+                    if (!hasNvidiaGPU)
                     {
-                        using (var adapter = factory.GetAdapter(0))
+                        using (var factory = new Factory1())
                         {
-                            var desc = adapter.Description;
-                            var adapterMain = adapter;
-
-                            Console.ForegroundColor = ConsoleColor.White;
-                            Console.Write("Name: ");
-                            Console.ForegroundColor = ConsoleColor.Yellow;
-                            Console.WriteLine(desc.Description);
-
-                            Console.ForegroundColor = ConsoleColor.White;
-                            Console.Write("Manufacturer: ");
-                            Console.ForegroundColor = ConsoleColor.Yellow;
-                            Console.WriteLine(manufacturer);
-
-                            Console.ForegroundColor = ConsoleColor.White;
-                            Console.Write("Driver Version: ");
-                            Console.ForegroundColor = ConsoleColor.Yellow;
-                            Console.WriteLine(item["DriverVersion"]);
-
-                            if (desc.DedicatedVideoMemory == 0)
+                            using (var adapter = factory.GetAdapter(0))
                             {
-                                Console.WriteLine("No dedicated GPU memory found");
-                            }
-                            else
-                            {
-                                Console.ForegroundColor = ConsoleColor.White;
-                                Console.Write("VRAM: ");
-                                Console.ForegroundColor = ConsoleColor.Yellow;
-                                Console.WriteLine("{0} MB", desc.DedicatedVideoMemory / (1024 * 1024));
+                                var desc = adapter.Description;
+                                var adapterMain = adapter;
 
                                 Console.ForegroundColor = ConsoleColor.White;
-                                Console.Write("Shared Memory: ");
+                                Console.Write("Name: ");
                                 Console.ForegroundColor = ConsoleColor.Yellow;
-                                Console.WriteLine("{0} MB", desc.SharedSystemMemory / (1024 * 1024));
-                            }
+                                Console.WriteLine(desc.Description);
 
-                            Console.ForegroundColor = ConsoleColor.Magenta;
-                            Console.WriteLine("-----------------------------------------------------------");
+                                Console.ForegroundColor = ConsoleColor.White;
+                                Console.Write("Manufacturer: ");
+                                Console.ForegroundColor = ConsoleColor.Yellow;
+                                Console.WriteLine(manufacturer);
+
+                                Console.ForegroundColor = ConsoleColor.White;
+                                Console.Write("Driver Version: ");
+                                Console.ForegroundColor = ConsoleColor.Yellow;
+                                Console.WriteLine(item["DriverVersion"]);
+
+                                if (desc.DedicatedVideoMemory == 0)
+                                {
+                                    Console.WriteLine("No dedicated GPU memory found");
+                                }
+                                else
+                                {
+                                    Console.ForegroundColor = ConsoleColor.White;
+                                    Console.Write("VRAM: ");
+                                    Console.ForegroundColor = ConsoleColor.Yellow;
+                                    Console.WriteLine("{0} MB", desc.DedicatedVideoMemory / (1024 * 1024));
+
+                                    Console.ForegroundColor = ConsoleColor.White;
+                                    Console.Write("Shared Memory: ");
+                                    Console.ForegroundColor = ConsoleColor.Yellow;
+                                    Console.WriteLine("{0} MB", desc.SharedSystemMemory / (1024 * 1024));
+                                }
+
+                                Console.ForegroundColor = ConsoleColor.Magenta;
+                                Console.WriteLine("-----------------------------------------------------------");
+                            }
                         }
                     }
                 }
