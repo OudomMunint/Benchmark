@@ -120,9 +120,9 @@ namespace Benchmark
 
     public class Program
     {
-        public static void Main(string[] args)
-        {
-            _ = BenchmarkRunner.Run<MultithreadingBenchmark>();
-        }
+        // public static void Main(string[] args)
+        // {
+        //     _ = BenchmarkRunner.Run<MultithreadingBenchmark>();
+        // }
     }
 }
