@@ -4,7 +4,7 @@
 - You can run a Hashing benchmark with MD5, SHA256 and SHA512.
 - Or a single thread and multi thread benchmark.
 - Or a encrypt/decrypt benchmark (May need admin privileges)
-- Using <a href="https://github.com/dotnet/BenchmarkDotNet"> `BenchmarkDotNet` </a> and SharpDX.
+- Using <a href="https://github.com/dotnet/BenchmarkDotNet"> `BenchmarkDotNet` </a>, `SharpDX` and `NvAPIWrapper`.
 
 # Maintenance
 
@@ -53,7 +53,7 @@
     <td> <h3>MacOS Ventura</h3>  </td>
   </tr>
   <tr>
-    <td> <img src="results.png" height=500 width=900/> </td>
+    <td> <img src="results.png"/> </td>
     <td> <img src="macos.png"/> </td>
   </tr>
 </table>
