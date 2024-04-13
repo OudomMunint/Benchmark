@@ -44,8 +44,6 @@ if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             Console.WriteLine(line);
         }
     }
-
-    process.WaitForExit();
 }
 
 else
@@ -340,6 +338,7 @@ else
     {
         Console.WriteLine("An error occurred while retrieving GPU information: " + ex.Message);
     }
+}
 
     Console.ForegroundColor = ConsoleColor.White;
     Console.Write("Continue to benchmark? (y/n): ");
@@ -377,4 +376,3 @@ else
             Console.WriteLine("Invalid choice.");
         }
     }
-}
