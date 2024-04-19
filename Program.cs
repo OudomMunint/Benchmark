@@ -75,9 +75,21 @@ else
                 Console.WriteLine(item["NumberOfLogicalProcessors"]);
 
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.Write("Clock Speed: ");
+                Console.Write("Base Frequency: ");
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("{0}MHz", item["MaxClockSpeed"]);
+
+                IHardwareInfo hardwareInfo;
+                hardwareInfo = new HardwareInfo();
+                hardwareInfo.RefreshAll();
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write("Current Frequency: ");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+
+                foreach (var cpu in hardwareInfo.CpuList)
+                {
+                    Console.WriteLine("{0}MHz", cpu.CurrentClockSpeed);
+                }
 
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.Write("L2 Cache: ");
