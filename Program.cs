@@ -15,6 +15,7 @@ using NvAPIWrapper.GPU;
 using Hardware.Info;
 using NvAPIWrapper.DRS.SettingValues;
 using System.Linq;
+using System.Net.NetworkInformation;
 
 Console.ForegroundColor = ConsoleColor.Green;
 Console.WriteLine("Welcome to the best benchmark in the entire universe");
@@ -24,6 +25,7 @@ Console.WriteLine("-----------------------------------------------------------")
 
 if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
 {
+    Console.ForegroundColor = ConsoleColor.Cyan;
     var startInfo = new ProcessStartInfo
     {
         FileName = "/usr/sbin/system_profiler",
@@ -38,8 +40,11 @@ if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
     while (!process.StandardOutput.EndOfStream)
     {
         string? line = process.StandardOutput.ReadLine();
+        //Exclusions
         if (line != null && !line.Contains("Serial Number (system):") && !line.Contains("Hardware UUID:") && !line.Contains("Model Number:") && !line.Contains("Provisioning UDID:") && !line.Contains("Boot Volume:")
-            && !line.Contains("Boot Mode:") && !line.Contains("Computer Name:") && !line.Contains("User Name:"))
+            && !line.Contains("Boot Mode:") && !line.Contains("Computer Name:") && !line.Contains("User Name:") && !line.Contains("Kernel Version: Darwin") && !line.Contains("Secure Virtual Memory: Enabled")
+            && !line.Contains("System Integrity Protection: Enabled") && !line.Contains("Time since boot:") && !line.Contains("System Firmware Version:") && !line.Contains("OS Loader Version:")
+            && !line.Contains("Activation Lock Status:") && !line.Contains("Bus: Built-In") && !line.Contains("Vendor:"))
         {
             Console.WriteLine(line);
         }
@@ -75,9 +80,21 @@ else
                 Console.WriteLine(item["NumberOfLogicalProcessors"]);
 
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.Write("Clock Speed: ");
+                Console.Write("Base Frequency: ");
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("{0}MHz", item["MaxClockSpeed"]);
+
+                IHardwareInfo hardwareInfo;
+                hardwareInfo = new HardwareInfo();
+                hardwareInfo.RefreshAll();
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write("Current Frequency: ");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+
+                foreach (var cpu in hardwareInfo.CpuList)
+                {
+                    Console.WriteLine("{0}MHz", cpu.CurrentClockSpeed);
+                }
 
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.Write("L2 Cache: ");

@@ -4,7 +4,7 @@
 - You can run a Hashing benchmark with MD5, SHA256 and SHA512.
 - Or a single thread and multi thread benchmark.
 - Or a encrypt/decrypt benchmark (May need admin privileges)
-- Using <a href="https://github.com/dotnet/BenchmarkDotNet"> `BenchmarkDotNet` </a>, `SharpDX` and `NvAPIWrapper`.
+- Using <a href="https://github.com/dotnet/BenchmarkDotNet"> `BenchmarkDotNet` </a>, `SharpDX`, `NvAPIWrapper` and `Hardware.info`
 
 # Maintenance
 
@@ -172,7 +172,12 @@ Intel Core i7-12800H CPU 1.80GHz (Alder Lake), 1 CPU, 20 logical and 14 physical
 
 ## .NET 8 Ranking:
 
-Testing...
+1. Dell latitude 5531 - i7-12700H @ 55W `32s`
+2. MacBook Pro 14" 2023 - M2 Pro 10 Core CPU (6P + 4E) `35s`
+3. MacBook Pro 16" 2021 - M1 Max 10 Core CPU (8P + 2E) `42s`
+4. Desktop - i7-8700K @ 4.7ghz `105s`
+5. MacBook Pro 15" 2018 - i7-8850H @ 45W `133s`
+6. MacBook Pro 13" 2017 - i5-7660U @ 15W `401s`
 
 # Minimum system requirements
 
