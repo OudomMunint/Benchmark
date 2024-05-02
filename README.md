@@ -69,13 +69,8 @@
 Apple M1 Max 10/32, 1 CPU, 10 logical and 10 physical cores (8P/2E)
 ```
 
-- Runtime: `98s`
-
-| Method |     Mean |   Error |   StdDev |
-| ------ | -------: | ------: | -------: |
-| Sha256 | 334.8 ns | 2.10 ns |  9.11 ns |
-| Sha512 | 560.0 ns | 2.89 ns | 14.21 ns |
-| Md5    | 412.2 ns | 8.53 ns | 10.11 ns |
+- .NET 7 Runtime: `98s`
+- .NET 8 Runtime: `42s`
 
 ## MacBookPro 14" 2023 `macOS 13.6`
 
@@ -83,13 +78,8 @@ Apple M1 Max 10/32, 1 CPU, 10 logical and 10 physical cores (8P/2E)
 Apple M2 Pro 10/16, 1 CPU, 10 logical and 10 physical cores (6P/4E)
 ```
 
-- Runtime: `92s`
-
-| Method |     Mean |   Error |   StdDev |
-| ------ | -------: | ------: | -------: |
-| Sha256 | 229.9 ns | 2.91 ns |  8.81 ns |
-| Sha512 | 553.0 ns | 1.59 ns | 12.18 ns |
-| Md5    | 341.1 ns | 7.42 ns |  9.71 ns |
+- .NET 7 Runtime: `92s`
+- .NET 8 Runtime: `35s`
 
 ## MacBookPro 13" 2017 `MacOS 13`
 
@@ -97,13 +87,8 @@ Apple M2 Pro 10/16, 1 CPU, 10 logical and 10 physical cores (6P/4E)
 Intel Core i5-7660U CPU 2.20GHz (Kaby Lake), 1 CPU, 4 logical and 2 physical cores (2P/0E)
 ```
 
-- Runtime: `573s`
-
-| Method |     Mean |    Error |   StdDev |
-| ------ | -------: | -------: | -------: |
-| Sha256 | 751.3 us | 12.29 us | 39.97 us |
-| Sha512 | 455.8 us |  1.81 us |  1.23 us |
-| Md5    | 361.9 us |  3.42 us |  3.02 us |
+-  .Net 7 Runtime: `573s`
+-  .Net 8 Runtime: `401s`
 
 ## MacBookPro 15" 2018 `Windows 10 bootcamp`
 
@@ -111,13 +96,8 @@ Intel Core i5-7660U CPU 2.20GHz (Kaby Lake), 1 CPU, 4 logical and 2 physical cor
 Intel Core i7-8850H CPU 2.60GHz (Coffee Lake), 1 CPU, 12 logical and 6 physical cores (6P/0E)
 ```
 
-- Runtime: `216s`
-
-| Method |     Mean |   Error |  StdDev |
-| ------ | -------: | ------: | ------: |
-| Sha256 | 407.1 μs | 3.20 μs | 3.00 μs |
-| Sha512 | 232.6 μs | 4.48 μs | 4.19 μs |
-| Md5    | 174.0 μs | 2.08 μs | 1.94 μs |
+- .NET 7 Runtime: `216s`
+- .NET 8 Runtime: `191s`
 
 ## MacBookPro 15" 2018 `MacOS 13`
 
@@ -125,27 +105,25 @@ Intel Core i7-8850H CPU 2.60GHz (Coffee Lake), 1 CPU, 12 logical and 6 physical 
 Intel Core i7-8850H CPU 2.60GHz (Coffee Lake), 1 CPU, 12 logical and 6 physical cores (6P/0E)
 ```
 
-- Runtime: `191s`
+- .NET 7 Runtime: `216s`
+- .NET 8 Runtime: `133s`
 
-| Method |     Mean |   Error |   StdDev |
-| ------ | -------: | ------: | -------: |
-| Sha256 | 240.3 us | 4.79 us | 13.97 us |
-| Sha512 | 150.2 us | 0.63 us |  0.59 us |
-| Md5    | 161.7 us | 1.21 us |  1.07 us |
-
-## Desktop
+## Desktop i7
 
 ```ini
 Intel Core i7-8700K CPU 3.70GHz (Coffee Lake), 1 CPU, 12 logical and 6 physical cores (6P/0E)
 ```
 
-- Runtime: `151s`
+- .NET 8 Runtime: `105s`
+- .NET 7 Runtime: `151s`
 
-| Method |     Mean |   Error |  StdDev |
-| ------ | -------: | ------: | ------: |
-| Sha256 | 301.1 μs | 3.50 μs | 3.11 μs |
-| Sha512 | 272.1 μs | 4.54 μs | 7.51 μs |
-| Md5    | 199.8 μs | 3.18 μs | 1.28 μs |
+## Desktop ThreadRipper
+
+```ini
+Ryzen Thread Ripper 1950X CPU 3.9GHz (Zen 1), 1 CPU, 32 logical and 16 physical cores (16P/0E)
+```
+
+- Runtime: `49s`
 
 ## Dell latitude 5531
 
@@ -153,31 +131,28 @@ Intel Core i7-8700K CPU 3.70GHz (Coffee Lake), 1 CPU, 12 logical and 6 physical 
 Intel Core i7-12800H CPU 1.80GHz (Alder Lake), 1 CPU, 20 logical and 14 physical cores (6P/8E)
 ```
 
-- Runtime: `46s`
-
-| Method |     Mean |   Error |  StdDev |
-| ------ | -------: | ------: | ------: |
-| Sha256 | 192.9 ns | 3.86 ns | 5.28 ns |
-| Sha512 | 449.0 ns | 8.52 ns | 7.97 ns |
-| Md5    | 271.1 ns | 5.49 ns | 7.14 ns |
+- .NET7 Runtime: `46s`
+- .NET8 Runtime: `32s`
 
 ## .NET 7 Ranking:
 
 1. Dell latitude 5531 - i7-12700H @ 55W `46s`
-2. MacBook Pro 14" 2023 - M2 Pro 10 Core CPU (6P + 4E) `92s`
-3. MacBook Pro 16" 2021 - M1 Max 10 Core CPU (8P + 2E) `98s`
-4. Desktop - i7-8700K @ 4.7ghz `151s`
-5. MacBook Pro 15" 2018 - i7-8850H @ 45W `191s`
-6. MacBook Pro 13" 2017 - i5-7660U @ 15W `573s`
+2. Desktop ThreadRipper - Ryzen Thread Ripper 1950X @ 3.9GHz `49s`
+3. MacBook Pro 14" 2023 - M2 Pro 10 Core CPU (6P + 4E) `92s`
+4. MacBook Pro 16" 2021 - M1 Max 10 Core CPU (8P + 2E) `98s`
+5. Desktop i7 - i7-8700K @ 4.7ghz `151s`
+6. MacBook Pro 15" 2018 - i7-8850H @ 45W `191s`
+7. MacBook Pro 13" 2017 - i5-7660U @ 15W `573s`
 
 ## .NET 8 Ranking:
 
 1. Dell latitude 5531 - i7-12700H @ 55W `32s`
 2. MacBook Pro 14" 2023 - M2 Pro 10 Core CPU (6P + 4E) `35s`
-3. MacBook Pro 16" 2021 - M1 Max 10 Core CPU (8P + 2E) `42s`
-4. Desktop - i7-8700K @ 4.7ghz `105s`
-5. MacBook Pro 15" 2018 - i7-8850H @ 45W `133s`
-6. MacBook Pro 13" 2017 - i5-7660U @ 15W `401s`
+3. Desktop ThreadRipper - Ryzen Thread Ripper 1950X @ 3.9GHz `38s`
+4. MacBook Pro 16" 2021 - M1 Max 10 Core CPU (8P + 2E) `42s`
+5. Desktop i7 - i7-8700K @ 4.7ghz `105s`
+6. MacBook Pro 15" 2018 - i7-8850H @ 45W `133s`
+7. MacBook Pro 13" 2017 - i5-7660U @ 15W `401s`
 
 # Minimum system requirements
 
