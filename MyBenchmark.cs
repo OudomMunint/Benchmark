@@ -85,28 +85,20 @@ namespace Benchmark
         [Benchmark]
         public void SingleThread()
         {
-            //Console.WriteLine($"Benchmark started at: {startTime}");
             for (int i = 0; i < array.Length; i++)
             {
                 DoWork(i);
             }
-            //Console.WriteLine($"Benchmark finished at: {endTime}");
-            //var TimeTaken = endTime - startTime;
-            //Console.WriteLine($"Total elapsed time: {TimeTaken}");
         }
 
         [Benchmark]
         public void MultiThread()
         {
-            //Console.WriteLine($"Benchmark started at: {startTime}");
             var options = new ParallelOptions { MaxDegreeOfParallelism = NumThreads };
             Parallel.For(0, array.Length, options, i =>
             {
                 DoWork(i);
             });
-            //Console.WriteLine($"Benchmark finished at: {endTime}");
-            //var TimeTaken = endTime - startTime;
-            //Console.WriteLine($"Total elapsed time: {TimeTaken}");
         }
 
         private static void DoWork(int index)
