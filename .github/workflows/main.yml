@@ -24,16 +24,8 @@ jobs:
         os: [windows-latest, ubuntu-latest, macos-latest]
 
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Install Node.js latest
-        uses: actions/setup-node@v4
-        with:
-          node-version: latest
-          check-latest: true
-
-      - name: NPM dependencies
-        run: npm ci
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Setup .NET Core V8
         uses: actions/setup-dotnet@v4
@@ -53,4 +45,4 @@ jobs:
         if: matrix.os == 'windows-latest'
         uses: ncipollo/release-action@v1.14.0
         with:
-          tag: v1.4.9.2
+          tag: v1.4.9.3
