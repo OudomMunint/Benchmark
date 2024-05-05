@@ -51,7 +51,7 @@ if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
     }
 }
 
-else
+else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 {
     // GET CPU info
     // Windows specific
