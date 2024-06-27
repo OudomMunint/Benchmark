@@ -83,8 +83,9 @@ class Program
 
     static void DisplayCpuInfo()
     {
-        using (var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_Processor"))
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
+            using var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_Processor");
             foreach (var item in searcher.Get())
             {
                 try
@@ -151,13 +152,14 @@ class Program
 
     static void DisplayRamInfo()
     {
-        using (var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PhysicalMemory"))
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
+            using var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PhysicalMemory");
             try
             {
                 long totalCapacity = 0;
                 string? manufacturer = null;
-                foreach (ManagementObject item in searcher.Get())
+                foreach (ManagementObject item in searcher.Get().Cast<ManagementObject>())
                 {
                     totalCapacity += Convert.ToInt64(item["Capacity"]);
                     manufacturer = item["Manufacturer"]?.ToString()?.Trim();
@@ -178,7 +180,7 @@ class Program
 
                 searcher.Query = new ObjectQuery("SELECT * FROM Win32_PhysicalMemory");
                 int slotNumber = 1;
-                foreach (ManagementObject item in searcher.Get())
+                foreach (ManagementObject item in searcher.Get().Cast<ManagementObject>())
                 {
                     Console.WriteLine();
                     Console.ForegroundColor = ConsoleColor.White;
@@ -208,8 +210,9 @@ class Program
     {
         try
         {
-            using (var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_VideoController"))
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
+                using var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_VideoController");
                 bool hasNvidiaGPU = PhysicalGPU.GetPhysicalGPUs().Any(gpu => gpu.FullName.Contains("NVIDIA"));
 
                 if (hasNvidiaGPU)
@@ -315,48 +318,44 @@ class Program
 
                         if (!hasNvidiaGPU)
                         {
-                            using (var factory = new Factory1())
+                            using var factory = new Factory1();
+                            using var adapter = factory.GetAdapter(0);
+                            var desc = adapter.Description;
+
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.Write("Name: ");
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.WriteLine(desc.Description);
+
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.Write("Manufacturer: ");
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.WriteLine(manufacturer);
+
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.Write("Driver Version: ");
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.WriteLine(item["DriverVersion"]);
+
+                            if (desc.DedicatedVideoMemory == 0)
                             {
-                                using (var adapter = factory.GetAdapter(0))
-                                {
-                                    var desc = adapter.Description;
-
-                                    Console.ForegroundColor = ConsoleColor.White;
-                                    Console.Write("Name: ");
-                                    Console.ForegroundColor = ConsoleColor.Yellow;
-                                    Console.WriteLine(desc.Description);
-
-                                    Console.ForegroundColor = ConsoleColor.White;
-                                    Console.Write("Manufacturer: ");
-                                    Console.ForegroundColor = ConsoleColor.Yellow;
-                                    Console.WriteLine(manufacturer);
-
-                                    Console.ForegroundColor = ConsoleColor.White;
-                                    Console.Write("Driver Version: ");
-                                    Console.ForegroundColor = ConsoleColor.Yellow;
-                                    Console.WriteLine(item["DriverVersion"]);
-
-                                    if (desc.DedicatedVideoMemory == 0)
-                                    {
-                                        Console.WriteLine("No dedicated GPU memory found");
-                                    }
-                                    else
-                                    {
-                                        Console.ForegroundColor = ConsoleColor.White;
-                                        Console.Write("VRAM: ");
-                                        Console.ForegroundColor = ConsoleColor.Yellow;
-                                        Console.WriteLine("{0} MB", desc.DedicatedVideoMemory / (1024 * 1024));
-
-                                        Console.ForegroundColor = ConsoleColor.White;
-                                        Console.Write("Shared Memory: ");
-                                        Console.ForegroundColor = ConsoleColor.Yellow;
-                                        Console.WriteLine("{0} MB", desc.SharedSystemMemory / (1024 * 1024));
-                                    }
-
-                                    Console.ForegroundColor = ConsoleColor.Magenta;
-                                    Console.WriteLine("-----------------------------------------------------------");
-                                }
+                                Console.WriteLine("No dedicated GPU memory found");
                             }
+                            else
+                            {
+                                Console.ForegroundColor = ConsoleColor.White;
+                                Console.Write("VRAM: ");
+                                Console.ForegroundColor = ConsoleColor.Yellow;
+                                Console.WriteLine("{0} MB", desc.DedicatedVideoMemory / (1024 * 1024));
+
+                                Console.ForegroundColor = ConsoleColor.White;
+                                Console.Write("Shared Memory: ");
+                                Console.ForegroundColor = ConsoleColor.Yellow;
+                                Console.WriteLine("{0} MB", desc.SharedSystemMemory / (1024 * 1024));
+                            }
+
+                            Console.ForegroundColor = ConsoleColor.Magenta;
+                            Console.WriteLine("-----------------------------------------------------------");
                         }
                     }
                 }
