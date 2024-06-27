@@ -40,6 +40,10 @@ class Program
         {
             RunBenchmark();
         }
+
+        // Prevent the console from closing immediately
+        Console.WriteLine("Press Enter to exit to exit...");
+        Console.ReadLine();
     }
 
     static void DisplayMacInfo()
@@ -386,7 +390,7 @@ class Program
         {
             ["1"] = () => BenchmarkRunner.Run<HashingBenchmark>(),
             ["2"] = () => BenchmarkRunner.Run<EncryptionBenchmark>(),
-            ["3"] = () => BenchmarkRunner.Run<MultithreadingBenchmark>(),
+            ["3"] = () => BenchmarkRunner.Run<CPUBenchmark>(),
             ["4"] = () => BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).RunAllJoined()
         };
 
