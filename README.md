@@ -1,6 +1,7 @@
 # Benchmark (.NET 8)
 
-- A C# console program that gathers your system details then lets you run benchmarks on your system.
+- A C# console program that gets your system specs then lets you run benchmarks on your system.
+- This program will attempt to get your CPU,RAM & GPU specs.
 - You can run a Hashing benchmark with MD5, SHA256 and SHA512.
 - Or a single thread and multi thread benchmark.
 - Or a encrypt/decrypt benchmark (May need admin privileges)
@@ -138,7 +139,7 @@ Intel Core i7-12800H CPU 1.80GHz (Alder Lake), 1 CPU, 20 logical and 14 physical
 
 ## .NET 7 Ranking:
 
-1. Dell latitude 5531 - i7-12700H @ 55W `46s`
+1. Dell latitude 5531 - i7-12800H @ 55W `46s`
 2. Desktop ThreadRipper - Ryzen Thread Ripper 1950X @ 3.9GHz `49s`
 3. MacBook Pro 14" 2023 - M2 Pro 10 Core CPU (6P + 4E) `92s`
 4. MacBook Pro 16" 2021 - M1 Max 10 Core CPU (8P + 2E) `98s`
@@ -148,7 +149,7 @@ Intel Core i7-12800H CPU 1.80GHz (Alder Lake), 1 CPU, 20 logical and 14 physical
 
 ## .NET 8 Ranking:
 
-1. Dell latitude 5531 - i7-12700H @ 55W `32s`
+1. Dell latitude 5531 - i7-12800H @ 55W `32s`
 2. MacBook Pro 14" 2023 - M2 Pro 10 Core CPU (6P + 4E) `35s`
 3. Desktop ThreadRipper - Ryzen Thread Ripper 1950X @ 3.9GHz `38s`
 4. MacBook Pro 16" 2021 - M1 Max 10 Core CPU (8P + 2E) `42s`
