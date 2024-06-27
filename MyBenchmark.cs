@@ -62,59 +62,32 @@ namespace Benchmark
         }
     }
 
-    public class MultithreadingBenchmark
+    public class CPUBenchmark
     {
-        private const int NumThreads = 8;
         private const int NumIterations = 1000000;
-        private readonly int[] array;
-
-        private DateTime startTime = DateTime.Now;
-        private DateTime endTime = DateTime.Now;
-        
-        public MultithreadingBenchmark()
-        {
-            array = new int[NumIterations];
-            for (int i = 0; i < array.Length; i++)
-            {
-                array[i] = i;
-            }
-            SingleThread();
-            MultiThread();
-        }
 
         [Benchmark]
-        public void SingleThread()
+        public void FullCpuLoad()
         {
-            for (int i = 0; i < array.Length; i++)
-            {
-                DoWork(i);
-            }
-        }
-
-        [Benchmark]
-        public void MultiThread()
-        {
-            var options = new ParallelOptions { MaxDegreeOfParallelism = NumThreads };
-            Parallel.For(0, array.Length, options, i =>
+            var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
+            Parallel.For(0, NumIterations, options, i =>
             {
                 DoWork(i);
             });
         }
 
-        private static void DoWork(int index)
+        private void DoWork(int index)
         {
-            // simulate some work
-            var result = Math.Pow(index, 2);
-            result = Math.Pow(result, 2);
-            _ = Math.Pow(result, 2);
+            double result = 1;
+            for (int i = 1; i <= 1000; i++)
+            {
+                result = Math.Sin(index * result) * Math.Tan(index * result);
+            }
         }
     }
 
     public class Program
     {
-        // public static void Main(string[] args)
-        // {
-        //     _ = BenchmarkRunner.Run<MultithreadingBenchmark>();
-        // }
+
     }
 }
