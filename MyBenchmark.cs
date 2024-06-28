@@ -1,4 +1,5 @@
 ﻿using System.Security.Cryptography;
+using System.Threading;
 using System.Timers;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
@@ -20,14 +21,19 @@ namespace Benchmark
             new Random(42).NextBytes(data);
         }
 
-        [Benchmark]
         public byte[] Sha256() => sha256.ComputeHash(data);
 
-        [Benchmark]
         public byte[] Sha512() => sha512.ComputeHash(data);
 
-        [Benchmark]
         public byte[] Md5() => md5.ComputeHash(data);
+
+        [Benchmark]
+        public void CombinedHashing()
+        {
+            Sha256();
+            Sha512();
+            Md5();
+        }
     }
 
     public class EncryptionBenchmark
@@ -47,74 +53,58 @@ namespace Benchmark
             new Random(42).NextBytes(key);
         }
 
-        [Benchmark]
         public byte[] AesEncrypt()
         {
             using var encryptor = aes.CreateEncryptor(key, aes.IV);
             return encryptor.TransformFinalBlock(plainData, 0, plainData.Length);
         }
 
-        [Benchmark]
         public byte[] AesDecrypt()
         {
             using var decryptor = aes.CreateDecryptor(key, aes.IV);
             return decryptor.TransformFinalBlock(AesEncrypt(), 0, N);
         }
+
+        [Benchmark]
+        public void CombinedEncryption()
+        {
+            AesEncrypt();
+            AesDecrypt();
+        }
     }
 
-    public class MultithreadingBenchmark
+    public class CPUBenchmark
     {
-        private const int NumThreads = 8;
-        private const int NumIterations = 1000000;
-        private readonly int[] array;
-
-        private DateTime startTime = DateTime.Now;
-        private DateTime endTime = DateTime.Now;
-        
-        public MultithreadingBenchmark()
-        {
-            array = new int[NumIterations];
-            for (int i = 0; i < array.Length; i++)
-            {
-                array[i] = i;
-            }
-            SingleThread();
-            MultiThread();
-        }
+        private const int NumIterations = 1000;
 
         [Benchmark]
-        public void SingleThread()
+        public void FullCpuLoad()
         {
-            for (int i = 0; i < array.Length; i++)
+            var options = new ParallelOptions
             {
-                DoWork(i);
-            }
-        }
+                MaxDegreeOfParallelism = Environment.ProcessorCount,
+            };
 
-        [Benchmark]
-        public void MultiThread()
-        {
-            var options = new ParallelOptions { MaxDegreeOfParallelism = NumThreads };
-            Parallel.For(0, array.Length, options, i =>
+            Parallel.For(0, NumIterations, options, i =>
             {
                 DoWork(i);
             });
         }
 
-        private static void DoWork(int index)
+        private void DoWork(int index)
         {
-            // simulate some work
-            var result = Math.Pow(index, 2);
-            result = Math.Pow(result, 2);
-            _ = Math.Pow(result, 2);
+            Thread.CurrentThread.Priority = ThreadPriority.Normal;
+
+            double result = 1;
+            for (int i = 1; i <= 100; i++)
+            {
+                result = Math.Sin(index * result) * Math.Tan(index * result);
+            }
         }
     }
 
     public class Program
     {
-        // public static void Main(string[] args)
-        // {
-        //     _ = BenchmarkRunner.Run<MultithreadingBenchmark>();
-        // }
+
     }
 }
