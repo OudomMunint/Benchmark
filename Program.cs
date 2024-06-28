@@ -5,6 +5,7 @@ using System.Linq;
 using System.Management;
 using System.Runtime.InteropServices;
 using Benchmark;
+using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Running;
 using Hardware.Info;
 using NvAPIWrapper;
@@ -378,8 +379,11 @@ class Program
         Console.ForegroundColor = ConsoleColor.Cyan;
         Console.WriteLine("1. Hashing Benchmark");
         Console.WriteLine("2. Encryption Benchmark");
-        Console.WriteLine("3. Multithreading Benchmark");
+        Console.WriteLine("3. Multithread Benchmark");
         Console.WriteLine("4. Run all benchmarks");
+#if DEBUG
+        Console.WriteLine("5. Debug CPU bench");
+#endif
 
         Console.ForegroundColor = ConsoleColor.White;
         Console.Write("Enter the number of your choice: ");
@@ -391,7 +395,10 @@ class Program
             ["1"] = () => BenchmarkRunner.Run<HashingBenchmark>(),
             ["2"] = () => BenchmarkRunner.Run<EncryptionBenchmark>(),
             ["3"] = () => BenchmarkRunner.Run<CPUBenchmark>(),
-            ["4"] = () => BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).RunAllJoined()
+            ["4"] = () => BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).RunAll(),
+#if DEBUG
+            ["5"] = () => BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(new[] { "Benchmark.CPUBenchmark" }, new DebugInProcessConfig())
+#endif
         };
 
         if (choice != null && benchmarkActions.TryGetValue(choice, out Action? benchmarkAction))
