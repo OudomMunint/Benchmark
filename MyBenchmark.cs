@@ -1,4 +1,5 @@
 ﻿using System.Security.Cryptography;
+using System.Threading;
 using System.Timers;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
@@ -20,14 +21,19 @@ namespace Benchmark
             new Random(42).NextBytes(data);
         }
 
-        [Benchmark]
         public byte[] Sha256() => sha256.ComputeHash(data);
 
-        [Benchmark]
         public byte[] Sha512() => sha512.ComputeHash(data);
 
-        [Benchmark]
         public byte[] Md5() => md5.ComputeHash(data);
+
+        [Benchmark]
+        public void CombinedHashing()
+        {
+            Sha256();
+            Sha512();
+            Md5();
+        }
     }
 
     public class EncryptionBenchmark
@@ -47,29 +53,38 @@ namespace Benchmark
             new Random(42).NextBytes(key);
         }
 
-        [Benchmark]
         public byte[] AesEncrypt()
         {
             using var encryptor = aes.CreateEncryptor(key, aes.IV);
             return encryptor.TransformFinalBlock(plainData, 0, plainData.Length);
         }
 
-        [Benchmark]
         public byte[] AesDecrypt()
         {
             using var decryptor = aes.CreateDecryptor(key, aes.IV);
             return decryptor.TransformFinalBlock(AesEncrypt(), 0, N);
         }
+
+        [Benchmark]
+        public void CombinedEncryption()
+        {
+            AesEncrypt();
+            AesDecrypt();
+        }
     }
 
     public class CPUBenchmark
     {
-        private const int NumIterations = 1000000;
+        private const int NumIterations = 1000;
 
         [Benchmark]
         public void FullCpuLoad()
         {
-            var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
+            var options = new ParallelOptions
+            {
+                MaxDegreeOfParallelism = Environment.ProcessorCount,
+            };
+
             Parallel.For(0, NumIterations, options, i =>
             {
                 DoWork(i);
@@ -78,8 +93,10 @@ namespace Benchmark
 
         private void DoWork(int index)
         {
+            Thread.CurrentThread.Priority = ThreadPriority.Normal;
+
             double result = 1;
-            for (int i = 1; i <= 1000; i++)
+            for (int i = 1; i <= 100; i++)
             {
                 result = Math.Sin(index * result) * Math.Tan(index * result);
             }
