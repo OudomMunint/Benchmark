@@ -1,10 +1,10 @@
 # Benchmark (.NET 8)
 
-- A C# console program that gets your system specs then lets you run benchmarks on your system.
+- A C# console program displays system specs then lets you run benchmarks on your system.
 - This program will attempt to get your CPU,RAM & GPU specs.
 - You can run a Hashing benchmark with MD5, SHA256 and SHA512.
-- Or a single thread and multi thread benchmark.
-- Or a encrypt/decrypt benchmark (May need admin privileges)
+- Or an intensive CPU benchmark.
+- Or an encrypt/decrypt benchmark (May need admin privileges)
 - Using <a href="https://github.com/dotnet/BenchmarkDotNet"> `BenchmarkDotNet` </a>, `SharpDX`, `NvAPIWrapper` and `Hardware.info`
 
 # Maintenance
@@ -46,6 +46,13 @@
 
 - .NET 8.0.2 from <a href="https://dotnet.microsoft.com/download/dotnet/8.0"> `here` </a>
 
+# Debugging
+- Set a breakpoint anywhere.
+- Run the program in `Debug` mode.
+- Use option `5` to start debugging.
+- Select the benchmark you want to debug.
+- The program will pause at the breakpoint.
+
 # Output
 
 <table>
@@ -64,78 +71,69 @@
 - `Global Runtime` in `seconds(s)` can also be the benchmark.
 - There might be a 20 seconds delay on first use due to hardware detection by `Hardware.Info`.
 
-# Compare your results to mine!
+# Specs for tested systems.
 
-## MacBookPro 16" 2021 `macOS 13.6`
-
-```ini
-Apple M1 Max 10/32, 1 CPU, 10 logical and 10 physical cores (8P/2E)
-```
-
-- .NET 7 Runtime: `98s`
-- .NET 8 Runtime: `42s`
-
-## MacBookPro 14" 2023 `macOS 13.6`
+## MacBookPro 16" 2021
 
 ```ini
-Apple M2 Pro 10/16, 1 CPU, 10 logical and 10 physical cores (6P/4E)
+Apple M1 Max 10/32, 10 Cores 10 Threads (8P/2E)
+32GB LPDDR5 6400MHz
+macOS 13.6
 ```
 
-- .NET 7 Runtime: `92s`
-- .NET 8 Runtime: `35s`
-
-## MacBookPro 13" 2017 `MacOS 13`
+## MacBookPro 14" 2023
 
 ```ini
-Intel Core i5-7660U CPU 2.20GHz (Kaby Lake), 1 CPU, 4 logical and 2 physical cores (2P/0E)
+Apple M2 Pro 10/16, 10 Cores 10 Threads (6P/4E)
+16GB LPDDR5 6400MHz
+macOS 13.6
 ```
 
--  .Net 7 Runtime: `573s`
--  .Net 8 Runtime: `401s`
-
-## MacBookPro 15" 2018 `Windows 10 bootcamp`
+## MacBookPro 13" 2017
 
 ```ini
-Intel Core i7-8850H CPU 2.60GHz (Coffee Lake), 1 CPU, 12 logical and 6 physical cores (6P/0E)
+Intel Core i5-7660U CPU 2.20GHz (Kaby Lake), 2 Cores 4 Threads (2P/0E)
+8GB DDR3 2133MHz
+macOS 12
 ```
 
-- .NET 7 Runtime: `216s`
-- .NET 8 Runtime: `191s`
-
-## MacBookPro 15" 2018 `MacOS 13`
+## MacBookPro 15" 2018
 
 ```ini
-Intel Core i7-8850H CPU 2.60GHz (Coffee Lake), 1 CPU, 12 logical and 6 physical cores (6P/0E)
+Intel Core i7-8850H CPU 2.60GHz (Coffee Lake), 6 Cores 12 Threads (6P/0E)
+16GB DDR4 2400MHz
+Windows 10 bootcamp
 ```
 
-- .NET 7 Runtime: `216s`
-- .NET 8 Runtime: `133s`
-
-## Desktop i7
+## MacBookPro 15" 2018
 
 ```ini
-Intel Core i7-8700K CPU 3.70GHz (Coffee Lake), 1 CPU, 12 logical and 6 physical cores (6P/0E)
+Intel Core i7-8850H CPU 2.60GHz (Coffee Lake), 6 Cores 12 Threads (6P/0E)
+16GB DDR4 2400MHz
+macOS 13
 ```
 
-- .NET 8 Runtime: `105s`
-- .NET 7 Runtime: `151s`
-
-## Desktop ThreadRipper
+## Desktop PC
 
 ```ini
-Ryzen Thread Ripper 1950X CPU 3.9GHz (Zen 1), 1 CPU, 32 logical and 16 physical cores (16P/0E)
+Intel Core i7-8700K CPU 3.70GHz (Coffee Lake), 6 Cores 12 Threads (6P/0E)
+16GB DDR4 3600MHz
+Windows 11
 ```
 
-- Runtime: `49s`
+## Workstation
+
+```ini
+Ryzen Thread Ripper 1950X CPU 3.9GHz (Zen 1), 16 Cores 32 Threads (16P/0E)
+32GB DDR4 3400MHz
+Windows 10
+```
 
 ## Dell latitude 5531
 
 ```ini
-Intel Core i7-12800H CPU 1.80GHz (Alder Lake), 1 CPU, 20 logical and 14 physical cores (6P/8E)
+Intel Core i7-12800H CPU 1.80GHz (Alder Lake), 14 Cores 20 Threads (6P/8E)
 ```
-
-- .NET7 Runtime: `46s`
-- .NET8 Runtime: `32s`
 
 ## .NET 7 Ranking:
 

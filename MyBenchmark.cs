@@ -1,4 +1,6 @@
-﻿using System.Security.Cryptography;
+﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Timers;
 using BenchmarkDotNet.Attributes;
@@ -85,6 +87,8 @@ namespace Benchmark
                 MaxDegreeOfParallelism = Environment.ProcessorCount,
             };
 
+            Process.GetCurrentProcess().ProcessorAffinity = (IntPtr)0xFF;
+
             Parallel.For(0, NumIterations, options, i =>
             {
                 DoWork(i);
@@ -93,7 +97,10 @@ namespace Benchmark
 
         private void DoWork(int index)
         {
-            Thread.CurrentThread.Priority = ThreadPriority.Normal;
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
+            }
 
             double result = 1;
             for (int i = 1; i <= 100; i++)
