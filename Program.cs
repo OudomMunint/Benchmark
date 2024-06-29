@@ -42,9 +42,12 @@ class Program
             RunBenchmark();
         }
 
-        // Prevent the console from closing immediately
-        Console.WriteLine("Press Enter to exit to exit...");
-        Console.ReadLine();
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            // Prevent app exit on macOS
+            Console.WriteLine("Press Enter to exit to exit...");
+            Console.ReadLine();
+        }
     }
 
     static void DisplayMacInfo()
@@ -382,7 +385,7 @@ class Program
         Console.WriteLine("3. Multithread Benchmark");
         Console.WriteLine("4. Run all benchmarks");
 #if DEBUG
-        Console.WriteLine("5. Debug CPU bench");
+        Console.WriteLine("5. Debug Mode");
 #endif
 
         Console.ForegroundColor = ConsoleColor.White;
@@ -397,7 +400,7 @@ class Program
             ["3"] = () => BenchmarkRunner.Run<CPUBenchmark>(),
             ["4"] = () => BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).RunAll(),
 #if DEBUG
-            ["5"] = () => BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(new[] { "Benchmark.CPUBenchmark" }, new DebugInProcessConfig())
+            ["5"] = () => BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(new[] { "Benchmarks" }, new DebugInProcessConfig())
 #endif
         };
 
