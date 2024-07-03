@@ -84,9 +84,11 @@ class Program
 
     static void DisplayWindowsInfo()
     {
+        ConsoleSpinner.Start();
         DisplayCpuInfo();
         DisplayRamInfo();
         DisplayGpuInfo();
+        ConsoleSpinner.Stop();
     }
 
     static void DisplayCpuInfo()
