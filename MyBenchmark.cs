@@ -86,8 +86,11 @@ namespace Benchmark
             {
                 MaxDegreeOfParallelism = Environment.ProcessorCount,
             };
-
+            
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
             Process.GetCurrentProcess().ProcessorAffinity = (IntPtr)0xFF;
+        }
 
             Parallel.For(0, NumIterations, options, i =>
             {
