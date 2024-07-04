@@ -61,12 +61,13 @@ class Spinner : IDisposable
 class ConsoleSpinner
 {
     private static readonly string[] SpinnerFrames = { "/", "-", "\\", "|" };
-    private static readonly TimeSpan Interval = TimeSpan.FromSeconds(0.4);
+    private static readonly TimeSpan Interval = TimeSpan.FromSeconds(0.3);
     private static Thread? spinnerThread;
     private static bool stopSpinner;
 
     public static void Start()
     {
+        Console.CursorVisible = false;
         stopSpinner = false;
         spinnerThread = new Thread(Spin);
         spinnerThread.Start();
@@ -80,6 +81,7 @@ class ConsoleSpinner
 
     private static void Spin()
     {
+        Console.CursorVisible = false;
         int frameIndex = 0;
         while (!stopSpinner)
         {
