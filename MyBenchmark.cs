@@ -5,6 +5,12 @@ using System.Threading;
 using System.Timers;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
+using NvAPIWrapper;
+using NvAPIWrapper.Display;
+using NvAPIWrapper.GPU;
+using SharpDX.Direct3D11;
+using SharpDX.DXGI;
+using Device = SharpDX.Direct3D11.Device;
 
 namespace Benchmark
 {
@@ -86,8 +92,11 @@ namespace Benchmark
             {
                 MaxDegreeOfParallelism = Environment.ProcessorCount,
             };
-
-            Process.GetCurrentProcess().ProcessorAffinity = (IntPtr)0xFF;
+            
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                Process.GetCurrentProcess().ProcessorAffinity = (IntPtr)0xFF;
+            }
 
             Parallel.For(0, NumIterations, options, i =>
             {
@@ -106,6 +115,45 @@ namespace Benchmark
             for (int i = 1; i <= 100; i++)
             {
                 result = Math.Sin(index * result) * Math.Tan(index * result);
+            }
+        }
+    }
+    
+public class GpuBenchmark
+    {
+        private const int NumIterations = 1000;
+        private Device? device;
+
+        [GlobalSetup]
+        public void Setup()
+        {
+            device = new Device(SharpDX.Direct3D.DriverType.Hardware, DeviceCreationFlags.None);
+        }
+
+        [GlobalCleanup]
+        public void Cleanup()
+        {
+            device?.Dispose();
+        }
+
+        [Benchmark]
+        public void FullGpuLoad()
+        {
+            for (int i = 0; i < NumIterations; i++)
+            {
+                using var texture = new SharpDX.Direct3D11.Texture2D(device!, new SharpDX.Direct3D11.Texture2DDescription
+                {
+                    Width = 1920,
+                    Height = 1080,
+                    ArraySize = 1,
+                    BindFlags = SharpDX.Direct3D11.BindFlags.RenderTarget,
+                    Usage = SharpDX.Direct3D11.ResourceUsage.Default,
+                    CpuAccessFlags = SharpDX.Direct3D11.CpuAccessFlags.None,
+                    Format = Format.R8G8B8A8_UNorm,
+                    MipLevels = 1,
+                    OptionFlags = SharpDX.Direct3D11.ResourceOptionFlags.None,
+                    SampleDescription = new SharpDX.DXGI.SampleDescription(1, 0),
+                });
             }
         }
     }

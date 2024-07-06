@@ -84,12 +84,14 @@ class Program
 
     static void DisplayWindowsInfo()
     {
+        ConsoleSpinner.Start();
         DisplayCpuInfo();
         DisplayRamInfo();
         DisplayGpuInfo();
+        ConsoleSpinner.Stop();
     }
 
-    static void DisplayCpuInfo()
+    static async void DisplayCpuInfo()
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
@@ -154,11 +156,12 @@ class Program
                 {
                     Console.WriteLine("An error occurred while retrieving CPU information: " + ex.Message);
                 }
+                await Task.Delay(500);
             }
         }
     }
 
-    static void DisplayRamInfo()
+    static async void DisplayRamInfo()
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
@@ -211,10 +214,11 @@ class Program
             {
                 Console.WriteLine("An error occurred while retrieving memory information: " + ex.Message);
             }
+            await Task.Delay(500);
         }
     }
 
-    static void DisplayGpuInfo()
+    static async void DisplayGpuInfo()
     {
         try
         {
@@ -373,6 +377,7 @@ class Program
         {
             Console.WriteLine("An error occurred while retrieving GPU information: " + ex.Message);
         }
+        await Task.Delay(500);
     }
 
     static void RunBenchmark()
