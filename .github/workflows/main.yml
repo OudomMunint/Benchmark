@@ -35,9 +35,6 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore Benchmark.csproj
 
-      - name: Build Proj
-        run: dotnet build Benchmark.csproj -c Release -f net8.0
-
       - name: Build sln
         run: dotnet build Benchmark.sln -c Release -f net8.0
 
@@ -45,4 +42,4 @@ jobs:
         if: matrix.os == 'windows-latest'
         uses: ncipollo/release-action@v1.14.0
         with:
-          tag: v1.4.9.5
+          tag: v1.4.9.6

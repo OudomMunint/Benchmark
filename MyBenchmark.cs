@@ -119,7 +119,7 @@ namespace Benchmark
         }
     }
     
-public class GpuBenchmark
+    public class GpuBenchmark
     {
         private const int NumIterations = 1000;
         private Device? device;
