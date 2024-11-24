@@ -9,7 +9,7 @@
 
 # Maintenance
 
-![maintenance-status](https://img.shields.io/badge/maintenance-actively--developed-brightgreen.svg)
+![maintenance-status](https://img.shields.io/badge/maintenance-passively--maintained-yellowgreen.svg)
 
 # CI/CD & CodeQL
 
