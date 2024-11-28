@@ -62,7 +62,7 @@
   </tr>
   <tr>
     <td> <img src="results.png"/> </td>
-    <td> <img src="macos.png" width="700"/> </td>
+    <td> <img src="macosoutput.png" width="700"/> </td>
   </tr>
 </table>
 
