@@ -27,6 +27,7 @@ class Program
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
             DisplayMacInfo();
+            //DisplayMacInfoByPowermetrics();
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
@@ -76,6 +77,30 @@ class Program
         {
             string? line = process.StandardOutput.ReadLine();
             if (line != null && !exclusions.Any(line.Contains))
+            {
+                Console.WriteLine(line);
+            }
+        }
+    }
+
+    static void DisplayMacInfoByPowermetrics()
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        var startInfo = new ProcessStartInfo
+        {
+            FileName = "/usr/bin/powermetrics",
+            Arguments = "sudo powermetrics --samplers cpu_power,gpu_power -n 1s",
+            RedirectStandardOutput = true,
+            UseShellExecute = false
+        };
+
+        var process = new Process { StartInfo = startInfo };
+        process.Start();
+
+        while (!process.StandardOutput.EndOfStream)
+        {
+            string? line = process.StandardOutput.ReadLine();
+            if (line != null)
             {
                 Console.WriteLine(line);
             }
