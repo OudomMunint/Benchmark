@@ -1,4 +1,4 @@
-# Benchmark (.NET 8)
+# Benchmark (.NET 9)
 
 - A C# console program displays system specs then lets you run benchmarks on your system.
 - This program will attempt to get your CPU,RAM & GPU specs.
@@ -16,7 +16,8 @@
 [![CI Build](https://github.com/OudomMunint/Benchmark/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/OudomMunint/Benchmark/actions/workflows/main.yml) [![CodeQL](https://github.com/OudomMunint/Benchmark/actions/workflows/codeql.yml/badge.svg)](https://github.com/OudomMunint/Benchmark/actions/workflows/codeql.yml)
 
 # Getting Started
-- Install `.NET 8 SDK` from <a href="https://dotnet.microsoft.com/download/dotnet/8.0"> `here` </a>
+- Install `.NET 9 SDK` from <a href="https://dotnet.microsoft.com/download/dotnet/9.0"> `here` </a>
+- `.Net 9.0.0 Runtime` from <a href="https://dotnet.microsoft.com/download/dotnet/9.0"> `here` </a>
 - Open the solution and set as startup project
 - Run the benchmark in `Release` mode.
 - Check your if system specs is correct
@@ -28,7 +29,8 @@
 - If not you can use the provided JSON files.
 
 # Running on OSX
-- Install `.NET 8 SDK` for macOS from <a href="https://dotnet.microsoft.com/download/dotnet/8.0"> `here` </a>
+- Install `.NET 9 SDK` for macOS from <a href="https://dotnet.microsoft.com/download/dotnet/9.0"> `here` </a>
+- `.Net 9.0.0 Runtime` from <a href="https://dotnet.microsoft.com/download/dotnet/9.0"> `here` </a>
 - Open the solution and set as startup project.
 - Run the benchmark in `Release` mode.
 - If the app is terminated, open Benchmark.sln or csproj in terminal.
@@ -40,11 +42,12 @@
 - Set the startup project to `Benchmark`
 - Build with `dotnet build -c Release`
 - Publish with `dotnet publish -c Release`
-- Run `Benchmark.exe` in the `C:\Users\<Path to project>\Benchmark\bin\Release\net8.0\publish\` folder.
+- Run `Benchmark.exe` in the `C:\Users\<Path to project>\Benchmark\bin\Release\net9.0\publish\` folder.
 
-# Required SDKs
+# Required SDKs & Runtimes
 
-- .NET 8.0.2 from <a href="https://dotnet.microsoft.com/download/dotnet/8.0"> `here` </a>
+- `.NET 9.0.x` from <a href="https://dotnet.microsoft.com/download/dotnet/9.0"> `here` </a>
+- `.Net 9.0.0 Runtime` from <a href="https://dotnet.microsoft.com/download/dotnet/9.0"> `here` </a>
 
 # Debugging
 - Set a breakpoint anywhere.
@@ -52,6 +55,12 @@
 - Use option `5` to start debugging.
 - Select the benchmark you want to debug.
 - The program will pause at the breakpoint.
+
+# Use older versions of .NET
+- Install the required SDKs and Runtimes.
+- Change the target framework in the `Benchmark.csproj` file.
+- Change `net9.0` to `net7.0` or `net8.0`.
+- Run in `Release` mode.
 
 # Output
 
@@ -62,14 +71,14 @@
   </tr>
   <tr>
     <td> <img src="results.png"/> </td>
-    <td> <img src="macos.png" width="700"/> </td>
+    <td> <img src="macosoutput.png" width="700"/> </td>
   </tr>
 </table>
 
 - Scroll down to see results.
 - `Runtime` in `seconds(s)` should be the benchmark.
 - `Global Runtime` in `seconds(s)` can also be the benchmark.
-- There might be a 20 seconds delay on first use due to hardware detection by `Hardware.Info`.
+- There might be up to a 20 seconds delay on first use due to hardware detection by `Hardware.Info`.
 
 # Specs for tested systems.
 
@@ -155,9 +164,12 @@ Intel Core i7-12800H CPU 1.80GHz (Alder Lake), 14 Cores 20 Threads (6P/8E)
 6. MacBook Pro 15" 2018 - i7-8850H @ 45W `133s`
 7. MacBook Pro 13" 2017 - i5-7660U @ 15W `401s`
 
+## .NET 9 Ranking:
+Testing in progress...
+
 # Minimum system requirements
 
-- .NET 8.0.2
+- .NET 9.0.x
 - Dual core CPU
 - Windows 10 or MacOS 12
 - 4GB RAM
