@@ -21,7 +21,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
+        os: [windows-latest, ubuntu-latest, macos-15]
 
     steps:
       - name: Checkout
@@ -30,7 +30,7 @@ jobs:
       - name: Setup .NET Core SDK / .NET 9
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.0.x'
+          dotnet-version: '9.x'
 
       - name: Restore dependencies
         run: dotnet restore Benchmark.csproj
