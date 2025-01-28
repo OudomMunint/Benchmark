@@ -1,6 +1,6 @@
 # Benchmark (.NET 9)
 
-- A C# console program displays system specs then lets you run benchmarks on your system.
+- An OS-agnostic C# console application that displays system specs then lets you run benchmarks on your system.
 - This program will attempt to get your CPU,RAM & GPU specs.
 - You can run a Hashing benchmark with MD5, SHA256 and SHA512.
 - Or an intensive CPU benchmark.
