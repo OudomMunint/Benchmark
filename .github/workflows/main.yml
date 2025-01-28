@@ -1,4 +1,4 @@
-name: CI Build
+name: CI Build (Multi-OS)
 
 on:
   push:
@@ -42,4 +42,4 @@ jobs:
         if: matrix.os == 'windows-latest'
         uses: ncipollo/release-action@v1.14.0
         with:
-          tag: v1.4.10
+          tag: v1.4.11
