@@ -79,30 +79,6 @@ class Program
         }
     }
 
-    static void DisplayMacInfoByPowermetrics()
-    {
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        var startInfo = new ProcessStartInfo
-        {
-            FileName = "/usr/bin/powermetrics",
-            Arguments = "sudo powermetrics --samplers cpu_power,gpu_power -n 1s",
-            RedirectStandardOutput = true,
-            UseShellExecute = false
-        };
-
-        var process = new Process { StartInfo = startInfo };
-        process.Start();
-
-        while (!process.StandardOutput.EndOfStream)
-        {
-            string? line = process.StandardOutput.ReadLine();
-            if (line != null)
-            {
-                Console.WriteLine(line);
-            }
-        }
-    }
-
     static void DisplayWindowsInfo()
     {
         ConsoleSpinner.Start();
@@ -420,18 +396,12 @@ class Program
         string? choice = Console.ReadLine();
         var EncrypBenchmark = new EncryptionBenchmark();
         var HashBenchmark = new HashingBenchmark();
-        var GpuBenchmark = new GpuBenchmark();
         var benchmarkActions = new Dictionary<string, Action>
         {
             ["1"] = () => HashBenchmark.CombinedHashing(),
             ["2"] = () => EncrypBenchmark.RunEncryptBenchmark(),
             ["3"] = () => CPUBenchmark.CpuTest(),
-            ["4"] = () =>
-            {
-                EncrypBenchmark.RunEncryptBenchmark();
-                CPUBenchmark.CpuTest();
-                HashBenchmark.CombinedHashing();
-            },
+            ["4"] = () => { EncrypBenchmark.RunEncryptBenchmark(); CPUBenchmark.CpuTest(); HashBenchmark.CombinedHashing(); },
 #if DEBUG
             ["5"] = () => BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(new[] { "Benchmarks" }, new DebugInProcessConfig())
 #endif
