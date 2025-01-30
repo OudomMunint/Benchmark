@@ -432,7 +432,17 @@ class Program
 
         if (choice != null && benchmarkActions.TryGetValue(choice, out Action? benchmarkAction))
         {
+            Console.WriteLine("-----------------------------------------------------------");
+            Console.WriteLine(" ");
+
+            Stopwatch stopwatch = Stopwatch.StartNew(); // Start Global Timer
             benchmarkAction?.Invoke();
+            stopwatch.Stop(); // Stop Global Timer
+
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine($"Total Execution Time: {stopwatch.ElapsedMilliseconds} ms.");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("-----------------------------------------------------------");
         }
         else
         {
