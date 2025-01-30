@@ -418,13 +418,20 @@ class Program
         Console.Write("Enter the number of your choice: ");
 
         string? choice = Console.ReadLine();
-
+        var EncrypBenchmark = new EncryptionBenchmark();
+        var HashBenchmark = new HashingBenchmark();
+        var GpuBenchmark = new GpuBenchmark();
         var benchmarkActions = new Dictionary<string, Action>
         {
-            ["1"] = () => BenchmarkRunner.Run<HashingBenchmark>(),
-            ["2"] = () => BenchmarkRunner.Run<EncryptionBenchmark>(),
-            ["3"] = () => BenchmarkRunner.Run<CPUBenchmark>(),
-            ["4"] = () => BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).RunAll(),
+            ["1"] = () => HashBenchmark.CombinedHashing(),
+            ["2"] = () => EncrypBenchmark.RunEncryptBenchmark(),
+            ["3"] = () => CPUBenchmark.CpuTest(),
+            ["4"] = () =>
+            {
+                EncrypBenchmark.RunEncryptBenchmark();
+                CPUBenchmark.CpuTest();
+                HashBenchmark.CombinedHashing();
+            },
 #if DEBUG
             ["5"] = () => BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(new[] { "Benchmarks" }, new DebugInProcessConfig())
 #endif
