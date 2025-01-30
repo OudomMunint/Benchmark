@@ -18,17 +18,13 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine("Welcome to the best benchmark in the entire universe");
-
-        Console.ForegroundColor = ConsoleColor.Magenta;
-        Console.WriteLine("-----------------------------------------------------------");
+        ConsoleInfo.GetAppInfo();
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
             DisplayMacInfo();
-            //DisplayMacInfoByPowermetrics();
         }
+
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
             DisplayWindowsInfo();
