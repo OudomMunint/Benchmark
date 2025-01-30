@@ -14,6 +14,7 @@ using Device = SharpDX.Direct3D11.Device;
 
 namespace Benchmark
 {
+    [Obsolete]
     public class HashingBenchmark
     {
         private const int N = 1000000000;
@@ -44,6 +45,7 @@ namespace Benchmark
         }
     }
 
+    [Obsolete]
     public class EncryptionBenchmark
     {
         private const int N = 1000000;
@@ -81,6 +83,7 @@ namespace Benchmark
         }
     }
 
+    [Obsolete]
     public class CPUBenchmark
     {
         private const int NumIterations = 1000;
@@ -92,7 +95,7 @@ namespace Benchmark
             {
                 MaxDegreeOfParallelism = Environment.ProcessorCount,
             };
-            
+
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 Process.GetCurrentProcess().ProcessorAffinity = (IntPtr)0xFF;
@@ -118,7 +121,8 @@ namespace Benchmark
             }
         }
     }
-    
+
+    [Obsolete]
     public class GpuBenchmark
     {
         private const int NumIterations = 1000;
@@ -136,7 +140,6 @@ namespace Benchmark
             device?.Dispose();
         }
 
-        [Benchmark]
         public void FullGpuLoad()
         {
             for (int i = 0; i < NumIterations; i++)
@@ -156,10 +159,5 @@ namespace Benchmark
                 });
             }
         }
-    }
-
-    public class Program
-    {
-
     }
 }
