@@ -2,7 +2,7 @@ name: CI Build (Multi-OS)
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, feature ]
   pull_request:
     branches: [ master ]
   workflow_dispatch:
@@ -77,6 +77,6 @@ jobs:
       - name: Create Release
         uses: ncipollo/release-action@v1.14.0
         with:
-          tag: v1.4.11
+          tag: v1.5.0
           artifacts: "artifacts/**"
           artifactContentType: application/octet-stream
