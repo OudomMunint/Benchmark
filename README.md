@@ -43,6 +43,7 @@
 - Build with `dotnet build -c Release`
 - Publish with `dotnet publish -c Release`
 - Run `Benchmark.exe` in the `C:\Users\<Path to project>\Benchmark\bin\Release\net9.0\publish\` folder.
+- On macOS you might need to allow the app to run in `System Preferences > Security & Privacy`
 
 # Required SDKs & Runtimes
 
@@ -62,23 +63,37 @@
 - Change `net9.0` to `net7.0` or `net8.0`.
 - Run in `Release` mode.
 
-# Output
+# Application output
 
 <table>
   <tr>
     <td> <h3>Windows 11</h3> </td>
-    <td> <h3>MacOS Ventura</h3>  </td>
+    <td> <h3>MacOS Sequoia</h3>  </td>
   </tr>
   <tr>
-    <td> <img src="results.png"/> </td>
-    <td> <img src="macosoutput.png" width="700"/> </td>
+    <td> <img src="winX64output.png"/> </td>
+    <td> <img src="macos_output.png" width="700"/> </td>
   </tr>
 </table>
 
 - Scroll down to see results.
+- There might be up to a 20 seconds delay on first use due to hardware detection by `Hardware.Info`.
+
+# Output results
+
+<table>
+  <tr>
+    <td> <h3>Windows 11</h3> </td>
+    <td> <h3>MacOS Sequoia</h3>  </td>
+  </tr>
+  <tr>
+    <td> <img src="resultOutput.png"/> </td>
+    <td> <img src="macos_results.png" width="700"/> </td>
+  </tr>
+</table>
+
 - Each benchmark will display it's runtime in `ms`.
 - After all benchmark(s) are done, there will be a global runtime in `ms`.
-- There might be up to a 20 seconds delay on first use due to hardware detection by `Hardware.Info`.
 
 # Specs for tested systems.
 
