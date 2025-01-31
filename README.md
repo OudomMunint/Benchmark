@@ -76,8 +76,8 @@
 </table>
 
 - Scroll down to see results.
-- `Runtime` in `seconds(s)` should be the benchmark.
-- `Global Runtime` in `seconds(s)` can also be the benchmark.
+- Each benchmark will display it's runtime in `ms`.
+- After all benchmark(s) are done, there will be a global runtime in `ms`.
 - There might be up to a 20 seconds delay on first use due to hardware detection by `Hardware.Info`.
 
 # Specs for tested systems.
