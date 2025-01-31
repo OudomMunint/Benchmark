@@ -418,8 +418,8 @@ class Program
 
             Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine($"Total Execution Time: {stopwatch.ElapsedMilliseconds} ms.");
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("-----------------------------------------------------------");
+
+            GcHelper.MemoryCleanUp();
         }
         else
         {

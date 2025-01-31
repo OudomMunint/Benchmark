@@ -165,7 +165,9 @@ Intel Core i7-12800H CPU 1.80GHz (Alder Lake), 14 Cores 20 Threads (6P/8E)
 7. MacBook Pro 13" 2017 - i5-7660U @ 15W `401s`
 
 ## .NET 9 Ranking:
-Testing in progress...
+1. MacBook Pro 14" 2023 - M2 Pro 10 Core CPU (6P + 4E) `24s`
+2. Dell latitude 5531 - i7-12800H @ 55W `34s`
+3. Desktop i7 - i7-8700K @ 4.7ghz `38s`
 
 # Minimum system requirements
 
