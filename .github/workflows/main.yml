@@ -23,13 +23,13 @@ jobs:
         os: [windows-latest, macos-15]
         include:
           - os: windows-latest
-            artifact_name: myapp-win
+            artifact_name: Benchmark_win_x64
             publish_rid: win-x64
             file_extension: zip
 
           - os: macos-15
-            artifact_name: myapp-mac
-            publish_rid: osx-x64
+            artifact_name: Benchmark_osx_arm64
+            publish_rid: osx-arm64
             file_extension: tar.gz
 
     steps:
