@@ -3,7 +3,6 @@ name: CI Build (Multi-OS)
 on:
   push:
     branches: [ master ]
-
   pull_request:
     branches: [ master ]
   workflow_dispatch:
@@ -12,16 +11,26 @@ permissions:
   contents: write
   
 env:
-  DOTNET_NOLOGO: true                     # Disable the .NET logo
-  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true # Disable the .NET first time experience
-  DOTNET_CLI_TELEMETRY_OPTOUT: true       # Disable sending .NET CLI telemetry
+  DOTNET_NOLOGO: true                     
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true 
+  DOTNET_CLI_TELEMETRY_OPTOUT: true       
 
 jobs:
   Build:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-15]
+        os: [windows-latest, macos-15]
+        include:
+          - os: windows-latest
+            artifact_name: myapp-win
+            publish_rid: win-x64
+            file_extension: zip
+
+          - os: macos-15
+            artifact_name: myapp-mac
+            publish_rid: osx-x64
+            file_extension: tar.gz
 
     steps:
       - name: Checkout
@@ -35,11 +44,39 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore Benchmark.csproj
 
-      - name: Build sln
+      - name: Build solution
         run: dotnet build Benchmark.sln -c Release -f net9.0
 
+      - name: Publish application
+        run: dotnet publish Benchmark.csproj -c Release -r ${{ matrix.publish_rid }} --self-contained true -o publish
+
+      - name: Package artifacts
+        shell: bash
+        run: |
+          if [[ "${{ matrix.file_extension }}" == "zip" ]]; then
+            7z a ${{ matrix.artifact_name }}.zip ./publish/*
+          else
+            tar -czvf ${{ matrix.artifact_name }}.tar.gz -C publish .
+          fi
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: ${{ matrix.artifact_name }}.${{ matrix.file_extension }}
+
+  Release:
+    needs: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
       - name: Create Release
-        if: matrix.os == 'windows-latest'
         uses: ncipollo/release-action@v1.14.0
         with:
           tag: v1.4.11
+          artifacts: "artifacts/**"
+          artifactContentType: application/octet-stream
