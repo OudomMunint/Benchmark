@@ -167,3 +167,61 @@ class CPUBenchmark
         return true;
     }
 }
+
+class MatrixMultiplicationBenchmark
+{
+    private const int N = 2048; // Matrix size
+    private readonly double[,] matrixA;
+    private readonly double[,] matrixB;
+    private readonly double[,] result;
+
+    public MatrixMultiplicationBenchmark()
+    {
+        matrixA = new double[N, N];
+        matrixB = new double[N, N];
+        result = new double[N, N];
+
+        Random random = new Random(42);
+        for (int i = 0; i < N; i++)
+        {
+            for (int j = 0; j < N; j++)
+            {
+                matrixA[i, j] = random.NextDouble() * 100;
+                matrixB[i, j] = random.NextDouble() * 100;
+            }
+        }
+    }
+
+    public void MultiplyMatrix()
+    {
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine($"Running Matrix Multiplication with {Environment.ProcessorCount} threads...");
+        ConsoleSpinner.Start();
+        Stopwatch stopwatch = Stopwatch.StartNew();
+
+        var options = new ParallelOptions
+        {
+            MaxDegreeOfParallelism = Environment.ProcessorCount
+        };
+
+        Parallel.For(0, N, options, i =>
+        {
+            for (int j = 0; j < N; j++)
+            {
+                double sum = 0;
+                for (int k = 0; k < N; k++)
+                {
+                    sum += matrixA[i, k] * matrixB[k, j];
+                }
+                result[i, j] = sum;
+            }
+        });
+
+        stopwatch.Stop();
+        ConsoleSpinner.Stop();
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine($"Matrix multiplication completed in {stopwatch.ElapsedMilliseconds} ms.");
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("-----------------------------------------------------------");
+    }
+}

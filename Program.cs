@@ -385,7 +385,7 @@ class Program
         Console.WriteLine("1. Hashing Benchmark");
         Console.WriteLine("2. Encryption Benchmark");
         Console.WriteLine("3. Multithread Benchmark");
-        Console.WriteLine("4. Run all benchmarks");
+        Console.WriteLine("4. CPU Matrix Multiplication");
 #if DEBUG
         Console.WriteLine("5. Debug Mode");
 #endif
@@ -396,12 +396,13 @@ class Program
         string? choice = Console.ReadLine();
         var EncrypBenchmark = new EncryptionBenchmark();
         var HashBenchmark = new HashingBenchmark();
+        var MMUL = new MatrixMultiplicationBenchmark();
         var benchmarkActions = new Dictionary<string, Action>
         {
             ["1"] = () => HashBenchmark.CombinedHashing(),
             ["2"] = () => EncrypBenchmark.RunEncryptBenchmark(),
             ["3"] = () => CPUBenchmark.CpuTest(),
-            ["4"] = () => { EncrypBenchmark.RunEncryptBenchmark(); CPUBenchmark.CpuTest(); HashBenchmark.CombinedHashing(); },
+            ["4"] = () => MMUL.MultiplyMatrix(),
 #if DEBUG
             ["5"] = () => BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(new[] { "Benchmarks" }, new DebugInProcessConfig())
 #endif
