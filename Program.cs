@@ -420,6 +420,9 @@ class Program
             Console.WriteLine($"Total Execution Time: {stopwatch.ElapsedMilliseconds} ms.");
 
             GcHelper.MemoryCleanUp();
+
+            Console.WriteLine("Press Enter to exit...");
+            Console.ReadLine();
         }
         else
         {
