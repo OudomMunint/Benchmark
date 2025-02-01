@@ -192,7 +192,7 @@ Intel Core i7-12800H CPU 1.80GHz (Alder Lake), 14 Cores 20 Threads (6P/8E)
 1. MacBook Pro 14" 2023 - M2 Pro 10 Core CPU (6P + 4E) @ 24.5W `24s`
 2. MacBook Pro 16" 2021 - M1 Max 10 Core CPU (8P + 2E) @ 34W `27s`
 3. Dell latitude 5531 - i7-12800H @ 45W `34s`
-4. Desktop i7 - i7-8700K @ 66W `45s`
+4. Desktop i7 - i7-8700K @ 66W `69s`
 
 # Minimum system requirements
 
