@@ -384,10 +384,11 @@ class Program
         Console.ForegroundColor = ConsoleColor.Cyan;
         Console.WriteLine("1. Hashing Benchmark");
         Console.WriteLine("2. Encryption Benchmark");
-        Console.WriteLine("3. Multithread Benchmark");
+        Console.WriteLine("3. CPU Prime Computation");
         Console.WriteLine("4. CPU Matrix Multiplication");
+        Console.WriteLine("5. Run all benchmarks");
 #if DEBUG
-        Console.WriteLine("5. Debug Mode");
+        Console.WriteLine("6. Debug Mode");
 #endif
 
         Console.ForegroundColor = ConsoleColor.White;
@@ -401,10 +402,11 @@ class Program
         {
             ["1"] = () => HashBenchmark.CombinedHashing(),
             ["2"] = () => EncrypBenchmark.RunEncryptBenchmark(),
-            ["3"] = () => CPUBenchmark.CpuTest(),
+            ["3"] = () => CPUBenchmark.CpuPrimeCompute(),
             ["4"] = () => MMUL.MultiplyMatrix(),
+            ["5"] = () => { HashBenchmark.CombinedHashing(); EncrypBenchmark.RunEncryptBenchmark(); CPUBenchmark.CpuPrimeCompute(); MMUL.MultiplyMatrix(); },
 #if DEBUG
-            ["5"] = () => BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(new[] { "Benchmarks" }, new DebugInProcessConfig())
+            ["6"] = () => BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(new[] { "Benchmarks" }, new DebugInProcessConfig())
 #endif
         };
 
