@@ -2,7 +2,7 @@ name: CI Build (Multi-OS)
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, feature ]
   pull_request:
     branches: [ master ]
   workflow_dispatch:
@@ -48,7 +48,7 @@ jobs:
         run: dotnet build Benchmark.sln -c Release -f net9.0
 
       - name: Publish application
-        run: dotnet publish Benchmark.csproj -c Release -r ${{ matrix.publish_rid }} --self-contained true -o publish
+        run: dotnet publish Benchmark.csproj -c Release -r ${{ matrix.publish_rid }} --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -o publish
 
       - name: Package artifacts
         shell: bash
