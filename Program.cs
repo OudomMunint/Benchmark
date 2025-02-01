@@ -18,17 +18,13 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine("Welcome to the best benchmark in the entire universe");
-
-        Console.ForegroundColor = ConsoleColor.Magenta;
-        Console.WriteLine("-----------------------------------------------------------");
+        ConsoleInfo.GetAppInfo();
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
             DisplayMacInfo();
-            //DisplayMacInfoByPowermetrics();
         }
+
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
             DisplayWindowsInfo();
@@ -49,62 +45,6 @@ class Program
             Console.WriteLine("Press Enter to exit to exit...");
             Console.ReadLine();
         }
-    }
-
-    static void PasswordPrompt()
-    {
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        
-        Console.Write("Enter your password for sudo access: ");
-        string? password = ReadPassword();
-
-        var startInfo = new ProcessStartInfo
-        {
-            FileName = "/usr/bin/sudo"
-        };
-
-        var process = new Process { StartInfo = startInfo };
-        process.Start();
-
-        using (var writer = process.StandardInput)
-        {
-            writer.WriteLine(password);
-        }
-
-        while (!process.StandardOutput.EndOfStream)
-        {
-            string? line = process.StandardOutput.ReadLine();
-            if (line != null)
-            {
-                Console.WriteLine(line);
-            }
-        }
-
-        string? error = process.StandardError.ReadToEnd();
-        if (!string.IsNullOrEmpty(error))
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"Error: {error}");
-        }
-    }
-
-    // Read pw w/o echoing to console
-    static string ReadPassword()
-    {
-        string password = string.Empty;
-        ConsoleKeyInfo keyInfo;
-
-        do
-        {
-            keyInfo = Console.ReadKey(intercept: true);
-            if (keyInfo.Key != ConsoleKey.Enter)
-            {
-                password += keyInfo.KeyChar;
-            }
-        } while (keyInfo.Key != ConsoleKey.Enter);
-
-        Console.WriteLine();
-        return password;
     }
 
     static void DisplayMacInfo()
@@ -133,30 +73,6 @@ class Program
         {
             string? line = process.StandardOutput.ReadLine();
             if (line != null && !exclusions.Any(line.Contains))
-            {
-                Console.WriteLine(line);
-            }
-        }
-    }
-
-    static void DisplayMacInfoByPowermetrics()
-    {
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        var startInfo = new ProcessStartInfo
-        {
-            FileName = "/usr/bin/powermetrics",
-            Arguments = "sudo powermetrics --samplers cpu_power,gpu_power -n 1s",
-            RedirectStandardOutput = true,
-            UseShellExecute = false
-        };
-
-        var process = new Process { StartInfo = startInfo };
-        process.Start();
-
-        while (!process.StandardOutput.EndOfStream)
-        {
-            string? line = process.StandardOutput.ReadLine();
-            if (line != null)
             {
                 Console.WriteLine(line);
             }
@@ -468,31 +384,48 @@ class Program
         Console.ForegroundColor = ConsoleColor.Cyan;
         Console.WriteLine("1. Hashing Benchmark");
         Console.WriteLine("2. Encryption Benchmark");
-        Console.WriteLine("3. Multithread Benchmark");
-        Console.WriteLine("4. Run all benchmarks");
+        Console.WriteLine("3. CPU Prime Computation");
+        Console.WriteLine("4. CPU Matrix Multiplication");
+        Console.WriteLine("5. Run all benchmarks");
 #if DEBUG
-        Console.WriteLine("5. Debug Mode");
+        Console.WriteLine("6. Debug Mode");
 #endif
 
         Console.ForegroundColor = ConsoleColor.White;
         Console.Write("Enter the number of your choice: ");
 
         string? choice = Console.ReadLine();
-
+        var EncrypBenchmark = new EncryptionBenchmark();
+        var HashBenchmark = new HashingBenchmark();
+        var MMUL = new MatrixMultiplicationBenchmark();
         var benchmarkActions = new Dictionary<string, Action>
         {
-            ["1"] = () => BenchmarkRunner.Run<HashingBenchmark>(),
-            ["2"] = () => BenchmarkRunner.Run<EncryptionBenchmark>(),
-            ["3"] = () => BenchmarkRunner.Run<CPUBenchmark>(),
-            ["4"] = () => BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).RunAll(),
+            ["1"] = () => HashBenchmark.CombinedHashing(),
+            ["2"] = () => EncrypBenchmark.RunEncryptBenchmark(),
+            ["3"] = () => CPUBenchmark.CpuPrimeCompute(),
+            ["4"] = () => MMUL.MultiplyMatrix(),
+            ["5"] = () => { HashBenchmark.CombinedHashing(); EncrypBenchmark.RunEncryptBenchmark(); CPUBenchmark.CpuPrimeCompute(); MMUL.MultiplyMatrix(); },
 #if DEBUG
-            ["5"] = () => BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(new[] { "Benchmarks" }, new DebugInProcessConfig())
+            ["6"] = () => BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(new[] { "Benchmarks" }, new DebugInProcessConfig())
 #endif
         };
 
         if (choice != null && benchmarkActions.TryGetValue(choice, out Action? benchmarkAction))
         {
+            Console.WriteLine("-----------------------------------------------------------");
+            Console.WriteLine(" ");
+
+            Stopwatch stopwatch = Stopwatch.StartNew(); // Start Global Timer
             benchmarkAction?.Invoke();
+            stopwatch.Stop(); // Stop Global Timer
+
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine($"Total Execution Time: {stopwatch.ElapsedMilliseconds} ms.");
+
+            GcHelper.MemoryCleanUp();
+
+            Console.WriteLine("Press Enter to exit...");
+            Console.ReadLine();
         }
         else
         {

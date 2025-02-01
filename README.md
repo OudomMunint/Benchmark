@@ -1,11 +1,20 @@
-# Benchmark (.NET 9)
+﻿# Benchmark (.NET 9)
 
-- An OS-agnostic C# console application that displays system specs then lets you run benchmarks on your system.
-- This program will attempt to get your CPU,RAM & GPU specs.
-- You can run a Hashing benchmark with MD5, SHA256 and SHA512.
-- Or an intensive CPU benchmark.
-- Or an encrypt/decrypt benchmark (May need admin privileges)
+- An OS-agnostic C# console application that displays system specifications and lets you run various benchmarks.
+- This program tests different aspects of your system, including CPU, memory, and I/O performance.
+- It retrieves detailed CPU, RAM, and GPU specifications and offers the following benchmarks:
+- A Hashing benchmark with MD5, SHA256 and SHA512.
+- An intensive CPU benchmark that computes prime numbers
+- An intensive CPU workload that involves Matrix multiplication.
+- A large dataset encryption/decryption benchmark (May need admin privileges).
 - Using <a href="https://github.com/dotnet/BenchmarkDotNet"> `BenchmarkDotNet` </a>, `SharpDX`, `NvAPIWrapper` and `Hardware.info`
+
+# Test suite
+- 🔢 Integer Performance – Prime number computation.
+- 🧮 Floating-Point Performance – Matrix multiplication.
+- 🔐 Cryptographic Performance – AES encryption and hashing.
+- 💾 Memory Performance – 16GB dataset encryption operation.
+- ⚡ Multithreading & Parallelism – Parallelized workloads. 
 
 # Maintenance
 
@@ -17,24 +26,17 @@
 
 # Getting Started
 - Install `.NET 9 SDK` from <a href="https://dotnet.microsoft.com/download/dotnet/9.0"> `here` </a>
-- `.Net 9.0.0 Runtime` from <a href="https://dotnet.microsoft.com/download/dotnet/9.0"> `here` </a>
-- Open the solution and set as startup project
+- Install `.Net 9.0.0 Runtime` from <a href="https://dotnet.microsoft.com/download/dotnet/9.0"> `here` </a>
+- Open the solution in your favourite IDE and set "Benchmark" as the startup project.
 - Run the benchmark in `Release` mode.
 - Check your if system specs is correct
 - `Y` to continue
-- Use `1`, `2` or `3` to select which benchmarks to run
-- Use `4` to run all benchmarks
+- Select which benchmarks to run
 - For `VSCode` you will need to install the `C#` extention for vscode
 - For `VSCode` you also need to create `launch.JSON` and `task.JSON` files if you want to run in different configurations.
 - If not you can use the provided JSON files.
-
-# Running on OSX
-- Install `.NET 9 SDK` for macOS from <a href="https://dotnet.microsoft.com/download/dotnet/9.0"> `here` </a>
-- `.Net 9.0.0 Runtime` from <a href="https://dotnet.microsoft.com/download/dotnet/9.0"> `here` </a>
-- Open the solution and set as startup project.
-- Run the benchmark in `Release` mode.
-- If the app is terminated, open Benchmark.sln or csproj in terminal.
-- Or `cd` into the `Benchmark` folder and run `dotnet run -c Release`
+- When the benchmark is done press `Enter` to exit.
+- To cancel an ongoing benchmark press `Ctrl + C`
 
 # Running the EXE
 
@@ -44,6 +46,12 @@
 - Publish with `dotnet publish -c Release`
 - Run `Benchmark.exe` in the `C:\Users\<Path to project>\Benchmark\bin\Release\net9.0\publish\` folder.
 
+> [!NOTE]  
+> This project is not signed or notarized (Can't afford apple developer lol)
+
+- On macOS you might need to allow the app to run in `System Preferences > Security & Privacy` then scroll down and click `Open Anyway`.
+- On Windows you might need to allow the app to run in `Windows Security` then click `Run Anyway`.
+
 # Required SDKs & Runtimes
 
 - `.NET 9.0.x` from <a href="https://dotnet.microsoft.com/download/dotnet/9.0"> `here` </a>
@@ -52,7 +60,7 @@
 # Debugging
 - Set a breakpoint anywhere.
 - Run the program in `Debug` mode.
-- Use option `5` to start debugging.
+- Use option `6` to start debugging.
 - Select the benchmark you want to debug.
 - The program will pause at the breakpoint.
 
@@ -60,25 +68,42 @@
 - Install the required SDKs and Runtimes.
 - Change the target framework in the `Benchmark.csproj` file.
 - Change `net9.0` to `net7.0` or `net8.0`.
-- Run in `Release` mode.
+- Run the application.
 
-# Output
+> [!NOTE]  
+> Results should not be compared between different versions of .NET.
+
+# Application output
 
 <table>
   <tr>
     <td> <h3>Windows 11</h3> </td>
-    <td> <h3>MacOS Ventura</h3>  </td>
+    <td> <h3>MacOS Sequoia</h3>  </td>
   </tr>
   <tr>
-    <td> <img src="results.png"/> </td>
-    <td> <img src="macosoutput.png" width="700"/> </td>
+    <td> <img src="winX64output.png"/> </td>
+    <td> <img src="macos_output.png" width="700"/> </td>
   </tr>
 </table>
 
 - Scroll down to see results.
-- `Runtime` in `seconds(s)` should be the benchmark.
-- `Global Runtime` in `seconds(s)` can also be the benchmark.
 - There might be up to a 20 seconds delay on first use due to hardware detection by `Hardware.Info`.
+
+# Output results
+
+<table>
+  <tr>
+    <td> <h3>Windows 11</h3> </td>
+    <td> <h3>MacOS Sequoia</h3>  </td>
+  </tr>
+  <tr>
+    <td> <img src="resultOutput.png"/> </td>
+    <td> <img src="macos_results.png" width="700"/> </td>
+  </tr>
+</table>
+
+- Each benchmark will display it's runtime in `ms`.
+- After all benchmark(s) are done, there will be a global runtime in `ms`.
 
 # Specs for tested systems.
 
@@ -144,7 +169,12 @@ Windows 10
 Intel Core i7-12800H CPU 1.80GHz (Alder Lake), 14 Cores 20 Threads (6P/8E)
 ```
 
-## .NET 7 Ranking:
+# Benchmark results
+> [!NOTE]  
+> Results are now tracked under issue #77
+https://github.com/OudomMunint/Benchmark/issues/77
+
+## .NET 7 Ranking (Legacy benchmarks):
 
 1. Dell latitude 5531 - i7-12800H @ 55W `46s`
 2. Desktop ThreadRipper - Ryzen Thread Ripper 1950X @ 3.9GHz `49s`
@@ -154,7 +184,7 @@ Intel Core i7-12800H CPU 1.80GHz (Alder Lake), 14 Cores 20 Threads (6P/8E)
 6. MacBook Pro 15" 2018 - i7-8850H @ 45W `191s`
 7. MacBook Pro 13" 2017 - i5-7660U @ 15W `573s`
 
-## .NET 8 Ranking:
+## .NET 8 Ranking (Legacy benchmarks):
 
 1. Dell latitude 5531 - i7-12800H @ 55W `32s`
 2. MacBook Pro 14" 2023 - M2 Pro 10 Core CPU (6P + 4E) `35s`
@@ -163,9 +193,6 @@ Intel Core i7-12800H CPU 1.80GHz (Alder Lake), 14 Cores 20 Threads (6P/8E)
 5. Desktop i7 - i7-8700K @ 4.7ghz `105s`
 6. MacBook Pro 15" 2018 - i7-8850H @ 45W `133s`
 7. MacBook Pro 13" 2017 - i5-7660U @ 15W `401s`
-
-## .NET 9 Ranking:
-Testing in progress...
 
 # Minimum system requirements
 
