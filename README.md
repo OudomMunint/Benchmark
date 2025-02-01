@@ -1,11 +1,12 @@
 ﻿# Benchmark (.NET 9)
 
-- An OS-agnostic C# console application that displays system specs then lets you run benchmarks on your system.
-- This program attempts to test variours aspects of your system such as CPU, Memory and IO.
-- This program will attempt to get your CPU,RAM & GPU specs.
-- You can run a Hashing benchmark with MD5, SHA256 and SHA512.
-- Or an intensive CPU benchmark that computes prime numbers & matrix multiplication.
-- Or a large dataset encryption/decryption benchmark (May need admin privileges)
+- An OS-agnostic C# console application that displays system specifications and lets you run various benchmarks.
+- This program tests different aspects of your system, including CPU, memory, and I/O performance.
+- It retrieves detailed CPU, RAM, and GPU specifications and offers the following benchmarks:
+- A Hashing benchmark with MD5, SHA256 and SHA512.
+- An intensive CPU benchmark that computes prime numbers
+- An intensive CPU workload that involves Matrix multiplication.
+- A large dataset encryption/decryption benchmark (May need admin privileges).
 - Using <a href="https://github.com/dotnet/BenchmarkDotNet"> `BenchmarkDotNet` </a>, `SharpDX`, `NvAPIWrapper` and `Hardware.info`
 
 # Test suite
