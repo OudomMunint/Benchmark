@@ -5,9 +5,6 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Security.Cryptography;
-using SharpDX.Direct3D11;
-using SharpDX.DXGI;
-using Device = SharpDX.Direct3D11.Device;
 
 public class HashingBenchmark
 {
@@ -115,13 +112,14 @@ public class EncryptionBenchmark
 
 class CPUBenchmark
 {
-    public static void CpuTest()
+    public static void CpuPrimeCompute()
     {
-        int taskCount = Environment.ProcessorCount; // Number of parallel tasks
-        int iterations = 35_000_000; // Workload per task
+        int taskCount = Environment.ProcessorCount;
+        int iterations = 400_000_000;
+        int iterationsPerThread = iterations / taskCount;
 
         Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine($"Computing Primes with {taskCount} threads...");
+        Console.WriteLine($"Running Prime Compute with {taskCount} threads...");
 
         var options = new ParallelOptions
         {
@@ -133,13 +131,13 @@ class CPUBenchmark
 
         Parallel.For(0, taskCount, options, _ =>
         {
-            ComputePrimes(iterations);
+            ComputePrimes(iterationsPerThread);
         });
 
         stopwatch.Stop();
         ConsoleSpinner.Stop();
         Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine($"Primes Computed in {stopwatch.ElapsedMilliseconds} ms.");
+        Console.WriteLine($"Prime compute completed in {stopwatch.ElapsedMilliseconds} ms.");
         Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("-----------------------------------------------------------");
     }
