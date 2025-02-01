@@ -9,11 +9,11 @@
 - Using <a href="https://github.com/dotnet/BenchmarkDotNet"> `BenchmarkDotNet` </a>, `SharpDX`, `NvAPIWrapper` and `Hardware.info`
 
 # Test suite
-🔢 Integer Performance – Prime number computation.
-🧮 Floating-Point Performance – Matrix multiplication.
-🔐 Cryptographic Performance – AES encryption and hashing with SHA-256, SHA-512, MD5.
-💾 Memory Performance – 16GB dataset encryption operation.
-⚡ Multithreading & Parallelism – Parallelized workloads. 
+- 🔢 Integer Performance – Prime number computation.
+- 🧮 Floating-Point Performance – Matrix multiplication.
+- 🔐 Cryptographic Performance – AES encryption and hashing.
+- 💾 Memory Performance – 16GB dataset encryption operation.
+- ⚡ Multithreading & Parallelism – Parallelized workloads. 
 
 # Maintenance
 
