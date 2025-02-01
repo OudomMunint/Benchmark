@@ -1,11 +1,19 @@
-# Benchmark (.NET 9)
+﻿# Benchmark (.NET 9)
 
 - An OS-agnostic C# console application that displays system specs then lets you run benchmarks on your system.
+- This program attempts to test variours aspects of your system such as CPU, Memory and IO.
 - This program will attempt to get your CPU,RAM & GPU specs.
 - You can run a Hashing benchmark with MD5, SHA256 and SHA512.
-- Or an intensive CPU benchmark.
-- Or an encrypt/decrypt benchmark (May need admin privileges)
+- Or an intensive CPU benchmark that computes prime numbers & matrix multiplication.
+- Or a large dataset encryption/decryption benchmark (May need admin privileges)
 - Using <a href="https://github.com/dotnet/BenchmarkDotNet"> `BenchmarkDotNet` </a>, `SharpDX`, `NvAPIWrapper` and `Hardware.info`
+
+# Test suite
+🔢 Integer Performance – Prime number computation.
+🧮 Floating-Point Performance – Matrix multiplication.
+🔐 Cryptographic Performance – AES encryption and hashing with SHA-256, SHA-512, MD5.
+💾 Memory Performance – 16GB dataset encryption operation.
+⚡ Multithreading & Parallelism – Parallelized workloads. 
 
 # Maintenance
 
@@ -17,24 +25,17 @@
 
 # Getting Started
 - Install `.NET 9 SDK` from <a href="https://dotnet.microsoft.com/download/dotnet/9.0"> `here` </a>
-- `.Net 9.0.0 Runtime` from <a href="https://dotnet.microsoft.com/download/dotnet/9.0"> `here` </a>
-- Open the solution and set as startup project
+- Install `.Net 9.0.0 Runtime` from <a href="https://dotnet.microsoft.com/download/dotnet/9.0"> `here` </a>
+- Open the solution in your favourite IDE and set "Benchmark" as the startup project.
 - Run the benchmark in `Release` mode.
 - Check your if system specs is correct
 - `Y` to continue
-- Use `1`, `2` or `3` to select which benchmarks to run
-- Use `4` to run all benchmarks
+- Select which benchmarks to run
 - For `VSCode` you will need to install the `C#` extention for vscode
 - For `VSCode` you also need to create `launch.JSON` and `task.JSON` files if you want to run in different configurations.
 - If not you can use the provided JSON files.
-
-# Running on OSX
-- Install `.NET 9 SDK` for macOS from <a href="https://dotnet.microsoft.com/download/dotnet/9.0"> `here` </a>
-- `.Net 9.0.0 Runtime` from <a href="https://dotnet.microsoft.com/download/dotnet/9.0"> `here` </a>
-- Open the solution and set as startup project.
-- Run the benchmark in `Release` mode.
-- If the app is terminated, open Benchmark.sln or csproj in terminal.
-- Or `cd` into the `Benchmark` folder and run `dotnet run -c Release`
+- When the benchmark is done press `Enter` to exit.
+- To cancel an ongoing benchmark press `Ctrl + C`
 
 # Running the EXE
 
@@ -43,7 +44,12 @@
 - Build with `dotnet build -c Release`
 - Publish with `dotnet publish -c Release`
 - Run `Benchmark.exe` in the `C:\Users\<Path to project>\Benchmark\bin\Release\net9.0\publish\` folder.
-- On macOS you might need to allow the app to run in `System Preferences > Security & Privacy`
+
+> [!NOTE]  
+> This project is not signed or notarized (Can't afford apple developer lol)
+
+- On macOS you might need to allow the app to run in `System Preferences > Security & Privacy` then scroll down and click `Open Anyway`.
+- On Windows you might need to allow the app to run in `Windows Security` then click `Run Anyway`.
 
 # Required SDKs & Runtimes
 
@@ -53,7 +59,7 @@
 # Debugging
 - Set a breakpoint anywhere.
 - Run the program in `Debug` mode.
-- Use option `5` to start debugging.
+- Use option `6` to start debugging.
 - Select the benchmark you want to debug.
 - The program will pause at the breakpoint.
 
@@ -61,7 +67,10 @@
 - Install the required SDKs and Runtimes.
 - Change the target framework in the `Benchmark.csproj` file.
 - Change `net9.0` to `net7.0` or `net8.0`.
-- Run in `Release` mode.
+- Run the application.
+
+> [!NOTE]  
+> Results should not be compared between different versions of .NET.
 
 # Application output
 
