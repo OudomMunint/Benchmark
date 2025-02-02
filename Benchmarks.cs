@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Security.Cryptography;
+using System.Buffers;
 
 public class HashingBenchmark
 {
@@ -219,6 +220,44 @@ class MatrixMultiplicationBenchmark
         ConsoleSpinner.Stop();
         Console.ForegroundColor = ConsoleColor.Cyan;
         Console.WriteLine($"Matrix multiplication completed in {stopwatch.ElapsedMilliseconds} ms.");
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("-----------------------------------------------------------");
+    }
+}
+
+public class MemoryBenchmark
+{
+    private const int DataSize = 1024 * 1024 * 1024; // 512MB (avoid hitting array limits)
+    private const int ChunkSize = 16 * 1024 * 1024; // 16MB per operation
+
+    public void RunMemoryBandwidthTest()
+    {
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine("Running Memory Bandwidth test...");
+
+        byte[] memoryBuffer = ArrayPool<byte>.Shared.Rent(DataSize);
+
+        Stopwatch stopwatch = Stopwatch.StartNew();
+        ConsoleSpinner.Start();
+
+        Parallel.For(0, DataSize / ChunkSize, i =>
+        {
+            int offset = i * ChunkSize;
+            Array.Copy(memoryBuffer, offset, memoryBuffer, offset, ChunkSize);
+        });
+
+        stopwatch.Stop();
+        ConsoleSpinner.Stop();
+
+        double seconds = stopwatch.ElapsedMilliseconds / 1000.0;
+        double bandwidthGBs = (DataSize / (1024.0 * 1024.0 * 1024.0)) / seconds;
+
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("Memory Bandwidth test completed....");
+        Console.WriteLine($"Bandwidth: {bandwidthGBs:F2} GB/s");
+
+        ArrayPool<byte>.Shared.Return(memoryBuffer); // Release memory
+
         Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("-----------------------------------------------------------");
     }

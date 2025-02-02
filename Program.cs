@@ -387,6 +387,7 @@ class Program
         Console.WriteLine("3. CPU Prime Computation");
         Console.WriteLine("4. CPU Matrix Multiplication");
         Console.WriteLine("5. Run all benchmarks");
+        Console.WriteLine("7. Memory Bandwidth");
 #if DEBUG
         Console.WriteLine("6. Debug Mode");
 #endif
@@ -398,6 +399,7 @@ class Program
         var EncrypBenchmark = new EncryptionBenchmark();
         var HashBenchmark = new HashingBenchmark();
         var MMUL = new MatrixMultiplicationBenchmark();
+        var MemoryBenchmark = new MemoryBenchmark();
         var benchmarkActions = new Dictionary<string, Action>
         {
             ["1"] = () => HashBenchmark.CombinedHashing(),
@@ -405,6 +407,7 @@ class Program
             ["3"] = () => CPUBenchmark.CpuPrimeCompute(),
             ["4"] = () => MMUL.MultiplyMatrix(),
             ["5"] = () => { HashBenchmark.CombinedHashing(); EncrypBenchmark.RunEncryptBenchmark(); CPUBenchmark.CpuPrimeCompute(); MMUL.MultiplyMatrix(); },
+            ["7"] = () => MemoryBenchmark.RunMemoryBandwidthTest(),
 #if DEBUG
             ["6"] = () => BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(new[] { "Benchmarks" }, new DebugInProcessConfig())
 #endif
