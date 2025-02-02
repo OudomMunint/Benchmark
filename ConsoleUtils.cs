@@ -67,7 +67,10 @@ class ConsoleSpinner
 
     public static void Start()
     {
-        Console.CursorVisible = false;
+        if (!Console.IsOutputRedirected)
+        {
+            Console.CursorVisible = false;
+        }
         stopSpinner = false;
         spinnerThread = new Thread(Spin);
         spinnerThread.Start();
@@ -81,12 +84,18 @@ class ConsoleSpinner
 
     private static void Spin()
     {
-        Console.CursorVisible = false;
+        if (!Console.IsOutputRedirected)
+        {
+            Console.CursorVisible = false;
+        }
         int frameIndex = 0;
         while (!stopSpinner)
         {
             Console.Write(SpinnerFrames[frameIndex]);
-            Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
+            if (!Console.IsOutputRedirected)
+            {
+                Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
+            }
             frameIndex = (frameIndex + 1) % SpinnerFrames.Length;
             Thread.Sleep(Interval);
         }
