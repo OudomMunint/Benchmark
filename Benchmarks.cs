@@ -52,7 +52,7 @@ public class EncryptionBenchmark
 {
     private const long TotalSize = 16L * 1_000_000_000; // 16GB
     private const int ChunkSize = 100_000_000; // 100MB per operation
-    private const int Iterations = (int)(TotalSize / ChunkSize); // Number of chunks needed
+    private const int Iterations = (int)(TotalSize / ChunkSize);
     private readonly byte[] dataChunk;
     private readonly byte[] key;
     private readonly byte[] iv;
@@ -69,7 +69,7 @@ public class EncryptionBenchmark
         iv = aes.IV;
 
         dataChunk = new byte[ChunkSize];
-        new Random().NextBytes(dataChunk); // Generate random data once
+        new Random().NextBytes(dataChunk);
     }
 
     public byte[] AesEncrypt(byte[] data)
@@ -86,7 +86,7 @@ public class EncryptionBenchmark
 
     public void RunEncryptBenchmark()
     {
-        int threadCount = Environment.ProcessorCount; // Match CPU core count
+        int threadCount = Environment.ProcessorCount;
         Console.ForegroundColor = ConsoleColor.White;
         Console.WriteLine($"Running AES-256 Encryption... processing {TotalSize / 1_000_000_000} GB with {threadCount} threads...");
 
