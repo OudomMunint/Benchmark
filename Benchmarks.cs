@@ -31,7 +31,7 @@ public class HashingBenchmark
     public void CombinedHashing()
     {
         Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine("Running Hashing operation...");
+        Console.WriteLine($"Running Hashing operation... Hashing {N / 1_000_000_000} GB...");
         Stopwatch stopwatch = Stopwatch.StartNew();
         ConsoleSpinner.Start();
 
@@ -42,7 +42,7 @@ public class HashingBenchmark
         stopwatch.Stop();
         ConsoleSpinner.Stop();
         Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine($"Hasing completed in {stopwatch.ElapsedMilliseconds} ms.");
+        Console.WriteLine($"Hashing completed in {stopwatch.ElapsedMilliseconds} ms.");
         Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("-----------------------------------------------------------");
     }
