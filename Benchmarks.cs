@@ -28,10 +28,10 @@ public class HashingBenchmark
 
     public byte[] Md5() => md5.ComputeHash(data);
 
-    public void CombinedHashing()
+    public string CombinedHashingExport()
     {
         Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine($"Running Hashing operation... Hashing {N / 1_000_000_000} GB...");
+        Console.WriteLine($"Running Hash on SHA256, SHA512, MD5... Hashing {N / 1_000_000_000} GB...");
         Stopwatch stopwatch = Stopwatch.StartNew();
         ConsoleSpinner.Start();
 
@@ -45,6 +45,9 @@ public class HashingBenchmark
         Console.WriteLine($"Hashing completed in {stopwatch.ElapsedMilliseconds} ms.");
         Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("-----------------------------------------------------------");
+
+        string result = $"Hashing Benchmark: {stopwatch.ElapsedMilliseconds} ms";
+        return result;
     }
 }
 
@@ -84,7 +87,7 @@ public class EncryptionBenchmark
         return decryptor.TransformFinalBlock(encryptedData, 0, encryptedData.Length);
     }
 
-    public void RunEncryptBenchmark()
+    public string RunEncryptBenchmark()
     {
         int threadCount = Environment.ProcessorCount;
         Console.ForegroundColor = ConsoleColor.White;
@@ -108,12 +111,15 @@ public class EncryptionBenchmark
         Console.WriteLine($"Encryption completed in {stopwatch.ElapsedMilliseconds} ms.");
         Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("-----------------------------------------------------------");
+
+        string result = $"Encryption Benchmark: {stopwatch.ElapsedMilliseconds} ms";
+        return result;
     }
 }
 
 class CPUBenchmark
 {
-    public static void CpuPrimeCompute()
+    public static string CpuPrimeCompute()
     {
         int taskCount = Environment.ProcessorCount;
         int iterations = 400_000_000;
@@ -141,6 +147,9 @@ class CPUBenchmark
         Console.WriteLine($"Prime compute completed in {stopwatch.ElapsedMilliseconds} ms.");
         Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("-----------------------------------------------------------");
+
+        string result = $"Prime Compute Benchmark: {stopwatch.ElapsedMilliseconds} ms";
+        return result;
     }
 
     private static int ComputePrimes(int limit)
@@ -191,7 +200,7 @@ class MatrixMultiplicationBenchmark
         }
     }
 
-    public void MultiplyMatrix()
+    public string MultiplyMatrix()
     {
         Console.ForegroundColor = ConsoleColor.White;
         Console.WriteLine($"Running Matrix Multiplication with {Environment.ProcessorCount} threads...");
@@ -222,6 +231,9 @@ class MatrixMultiplicationBenchmark
         Console.WriteLine($"Matrix multiplication completed in {stopwatch.ElapsedMilliseconds} ms.");
         Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("-----------------------------------------------------------");
+
+        string benchResult = $"Matrix Multiplication Benchmark: {stopwatch.ElapsedMilliseconds} ms";
+        return benchResult;
     }
 }
 
