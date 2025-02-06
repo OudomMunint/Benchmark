@@ -46,11 +46,14 @@
 - Publish with `dotnet publish -c Release`
 - Run `Benchmark.exe` in the `C:\Users\<Path to project>\Benchmark\bin\Release\net9.0\publish\` folder.
 
+# Download the EXE
+- Download the latest release from <a href="https://github.com/OudomMunint/Benchmark/releases"> `here` </a>
+
+
 > [!NOTE]  
 > This project is not signed or notarized (Can't afford apple developer lol)
-
-- On macOS you might need to allow the app to run in `System Preferences > Security & Privacy` then scroll down and click `Open Anyway`.
-- On Windows you might need to allow the app to run in `Windows Security` then click `Run Anyway`.
+> On macOS you might need to allow the app to run in `System Preferences > Security & Privacy` then scroll down and click `Open Anyway`.
+> On Windows you might need to allow the app to run in `Windows Security` then click `Run Anyway`.
 
 # Required SDKs & Runtimes
 
@@ -87,6 +90,8 @@
 </table>
 
 - Scroll down to see results.
+- Results are also exported to a `.txt` file located in the `bin\Release\net9.0\publish\` folder.
+- If you are running the downloaded `.exe` file, the results will be in the same folder as the `.exe` file.
 - There might be up to a 20 seconds delay on first use due to hardware detection by `Hardware.Info`.
 
 # Output results
