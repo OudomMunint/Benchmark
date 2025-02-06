@@ -58,6 +58,7 @@ class Spinner : IDisposable
         Stop();
     }
 }
+
 class ConsoleSpinner
 {
     private static readonly string[] SpinnerFrames = { "/", "-", "\\", "|" };
@@ -144,6 +145,21 @@ class GcHelper
 
         Console.WriteLine($"Freed up {memoryFreed / (1024 * 1024 * 1024.0):F2} GB of memory.");
         Console.WriteLine("-----------------------------------------------------------");
+    }
+}
+
+public static class BenchmarkExporter
+{
+    public static void ExportResults(string filename, params string[] results)
+    {
+        string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        string output = $"Benchmark Run - {timestamp}\n" +
+                        "--------------------------------\n" +
+                        string.Join("\n", results) +
+                        "\n--------------------------------\n";
+
+        File.AppendAllText(filename, output);
+        Console.WriteLine($"Results exported to {filename}");
     }
 }
 
