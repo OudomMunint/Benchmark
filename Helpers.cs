@@ -31,6 +31,16 @@ class ConsoleInfo
         Console.ForegroundColor = ConsoleColor.Magenta;
         Console.WriteLine("-----------------------------------------------------------");
     }
+
+    public static string Version()
+    {
+        Assembly? assembly = Assembly.GetEntryAssembly();
+        AssemblyName? assemblyName = assembly?.GetName();
+        Version? version = assemblyName?.Version;
+        string? fileVersion = assembly?.GetCustomAttribute<AssemblyFileVersionAttribute>()?.Version;
+
+        return $"v{version} ({fileVersion})";
+    }
 }
 
 class ConsolePasswordHelper
