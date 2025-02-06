@@ -148,12 +148,14 @@ class GcHelper
     }
 }
 
-public static class BenchmarkExporter
+class BenchmarkExporter
 {
+    public string ?BenchmarkVersion { get; set; }
     public static void ExportResults(string filename, params string[] results)
     {
+        string version = ConsoleInfo.Version();
         string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-        string output = $"Benchmark Run - {timestamp}\n" +
+        string output = $"Benchmark Run - {timestamp}\n" + $"Version: {version}\n" +
                         "--------------------------------\n" +
                         string.Join("\n", results) +
                         "\n--------------------------------\n";
