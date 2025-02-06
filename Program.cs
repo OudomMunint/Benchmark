@@ -387,9 +387,9 @@ class Program
         Console.WriteLine("3. CPU Prime Computation");
         Console.WriteLine("4. CPU Matrix Multiplication");
         Console.WriteLine("5. Run all benchmarks");
-        Console.WriteLine("7. Memory Bandwidth");
+        Console.WriteLine("6. Memory Bandwidth");
 #if DEBUG
-        Console.WriteLine("6. Debug Mode");
+        Console.WriteLine("7. Debug Mode");
 #endif
 
         Console.ForegroundColor = ConsoleColor.White;
@@ -400,16 +400,17 @@ class Program
         var HashBenchmark = new HashingBenchmark();
         var MMUL = new MatrixMultiplicationBenchmark();
         var MemoryBenchmark = new MemoryBenchmark();
+        List<string> results = new();
         var benchmarkActions = new Dictionary<string, Action>
         {
-            ["1"] = () => HashBenchmark.CombinedHashing(),
-            ["2"] = () => EncrypBenchmark.RunEncryptBenchmark(),
-            ["3"] = () => CPUBenchmark.CpuPrimeCompute(),
-            ["4"] = () => MMUL.MultiplyMatrix(),
-            ["5"] = () => { HashBenchmark.CombinedHashing(); EncrypBenchmark.RunEncryptBenchmark(); CPUBenchmark.CpuPrimeCompute(); MMUL.MultiplyMatrix(); },
-            ["7"] = () => MemoryBenchmark.RunMemoryBandwidthTest(),
+            ["1"] = () => results.Add(HashBenchmark.CombinedHashingExport()),
+            ["2"] = () => results.Add(EncrypBenchmark.RunEncryptBenchmark()),
+            ["3"] = () => results.Add(CPUBenchmark.CpuPrimeCompute()),
+            ["4"] = () => results.Add(MMUL.MultiplyMatrix()),
+            ["5"] = () => { results.AddRange(HashBenchmark.CombinedHashingExport(), EncrypBenchmark.RunEncryptBenchmark(), CPUBenchmark.CpuPrimeCompute(), MMUL.MultiplyMatrix()); },
+            ["6"] = () => MemoryBenchmark.RunMemoryBandwidthTest(),
 #if DEBUG
-            ["6"] = () => BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(new[] { "Benchmarks" }, new DebugInProcessConfig())
+            ["7"] = () => BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(new[] { "Benchmarks" }, new DebugInProcessConfig())
 #endif
         };
 
@@ -426,6 +427,10 @@ class Program
 
             GcHelper.MemoryCleanUp();
 
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            BenchmarkExporter.ExportResults("BenchmarkResults.txt", results.ToArray());
+
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Press Enter to exit...");
             Console.ReadLine();
         }
