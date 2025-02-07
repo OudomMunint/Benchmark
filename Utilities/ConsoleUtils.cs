@@ -124,47 +124,6 @@ class ConsoleProgressBar
     }
 }
 
-class GcHelper
-{
-    public static void MemoryCleanUp()
-    {
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine("-----------------------------------------------------------");
-
-        long memoryBefore = GC.GetTotalMemory(false);
-
-        Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine("Cleaning up memory...");
-
-        GC.Collect();
-        GC.WaitForPendingFinalizers();
-        GC.Collect();
-
-        long memoryAfter = GC.GetTotalMemory(true);
-        long memoryFreed = memoryBefore - memoryAfter;
-
-        Console.WriteLine($"Freed up {memoryFreed / (1024 * 1024 * 1024.0):F2} GB of memory.");
-        Console.WriteLine("-----------------------------------------------------------");
-    }
-}
-
-class BenchmarkExporter
-{
-    public string ?BenchmarkVersion { get; set; }
-    public static void ExportResults(string filename, params string[] results)
-    {
-        string version = ConsoleInfo.Version();
-        string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-        string output = $"Benchmark Run - {timestamp}\n" + $"Version: {version}\n" +
-                        "--------------------------------\n" +
-                        string.Join("\n", results) +
-                        "\n--------------------------------\n";
-
-        File.AppendAllText(filename, output);
-        Console.WriteLine($"Results exported to {filename}");
-    }
-}
-
 class ConsoleIndeterminateBar
 {
     private const int ProgressBarWidth = 50;

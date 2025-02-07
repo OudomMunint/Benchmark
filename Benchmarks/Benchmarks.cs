@@ -9,7 +9,7 @@ using System.Buffers;
 
 public class HashingBenchmark
 {
-    private const int N = 2000000000;
+    private const int N = 1000000000;
     private readonly byte[] data;
 
     private readonly SHA256 sha256 = SHA256.Create();
@@ -53,7 +53,7 @@ public class HashingBenchmark
 
 public class EncryptionBenchmark
 {
-    private const long TotalSize = 16L * 1_000_000_000; // 16GB
+    private const long TotalSize = 2L * 1_000_000_000; // 16GB
     private const int ChunkSize = 100_000_000; // 100MB per operation
     private const int Iterations = (int)(TotalSize / ChunkSize);
     private readonly byte[] dataChunk;
@@ -122,7 +122,7 @@ class CPUBenchmark
     public static string CpuPrimeCompute()
     {
         int taskCount = Environment.ProcessorCount;
-        int iterations = 400_000_000;
+        int iterations = 100_000_000;
         int iterationsPerThread = iterations / taskCount;
 
         Console.ForegroundColor = ConsoleColor.White;
@@ -178,7 +178,7 @@ class CPUBenchmark
 
 class MatrixMultiplicationBenchmark
 {
-    private const int N = 2048; // Matrix size
+    private const int N = 1024; // Matrix size
     private readonly double[,] matrixA;
     private readonly double[,] matrixB;
     private readonly double[,] result;
