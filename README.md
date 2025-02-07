@@ -52,8 +52,8 @@
 
 > [!NOTE]  
 > This project is not signed or notarized (Can't afford apple developer lol)
-> On macOS you might need to allow the app to run in `System Preferences > Security & Privacy` then scroll down and click `Open Anyway`.
-> On Windows you might need to allow the app to run in `Windows Security` then click `Run Anyway`.
+> - On macOS you might need to allow the app to run in `System Preferences > Security & Privacy` then scroll down and click `Open Anyway`.
+> - On Windows you might need to allow the app to run in `Windows Security` then click `Run Anyway`.
 
 # Required SDKs & Runtimes
 
@@ -84,8 +84,8 @@
     <td> <h3>MacOS Sequoia</h3>  </td>
   </tr>
   <tr>
-    <td> <img src="winX64output.png"/> </td>
-    <td> <img src="macos_output.png" width="700"/> </td>
+    <td> <img src="Media/winX64output.png"/> </td>
+    <td> <img src="Media/macos_output.png" width="700"/> </td>
   </tr>
 </table>
 
@@ -102,8 +102,8 @@
     <td> <h3>MacOS Sequoia</h3>  </td>
   </tr>
   <tr>
-    <td> <img src="resultOutput.png"/> </td>
-    <td> <img src="macos_results.png" width="700"/> </td>
+    <td> <img src="Media/resultOutput.png"/> </td>
+    <td> <img src="Media/macos_results.png" width="700"/> </td>
   </tr>
 </table>
 
