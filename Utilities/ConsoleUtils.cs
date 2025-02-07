@@ -1,6 +1,3 @@
-using System;
-using System.Threading;
-
 class Spinner : IDisposable
 {
     private const string Sequence = @"/-\|";

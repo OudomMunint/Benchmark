@@ -1,13 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
-using System.Threading;
-using System.Timers;
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Running;
-using NvAPIWrapper;
-using NvAPIWrapper.Display;
-using NvAPIWrapper.GPU;
 using SharpDX.Direct3D11;
 using SharpDX.DXGI;
 using Device = SharpDX.Direct3D11.Device;

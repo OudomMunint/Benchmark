@@ -1,11 +1,5 @@
-using BenchmarkDotNet.Attributes;
-using System;
 using System.Diagnostics;
 using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Threading;
-using System.Security.Cryptography;
-
 class ConsoleInfo
 {
     public static void GetAppInfo()

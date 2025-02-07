@@ -1,10 +1,8 @@
 using System.Management;
 using System.Runtime.InteropServices;
 using NvAPIWrapper;
-using NvAPIWrapper.Display;
 using NvAPIWrapper.GPU;
 using SharpDX.DXGI;
-using Device = SharpDX.Direct3D11.Device;
 
 class DxGpuHelper
 {

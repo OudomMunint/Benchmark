@@ -1,7 +1,5 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
-using BenchmarkDotNet.Configs;
-using BenchmarkDotNet.Running;
 
 class Program
 {
