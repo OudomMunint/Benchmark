@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -16,6 +16,8 @@ using Device = SharpDX.Direct3D11.Device;
 
 class Program
 {
+    public static string ?TotalRunTime;
+
     static void Main(string[] args)
     {
         ConsoleInfo.GetAppInfo();
@@ -426,6 +428,7 @@ class Program
             Console.WriteLine($"Total Execution Time: {stopwatch.ElapsedMilliseconds} ms.");
 
             GcHelper.MemoryCleanUp();
+            Program.TotalRunTime = stopwatch.ElapsedMilliseconds.ToString();
 
             Console.ForegroundColor = ConsoleColor.Cyan;
             BenchmarkExporter.ExportResults("BenchmarkResults.txt", results.ToArray());
