@@ -3,7 +3,7 @@ class BenchmarkExporter
     public string? BenchmarkVersion { get; set; }
     public static void ExportResults(string filename, params string[] results)
     {
-        string TotalTime = Program.TotalRunTime.ToString();
+        string TotalTime = Program.TotalRunTime?.ToString() ?? "0";
         string version = ConsoleInfo.Version();
         string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         string output = $"Benchmark Run - {timestamp}\n" + $"Version: {version}\n" +
