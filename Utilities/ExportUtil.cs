@@ -14,4 +14,15 @@ class BenchmarkExporter
         File.AppendAllText(filename, output);
         Console.WriteLine($"Results exported to {filename}");
     }
+
+    public static void TestExportResults()
+    {
+        List<string> testResults = new();
+        testResults.Add("Hasing Benchmark: 1000ms.");
+        testResults.Add("Encryption Benchmark: 2000ms.");
+        testResults.Add("CPU Prime Computation: 3000ms.");
+        testResults.Add("CPU Matrix Multiplication: 4000ms.");
+        testResults.Add("Memory Bandwidth: 5000ms.");
+        ExportResults("TestResults.txt", testResults.ToArray());
+    }
 }
