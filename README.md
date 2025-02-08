@@ -28,7 +28,8 @@
 - Install `.NET 9 SDK` from <a href="https://dotnet.microsoft.com/download/dotnet/9.0"> `here` </a>
 - Install `.Net 9.0.0 Runtime` from <a href="https://dotnet.microsoft.com/download/dotnet/9.0"> `here` </a>
 - Open the solution in your favourite IDE and set "Benchmark" as the startup project.
-- Run the benchmark in `Release` mode.
+- Run the project in `Release` mode and without debugging.
+- For debugging see the `Debugging` section below.
 - Check your if system specs is correct
 - `Y` to continue
 - Select which benchmarks to run
@@ -62,7 +63,8 @@
 
 # Debugging
 - Set a breakpoint anywhere.
-- Run the program in `Debug` mode.
+- Run the program in `Debug` mode with debugger attached.
+- Smaller datasets and iterations are used when debugger is attached.
 - Use option `6` to start debugging.
 - Select the benchmark you want to debug.
 - The program will pause at the breakpoint.
