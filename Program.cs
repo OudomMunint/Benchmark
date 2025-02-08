@@ -1,4 +1,8 @@
-﻿using System.Diagnostics;
+﻿#if DEBUG
+using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Running;
+#endif
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 class Program
@@ -54,9 +58,10 @@ class Program
         Console.WriteLine("3. CPU Prime Computation");
         Console.WriteLine("4. CPU Matrix Multiplication");
         Console.WriteLine("5. Run all benchmarks");
-        Console.WriteLine("6. Memory Bandwidth");
 #if DEBUG
+        Console.WriteLine("6. Memory Bandwidth");
         Console.WriteLine("7. Debug Mode");
+        Console.WriteLine("8. Test Reults Export");
 #endif
         Console.ForegroundColor = ConsoleColor.White;
         Console.Write("Enter the number of your choice: ");
@@ -74,9 +79,10 @@ class Program
             ["3"] = () => results.Add(CPUBenchmark.CpuPrimeCompute()),
             ["4"] = () => results.Add(MMUL.MultiplyMatrix()),
             ["5"] = () => { results.AddRange(HashBenchmark.CombinedHashingExport(), EncrypBenchmark.RunEncryptBenchmark(), CPUBenchmark.CpuPrimeCompute(), MMUL.MultiplyMatrix()); },
-            ["6"] = () => MemoryBenchmark.RunMemoryBandwidthTest(),
 #if DEBUG
-            ["7"] = () => BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(new[] { "Benchmarks" }, new DebugInProcessConfig())
+            ["6"] = () => MemoryBenchmark.RunMemoryBandwidthTest(),
+            ["7"] = () => BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(new[] { "Benchmarks" }, new DebugInProcessConfig()),
+            ["8"] = () => BenchmarkExporter.TestExportResults()
 #endif
         };
 
