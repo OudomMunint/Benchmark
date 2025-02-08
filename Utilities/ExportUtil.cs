@@ -3,16 +3,18 @@ class BenchmarkExporter
     public string? BenchmarkVersion { get; set; }
     public static void ExportResults(string filename, params string[] results)
     {
-        string TotalTime = Program.TotalRunTime?.ToString() ?? "0";
+        string appDirectory = AppContext.BaseDirectory;
+        string filePath = Path.Combine(appDirectory, filename);
+        string totalTime = Program.TotalRunTime?.ToString() ?? "0";
         string version = ConsoleInfo.Version();
         string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         string output = $"Benchmark Run - {timestamp}\n" + $"Version: {version}\n" +
                         "--------------------------------\n" +
-                        string.Join("\n", results) + "\n" + $"Total Run Time: {TotalTime} ms\n" +
+                        string.Join("\n", results) + "\n" + $"Total Run Time: {totalTime} ms\n" +
                         "\n--------------------------------\n";
 
-        File.AppendAllText(filename, output);
-        Console.WriteLine($"Results exported to {filename}");
+        File.AppendAllText(filePath, output);
+        Console.WriteLine($"Results exported to {filePath}");
     }
 
     public static void TestExportResults()
