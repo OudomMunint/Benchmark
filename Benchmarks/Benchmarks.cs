@@ -4,15 +4,22 @@ using System.Buffers;
 
 public class HashingBenchmark
 {
-    private const int N = 1000000000;
+    private int N;
     private readonly byte[] data;
-
     private readonly SHA256 sha256 = SHA256.Create();
     private readonly SHA512 sha512 = SHA512.Create();
     private readonly MD5 md5 = MD5.Create();
 
     public HashingBenchmark()
     {
+        if (Debugger.IsAttached)
+        {
+            N = 1000000000;
+        }
+        else
+        {
+            N = 2000000000;
+        }
         data = new byte[N];
         new Random(42).NextBytes(data);
     }
@@ -48,9 +55,9 @@ public class HashingBenchmark
 
 public class EncryptionBenchmark
 {
-    private const long TotalSize = 2L * 1_000_000_000; // 16GB
+    private long TotalSize;
     private const int ChunkSize = 100_000_000; // 100MB per operation
-    private const int Iterations = (int)(TotalSize / ChunkSize);
+    private int Iterations;
     private readonly byte[] dataChunk;
     private readonly byte[] key;
     private readonly byte[] iv;
@@ -58,6 +65,15 @@ public class EncryptionBenchmark
 
     public EncryptionBenchmark()
     {
+        if (Debugger.IsAttached)
+        {
+            TotalSize = 1L * 1_000_000_000; // 1GB
+        }
+        else
+        {
+            TotalSize = 16L * 1_000_000_000; // 16GB
+        }
+        Iterations = (int)(TotalSize / ChunkSize);
         aes = Aes.Create();
         aes.KeySize = 256;
         aes.GenerateKey();
@@ -116,8 +132,18 @@ class CPUBenchmark
 {
     public static string CpuPrimeCompute()
     {
+        int iterations;
+
+        if (Debugger.IsAttached)
+        {
+            iterations = 100_000_000;
+        }
+        else
+        {
+            iterations = 400_000_000; // Default value if not debugging
+        }
+
         int taskCount = Environment.ProcessorCount;
-        int iterations = 100_000_000;
         int iterationsPerThread = iterations / taskCount;
 
         Console.ForegroundColor = ConsoleColor.White;
@@ -173,13 +199,21 @@ class CPUBenchmark
 
 class MatrixMultiplicationBenchmark
 {
-    private const int N = 1024; // Matrix size
+    private int N; // Matrix size
     private readonly double[,] matrixA;
     private readonly double[,] matrixB;
     private readonly double[,] result;
 
     public MatrixMultiplicationBenchmark()
     {
+        if (Debugger.IsAttached)
+        {
+            N = 1024;
+        }
+        else
+        {
+            N = 2048;
+        }
         matrixA = new double[N, N];
         matrixB = new double[N, N];
         result = new double[N, N];
@@ -232,6 +266,7 @@ class MatrixMultiplicationBenchmark
     }
 }
 
+// WIP
 public class MemoryBenchmark
 {
     private const int DataSize = 1024 * 1024 * 1024; // 512MB (avoid hitting array limits)
@@ -240,7 +275,7 @@ public class MemoryBenchmark
     public void RunMemoryBandwidthTest()
     {
         Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine("Running Memory Bandwidth test...");
+        Console.WriteLine("Running Memory Bandwidth test...(Experimental)");
 
         byte[] memoryBuffer = ArrayPool<byte>.Shared.Rent(DataSize);
 
