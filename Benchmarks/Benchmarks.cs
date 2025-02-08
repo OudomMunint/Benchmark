@@ -269,38 +269,70 @@ class MatrixMultiplicationBenchmark
 // WIP
 public class MemoryBenchmark
 {
-    private const int DataSize = 1024 * 1024 * 1024; // 512MB (avoid hitting array limits)
-    private const int ChunkSize = 16 * 1024 * 1024; // 16MB per operation
-
-    public void RunMemoryBandwidthTest()
+    public void MTMemBandwidth()
     {
-        Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine("Running Memory Bandwidth test...(Experimental)");
+        uint[] data = new uint[10000000 * 32];
+        List<(long Sum, double Bandwidth)> AllResults = new();
+        (long Sum, double Bandwidth) BestResult;
 
-        byte[] memoryBuffer = ArrayPool<byte>.Shared.Rent(DataSize);
-
-        Stopwatch stopwatch = Stopwatch.StartNew();
-        ConsoleSpinner.Start();
-
-        Parallel.For(0, DataSize / ChunkSize, i =>
+        for (int j = 0; j < 15; j++)
         {
-            int offset = i * ChunkSize;
-            Array.Copy(memoryBuffer, offset, memoryBuffer, offset, ChunkSize);
-        });
+            long totalSum = 0;
+            var sw = Stopwatch.StartNew();
+            int chunkSize = data.Length / Environment.ProcessorCount;
+            object lockObj = new object();
 
-        stopwatch.Stop();
-        ConsoleSpinner.Stop();
+            Parallel.For(0, Environment.ProcessorCount, threadId =>
+            {
+                int start = threadId * chunkSize;
+                int end = (threadId == Environment.ProcessorCount - 1) ? data.Length : start + chunkSize;
+                uint localSum = 0;
 
-        double seconds = stopwatch.ElapsedMilliseconds / 1000.0;
-        double bandwidthGBs = (DataSize / (1024.0 * 1024.0 * 1024.0)) / seconds;
+                for (int i = start; i < end; i += 64)
+                {
+                    localSum += data[i] + data[i + 16] + data[i + 32] + data[i + 48];
+                }
 
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine("Memory Bandwidth test completed....");
-        Console.WriteLine($"Bandwidth: {bandwidthGBs:F2} GB/s");
+                lock (lockObj)
+                {
+                    totalSum += localSum;
+                }
+            });
 
-        ArrayPool<byte>.Shared.Return(memoryBuffer); // Release memory
+            sw.Stop();
+            long dataSize = data.Length * 4;
+            double bandwidth = dataSize / sw.Elapsed.TotalSeconds / (1024 * 1024 * 1024);
 
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine("-----------------------------------------------------------");
+            //Console.WriteLine("{1:0.000} GB/s", totalSum, bandwidth);
+            AllResults.Add((totalSum, bandwidth));
+        }
+
+        BestResult = AllResults.OrderByDescending(x => x.Bandwidth).First(); // Sort for highest
+        Console.WriteLine($"Memory Bandwidth: {BestResult.Sum} {BestResult.Bandwidth:0.000} GB/s");
+    }
+
+    public void STMemBandwidth()
+    {
+        List<(long Sum, double Bandwidth)> AllResults = new();
+        (long Sum, double Bandwidth) BestResult;
+        uint[] data = new uint[10000000 * 32];
+        for (int j = 0; j < 15; j++)
+        {
+            long totalSum = 0;
+            uint sum = 0;
+            var sw = Stopwatch.StartNew();
+            for (uint i = 0; i < data.Length; i += 64)
+            {
+                sum += data[i] + data[i + 16] + data[i + 32] + data[i + 48];
+            }
+            sw.Stop();
+            long dataSize = data.Length * 4;
+            double bandwidth = dataSize / sw.Elapsed.TotalSeconds / (1024 * 1024 * 1024);
+            Console.WriteLine("{0} {1:0.000} GB/s", sum, dataSize / sw.Elapsed.TotalSeconds / (1024 * 1024 * 1024));
+            AllResults.Add((totalSum, bandwidth));
+        }
+
+        BestResult = AllResults.OrderByDescending(x => x.Bandwidth).First(); // Sort for highest
+        Console.WriteLine($"Memory Bandwidth: {BestResult.Sum} {BestResult.Bandwidth:0.000} GB/s");
     }
 }
