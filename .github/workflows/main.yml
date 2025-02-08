@@ -2,7 +2,7 @@ name: CI Build (Multi-OS)
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, feature ]
   pull_request:
     branches: [ master ]
   workflow_dispatch:
