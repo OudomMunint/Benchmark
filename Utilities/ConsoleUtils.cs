@@ -1,6 +1,3 @@
-using System;
-using System.Threading;
-
 class Spinner : IDisposable
 {
     private const string Sequence = @"/-\|";
@@ -58,6 +55,7 @@ class Spinner : IDisposable
         Stop();
     }
 }
+
 class ConsoleSpinner
 {
     private static readonly string[] SpinnerFrames = { "/", "-", "\\", "|" };
@@ -67,7 +65,10 @@ class ConsoleSpinner
 
     public static void Start()
     {
-        Console.CursorVisible = false;
+        if (!Console.IsOutputRedirected)
+        {
+            Console.CursorVisible = false;
+        }
         stopSpinner = false;
         spinnerThread = new Thread(Spin);
         spinnerThread.Start();
@@ -81,12 +82,18 @@ class ConsoleSpinner
 
     private static void Spin()
     {
-        Console.CursorVisible = false;
+        if (!Console.IsOutputRedirected)
+        {
+            Console.CursorVisible = false;
+        }
         int frameIndex = 0;
         while (!stopSpinner)
         {
             Console.Write(SpinnerFrames[frameIndex]);
-            Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
+            if (!Console.IsOutputRedirected)
+            {
+                Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
+            }
             frameIndex = (frameIndex + 1) % SpinnerFrames.Length;
             Thread.Sleep(Interval);
         }
@@ -111,30 +118,6 @@ class ConsoleProgressBar
         Console.Write("[{0}] {1}%", progressBar, progressPercentage);
 
         Console.SetCursorPosition(0, Console.CursorTop);
-    }
-}
-
-class GcHelper
-{
-    public static void MemoryCleanUp()
-    {
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine("-----------------------------------------------------------");
-
-        long memoryBefore = GC.GetTotalMemory(false);
-
-        Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine("Cleaning up memory...");
-
-        GC.Collect();
-        GC.WaitForPendingFinalizers();
-        GC.Collect();
-
-        long memoryAfter = GC.GetTotalMemory(true);
-        long memoryFreed = memoryBefore - memoryAfter;
-
-        Console.WriteLine($"Freed up {memoryFreed / (1024 * 1024 * 1024.0):F2} GB of memory.");
-        Console.WriteLine("-----------------------------------------------------------");
     }
 }
 

@@ -28,7 +28,8 @@
 - Install `.NET 9 SDK` from <a href="https://dotnet.microsoft.com/download/dotnet/9.0"> `here` </a>
 - Install `.Net 9.0.0 Runtime` from <a href="https://dotnet.microsoft.com/download/dotnet/9.0"> `here` </a>
 - Open the solution in your favourite IDE and set "Benchmark" as the startup project.
-- Run the benchmark in `Release` mode.
+- Run the project in `Release` mode and without debugging.
+- For debugging see the `Debugging` section below.
 - Check your if system specs is correct
 - `Y` to continue
 - Select which benchmarks to run
@@ -46,11 +47,14 @@
 - Publish with `dotnet publish -c Release`
 - Run `Benchmark.exe` in the `C:\Users\<Path to project>\Benchmark\bin\Release\net9.0\publish\` folder.
 
+# Download the EXE
+- Download the latest release from <a href="https://github.com/OudomMunint/Benchmark/releases"> `here` </a>
+
+
 > [!NOTE]  
 > This project is not signed or notarized (Can't afford apple developer lol)
-
-- On macOS you might need to allow the app to run in `System Preferences > Security & Privacy` then scroll down and click `Open Anyway`.
-- On Windows you might need to allow the app to run in `Windows Security` then click `Run Anyway`.
+> - On macOS you might need to allow the app to run in `System Preferences > Security & Privacy` then scroll down and click `Open Anyway`.
+> - On Windows you might need to allow the app to run in `Windows Security` then click `Run Anyway`.
 
 # Required SDKs & Runtimes
 
@@ -59,7 +63,8 @@
 
 # Debugging
 - Set a breakpoint anywhere.
-- Run the program in `Debug` mode.
+- Run the program in `Debug` mode with debugger attached.
+- Smaller datasets and iterations are used when debugger is attached.
 - Use option `6` to start debugging.
 - Select the benchmark you want to debug.
 - The program will pause at the breakpoint.
@@ -81,12 +86,14 @@
     <td> <h3>MacOS Sequoia</h3>  </td>
   </tr>
   <tr>
-    <td> <img src="winX64output.png"/> </td>
-    <td> <img src="macos_output.png" width="700"/> </td>
+    <td> <img src="Media/winX64output.png"/> </td>
+    <td> <img src="Media/macos_output.png" width="700"/> </td>
   </tr>
 </table>
 
 - Scroll down to see results.
+- Results are also exported to a `.txt` file located in the `bin\Release\net9.0\publish\` folder.
+- If you are running the downloaded `.exe` file, the results will be in the same folder as the `.exe` file.
 - There might be up to a 20 seconds delay on first use due to hardware detection by `Hardware.Info`.
 
 # Output results
@@ -97,8 +104,8 @@
     <td> <h3>MacOS Sequoia</h3>  </td>
   </tr>
   <tr>
-    <td> <img src="resultOutput.png"/> </td>
-    <td> <img src="macos_results.png" width="700"/> </td>
+    <td> <img src="Media/resultOutput.png"/> </td>
+    <td> <img src="Media/macos_results.png" width="700"/> </td>
   </tr>
 </table>
 

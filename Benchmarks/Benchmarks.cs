@@ -1,22 +1,25 @@
-﻿using BenchmarkDotNet.Attributes;
-using System;
-using System.Diagnostics;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Threading;
+﻿using System.Diagnostics;
 using System.Security.Cryptography;
+using System.Buffers;
 
 public class HashingBenchmark
 {
-    private const int N = 2000000000;
+    private int N;
     private readonly byte[] data;
-
     private readonly SHA256 sha256 = SHA256.Create();
     private readonly SHA512 sha512 = SHA512.Create();
     private readonly MD5 md5 = MD5.Create();
 
     public HashingBenchmark()
     {
+        if (Debugger.IsAttached)
+        {
+            N = 1000000000;
+        }
+        else
+        {
+            N = 2000000000;
+        }
         data = new byte[N];
         new Random(42).NextBytes(data);
     }
@@ -27,10 +30,10 @@ public class HashingBenchmark
 
     public byte[] Md5() => md5.ComputeHash(data);
 
-    public void CombinedHashing()
+    public string CombinedHashingExport()
     {
         Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine("Running Hashing operation...");
+        Console.WriteLine($"Running Hash on SHA256, SHA512, MD5... Hashing {N / 1_000_000_000} GB...");
         Stopwatch stopwatch = Stopwatch.StartNew();
         ConsoleSpinner.Start();
 
@@ -41,17 +44,20 @@ public class HashingBenchmark
         stopwatch.Stop();
         ConsoleSpinner.Stop();
         Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine($"Hasing completed in {stopwatch.ElapsedMilliseconds} ms.");
+        Console.WriteLine($"Hashing completed in {stopwatch.ElapsedMilliseconds} ms.");
         Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("-----------------------------------------------------------");
+
+        string result = $"Hashing Benchmark: {stopwatch.ElapsedMilliseconds} ms";
+        return result;
     }
 }
 
 public class EncryptionBenchmark
 {
-    private const long TotalSize = 16L * 1_000_000_000; // 16GB
+    private long TotalSize;
     private const int ChunkSize = 100_000_000; // 100MB per operation
-    private const int Iterations = (int)(TotalSize / ChunkSize); // Number of chunks needed
+    private int Iterations;
     private readonly byte[] dataChunk;
     private readonly byte[] key;
     private readonly byte[] iv;
@@ -59,6 +65,15 @@ public class EncryptionBenchmark
 
     public EncryptionBenchmark()
     {
+        if (Debugger.IsAttached)
+        {
+            TotalSize = 1L * 1_000_000_000; // 1GB
+        }
+        else
+        {
+            TotalSize = 16L * 1_000_000_000; // 16GB
+        }
+        Iterations = (int)(TotalSize / ChunkSize);
         aes = Aes.Create();
         aes.KeySize = 256;
         aes.GenerateKey();
@@ -68,7 +83,7 @@ public class EncryptionBenchmark
         iv = aes.IV;
 
         dataChunk = new byte[ChunkSize];
-        new Random().NextBytes(dataChunk); // Generate random data once
+        new Random().NextBytes(dataChunk);
     }
 
     public byte[] AesEncrypt(byte[] data)
@@ -83,9 +98,9 @@ public class EncryptionBenchmark
         return decryptor.TransformFinalBlock(encryptedData, 0, encryptedData.Length);
     }
 
-    public void RunEncryptBenchmark()
+    public string RunEncryptBenchmark()
     {
-        int threadCount = Environment.ProcessorCount; // Match CPU core count
+        int threadCount = Environment.ProcessorCount;
         Console.ForegroundColor = ConsoleColor.White;
         Console.WriteLine($"Running AES-256 Encryption... processing {TotalSize / 1_000_000_000} GB with {threadCount} threads...");
 
@@ -107,15 +122,28 @@ public class EncryptionBenchmark
         Console.WriteLine($"Encryption completed in {stopwatch.ElapsedMilliseconds} ms.");
         Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("-----------------------------------------------------------");
+
+        string result = $"Encryption Benchmark: {stopwatch.ElapsedMilliseconds} ms";
+        return result;
     }
 }
 
 class CPUBenchmark
 {
-    public static void CpuPrimeCompute()
+    public static string CpuPrimeCompute()
     {
+        int iterations;
+
+        if (Debugger.IsAttached)
+        {
+            iterations = 100_000_000;
+        }
+        else
+        {
+            iterations = 400_000_000; // Default value if not debugging
+        }
+
         int taskCount = Environment.ProcessorCount;
-        int iterations = 400_000_000;
         int iterationsPerThread = iterations / taskCount;
 
         Console.ForegroundColor = ConsoleColor.White;
@@ -140,6 +168,9 @@ class CPUBenchmark
         Console.WriteLine($"Prime compute completed in {stopwatch.ElapsedMilliseconds} ms.");
         Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("-----------------------------------------------------------");
+
+        string result = $"Prime Compute Benchmark: {stopwatch.ElapsedMilliseconds} ms";
+        return result;
     }
 
     private static int ComputePrimes(int limit)
@@ -168,13 +199,21 @@ class CPUBenchmark
 
 class MatrixMultiplicationBenchmark
 {
-    private const int N = 2048; // Matrix size
+    private int N; // Matrix size
     private readonly double[,] matrixA;
     private readonly double[,] matrixB;
     private readonly double[,] result;
 
     public MatrixMultiplicationBenchmark()
     {
+        if (Debugger.IsAttached)
+        {
+            N = 1024;
+        }
+        else
+        {
+            N = 2048;
+        }
         matrixA = new double[N, N];
         matrixB = new double[N, N];
         result = new double[N, N];
@@ -190,7 +229,7 @@ class MatrixMultiplicationBenchmark
         }
     }
 
-    public void MultiplyMatrix()
+    public string MultiplyMatrix()
     {
         Console.ForegroundColor = ConsoleColor.White;
         Console.WriteLine($"Running Matrix Multiplication with {Environment.ProcessorCount} threads...");
@@ -221,5 +260,88 @@ class MatrixMultiplicationBenchmark
         Console.WriteLine($"Matrix multiplication completed in {stopwatch.ElapsedMilliseconds} ms.");
         Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("-----------------------------------------------------------");
+
+        string benchResult = $"Matrix Multiplication Benchmark: {stopwatch.ElapsedMilliseconds} ms";
+        return benchResult;
+    }
+}
+
+// WIP
+public class MemoryBenchmark
+{
+    public string MTMemBandwidth()
+    {
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine("Running Memory Bandwidth Benchmark...");
+
+        uint[] data = new uint[10000000 * 32];
+        List<(long Sum, double Bandwidth)> AllResults = new();
+        (long Sum, double Bandwidth) BestResult;
+
+        for (int j = 0; j < 15; j++)
+        {
+            long totalSum = 0;
+            var sw = Stopwatch.StartNew();
+            int chunkSize = data.Length / Environment.ProcessorCount;
+            object lockObj = new object();
+
+            Parallel.For(0, Environment.ProcessorCount, threadId =>
+            {
+                int start = threadId * chunkSize;
+                int end = (threadId == Environment.ProcessorCount - 1) ? data.Length : start + chunkSize;
+                uint localSum = 0;
+
+                for (int i = start; i < end; i += 64)
+                {
+                    localSum += data[i] + data[i + 16] + data[i + 32] + data[i + 48];
+                }
+
+                lock (lockObj)
+                {
+                    totalSum += localSum;
+                }
+            });
+
+            sw.Stop();
+            long dataSize = data.Length * 4;
+            double bandwidth = dataSize / sw.Elapsed.TotalSeconds / (1024 * 1024 * 1024);
+
+            //Console.WriteLine("{1:0.000} GB/s", totalSum, bandwidth);
+            AllResults.Add((totalSum, bandwidth));
+        }
+
+        BestResult = AllResults.OrderByDescending(x => x.Bandwidth).First(); // Sort for highest
+        Console.WriteLine($"Memory Bandwidth: {BestResult.Bandwidth:0.000} GB/s");
+        
+        string benchResult = $"Memory Bandwidth: {BestResult.Bandwidth:0.000} GB/s";
+        return benchResult;
+    }
+
+    public string STMemBandwidth()
+    {
+        List<(long Sum, double Bandwidth)> AllResults = new();
+        (long Sum, double Bandwidth) BestResult;
+        uint[] data = new uint[10000000 * 32];
+        for (int j = 0; j < 15; j++)
+        {
+            long totalSum = 0;
+            uint sum = 0;
+            var sw = Stopwatch.StartNew();
+            for (uint i = 0; i < data.Length; i += 64)
+            {
+                sum += data[i] + data[i + 16] + data[i + 32] + data[i + 48];
+            }
+            sw.Stop();
+            long dataSize = data.Length * 4;
+            double bandwidth = dataSize / sw.Elapsed.TotalSeconds / (1024 * 1024 * 1024);
+            Console.WriteLine("{0} {1:0.000} GB/s", sum, dataSize / sw.Elapsed.TotalSeconds / (1024 * 1024 * 1024));
+            AllResults.Add((totalSum, bandwidth));
+        }
+
+        BestResult = AllResults.OrderByDescending(x => x.Bandwidth).First(); // Sort for highest
+        Console.WriteLine($"Memory Bandwidth: {BestResult.Sum} {BestResult.Bandwidth:0.000} GB/s");
+        
+        string benchResult = $"Memory Bandwidth: {BestResult.Sum} {BestResult.Bandwidth:0.000} GB/s";
+        return benchResult;
     }
 }

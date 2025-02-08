@@ -1,11 +1,5 @@
-using BenchmarkDotNet.Attributes;
-using System;
 using System.Diagnostics;
 using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Threading;
-using System.Security.Cryptography;
-
 class ConsoleInfo
 {
     public static void GetAppInfo()
@@ -30,6 +24,16 @@ class ConsoleInfo
 
         Console.ForegroundColor = ConsoleColor.Magenta;
         Console.WriteLine("-----------------------------------------------------------");
+    }
+
+    public static string Version()
+    {
+        Assembly? assembly = Assembly.GetEntryAssembly();
+        AssemblyName? assemblyName = assembly?.GetName();
+        Version? version = assemblyName?.Version;
+        string? fileVersion = assembly?.GetCustomAttribute<AssemblyFileVersionAttribute>()?.Version;
+
+        return $"v{version} ({fileVersion})";
     }
 }
 
@@ -89,31 +93,5 @@ class ConsolePasswordHelper
 
         Console.WriteLine();
         return password;
-    }
-}
-class MacOSPowerMetrics
-{
-    static void DisplayMacInfoByPowermetrics()
-    {
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        var startInfo = new ProcessStartInfo
-        {
-            FileName = "/usr/bin/powermetrics",
-            Arguments = "sudo powermetrics --samplers cpu_power,gpu_power -n 1s",
-            RedirectStandardOutput = true,
-            UseShellExecute = false
-        };
-
-        var process = new Process { StartInfo = startInfo };
-        process.Start();
-
-        while (!process.StandardOutput.EndOfStream)
-        {
-            string? line = process.StandardOutput.ReadLine();
-            if (line != null)
-            {
-                Console.WriteLine(line);
-            }
-        }
     }
 }
