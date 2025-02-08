@@ -269,8 +269,11 @@ class MatrixMultiplicationBenchmark
 // WIP
 public class MemoryBenchmark
 {
-    public void MTMemBandwidth()
+    public string MTMemBandwidth()
     {
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine("Running Memory Bandwidth Benchmark...");
+
         uint[] data = new uint[10000000 * 32];
         List<(long Sum, double Bandwidth)> AllResults = new();
         (long Sum, double Bandwidth) BestResult;
@@ -308,10 +311,13 @@ public class MemoryBenchmark
         }
 
         BestResult = AllResults.OrderByDescending(x => x.Bandwidth).First(); // Sort for highest
-        Console.WriteLine($"Memory Bandwidth: {BestResult.Sum} {BestResult.Bandwidth:0.000} GB/s");
+        Console.WriteLine($"Memory Bandwidth: {BestResult.Bandwidth:0.000} GB/s");
+        
+        string benchResult = $"Memory Bandwidth: {BestResult.Bandwidth:0.000} GB/s";
+        return benchResult;
     }
 
-    public void STMemBandwidth()
+    public string STMemBandwidth()
     {
         List<(long Sum, double Bandwidth)> AllResults = new();
         (long Sum, double Bandwidth) BestResult;
@@ -334,5 +340,8 @@ public class MemoryBenchmark
 
         BestResult = AllResults.OrderByDescending(x => x.Bandwidth).First(); // Sort for highest
         Console.WriteLine($"Memory Bandwidth: {BestResult.Sum} {BestResult.Bandwidth:0.000} GB/s");
+        
+        string benchResult = $"Memory Bandwidth: {BestResult.Sum} {BestResult.Bandwidth:0.000} GB/s";
+        return benchResult;
     }
 }
