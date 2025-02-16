@@ -44,18 +44,27 @@ class WindowsHelper
 
                     foreach (var cpu in hardwareInfo.CpuList)
                     {
+                        var L1DataCacheSize = cpu.L1DataCacheSize / 1024;
+                        var L1InstructionCacheSize = cpu.L1InstructionCacheSize / 1024;
+                        var L2CacheSize = cpu.L2CacheSize / 1024 / 1024;
+                        var L3CacheSize = cpu.L3CacheSize / 1024 / 1024;
+
                         Console.WriteLine("{0}MHz", cpu.CurrentClockSpeed);
+                        Console.WriteLine("L1 Data Cache: {0}KB", L1DataCacheSize);
+                        Console.WriteLine("L1 Instruction Cache: {0}KB", L1InstructionCacheSize);
+                        Console.WriteLine("L2 Cache: {0}MB", L2CacheSize);
+                        Console.WriteLine("L3 Cache: {0}MB", L3CacheSize);
                     }
 
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.Write("L2 Cache: ");
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine("{0}MB", Convert.ToInt64(item["L2CacheSize"]) / 1024);
+                    //Console.ForegroundColor = ConsoleColor.White;
+                    //Console.Write("L2 Cache: ");
+                    //Console.ForegroundColor = ConsoleColor.Yellow;
+                    //Console.WriteLine("{0}MB", Convert.ToInt64(item["L2CacheSize"]) / 1024);
 
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.Write("L3 Cache: ");
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine("{0}MB", Convert.ToInt64(item["L3CacheSize"]) / 1024);
+                    //Console.ForegroundColor = ConsoleColor.White;
+                    //Console.Write("L3 Cache: ");
+                    //Console.ForegroundColor = ConsoleColor.Yellow;
+                    //Console.WriteLine("{0}MB", Convert.ToInt64(item["L3CacheSize"]) / 1024);
 
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.Write("Voltage: ");
