@@ -133,6 +133,40 @@ class MacOSHelper
         }
     }
 
+    public static void DisplayMacInfo1()
+    {
+        IHardwareInfo hardwareInfo = new HardwareInfo();
+        hardwareInfo.RefreshAll();
+
+        foreach (var cpu in hardwareInfo.CpuList)
+        {
+            Console.WriteLine("{0}MHz", cpu.CurrentClockSpeed);
+
+            Console.WriteLine(cpu.NumberOfCores.ToString());
+
+            foreach (var cpuCore in cpu.CpuCoreList)
+                Console.WriteLine(cpuCore);
+
+            foreach (var hardware in hardwareInfo.MemoryList)
+                Console.WriteLine(hardware);
+
+            foreach (var hardware in hardwareInfo.VideoControllerList)
+                Console.WriteLine(hardware);
+
+            Console.WriteLine(hardwareInfo.OperatingSystem);
+
+            Console.WriteLine(hardwareInfo.MemoryStatus);
+        }
+
+        foreach (var gpu in hardwareInfo.VideoControllerList)
+        {
+            Console.WriteLine(gpu);
+        }
+
+        foreach (var hardware in hardwareInfo.ComputerSystemList)
+            Console.WriteLine(hardware);
+    }
+
     static void Powermetrics()
     {
         Console.ForegroundColor = ConsoleColor.Cyan;
