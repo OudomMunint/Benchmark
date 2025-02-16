@@ -27,39 +27,38 @@ class MacOSHelper
             // Store parsed values
             Dictionary<string, string> systemInfo = new();
             List<string> displayInfo = new();
-            bool isGPUSection = false; // Detect when we're in the GPU section
+            bool isGPUSection = false;
 
             while (!process.StandardOutput.EndOfStream)
             {
                 string? line = process.StandardOutput.ReadLine()?.Trim();
                 if (string.IsNullOrEmpty(line)) continue;
 
-                // Detect when we are parsing GPU section
                 if (line.StartsWith("Graphics/Displays:"))
                 {
                     isGPUSection = true;
                     continue;
                 }
 
-                // Software Information
+                // Software Info
                 if (line.StartsWith("System Version:"))
                     systemInfo["Operating system"] = line.Split(": ")[1].Split('(')[0].Trim();
 
-                // CPU Information
+                // CPU Info
                 if (line.StartsWith("Chip:"))
                     systemInfo["CPU"] = line.Split(": ")[1];
 
-                if (line.StartsWith("Total Number of Cores:") && !isGPUSection) // Ensure it's CPU cores
+                if (line.StartsWith("Total Number of Cores:") && !isGPUSection)
                 {
-                    systemInfo["Cores"] = line.Split(": ")[1].Split(" (")[0].Trim(); // Extracts "10"
-                    if (line.Contains("(")) // Extract performance/efficiency details
+                    systemInfo["Cores"] = line.Split(": ")[1].Split(" (")[0].Trim();
+                    if (line.Contains("("))
                     {
                         string details = line.Substring(line.IndexOf("(")).Trim('(', ')');
                         systemInfo["CPU Core Breakdown"] = details;
                     }
                 }
 
-                // Memory Information
+                // Memory Info
                 if (line.StartsWith("Memory:") && !systemInfo.ContainsKey("Memory"))
                     systemInfo["Memory"] = line.Split(": ")[1];
 
@@ -78,18 +77,10 @@ class MacOSHelper
 
                 if (line.StartsWith("Metal Support:"))
                     systemInfo["Metal support"] = line.Split(": ")[1];
-
-                // Display Information
-                if (line.StartsWith("Resolution:"))
-                    displayInfo.Add("Resolution: " + line.Split(": ")[1].Split(" (")[0]);
-
-                if (line.Contains("@") && line.Contains("Hz"))
-                    displayInfo.Add("Refresh rate: " + line.Split("@ ")[1]);
             }
 
             process.WaitForExit();
 
-            // 🔥 Formatted Output
             Console.WriteLine("Software");
             Console.WriteLine($"    Operating system: {systemInfo.GetValueOrDefault("Operating system", "Unknown")}");
 
@@ -108,19 +99,6 @@ class MacOSHelper
             Console.WriteLine($"    GPU: {systemInfo.GetValueOrDefault("GPU", "Unknown")}");
             Console.WriteLine($"    GPU Cores: {systemInfo.GetValueOrDefault("GPU Cores", "Unknown")}");
             Console.WriteLine($"    Metal support: {systemInfo.GetValueOrDefault("Metal support", "Unknown")}");
-
-            // Console.WriteLine("Display");
-            // if (displayInfo.Count > 0)
-            // {
-            //     foreach (var item in displayInfo)
-            //     {
-            //         Console.WriteLine($"    {item}");
-            //     }
-            // }
-            // else
-            // {
-            //     Console.WriteLine("    No display information found.");
-            // }
         }
         catch (Exception ex)
         {
