@@ -88,7 +88,15 @@ class MacOSHelper
             Console.WriteLine($"    CPU: {systemInfo.GetValueOrDefault("CPU", "Unknown")}");
             Console.WriteLine($"    Cores: {systemInfo.GetValueOrDefault("Cores", "Unknown")}");
             Console.WriteLine($"    Threads: {systemInfo.GetValueOrDefault("Cores", "Unknown")}");
-            Console.WriteLine($"    Core Breakdown: {systemInfo.GetValueOrDefault("CPU Core Breakdown", "Unknown")}");
+            Console.WriteLine($"    Core Layout: {systemInfo.GetValueOrDefault("CPU Core Breakdown", "Unknown")}");
+
+            foreach (var cpu in hardwareInfo.CpuList)
+            {
+                Console.WriteLine($"    L1 Data Cache: {cpu.L1DataCacheSize}");
+                Console.WriteLine($"    L1 Instruction Cache: {cpu.L1InstructionCacheSize}");
+                Console.WriteLine($"    L2 Cache: {cpu.L2CacheSize}");
+                Console.WriteLine($"    L3 Cache: {cpu.L3CacheSize}");
+            }
 
             Console.WriteLine("Memory");
             Console.WriteLine($"    Memory: {systemInfo.GetValueOrDefault("Memory", "Unknown")}");
