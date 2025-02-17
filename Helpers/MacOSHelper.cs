@@ -81,13 +81,32 @@ class MacOSHelper
 
             process.WaitForExit();
 
+            // Get CPU Model
+            string cpuModel = systemInfo.GetValueOrDefault("CPU", "Unknown");
+
+            // Determine Process Node based on family
+            string processNode = cpuModel switch
+            {
+                var name when name.StartsWith("Apple M1") => "5nm (N5)",
+                var name when name.StartsWith("Apple M2") => "5nm (N5P)",
+                var name when name.StartsWith("Apple M3") => "3nm (N3B)",
+                var name when name.StartsWith("Apple M4") => "3nm (N3E)",
+                var name when name.StartsWith("Intel") => "14nm",
+                _ => "Unknown"
+            };
+
             Console.WriteLine("Software");
             Console.WriteLine($"    Operating system: {systemInfo.GetValueOrDefault("Operating system", "Unknown")}");
 
+            string architecture = RuntimeInformation.OSArchitecture.ToString();
+            Console.WriteLine($"    Architecture: {architecture}");
+
             Console.WriteLine("CPU");
             Console.WriteLine($"    CPU: {systemInfo.GetValueOrDefault("CPU", "Unknown")}");
-            Console.WriteLine($"    Cores: {systemInfo.GetValueOrDefault("Cores", "Unknown")}");
-            Console.WriteLine($"    Threads: {systemInfo.GetValueOrDefault("Cores", "Unknown")}");
+            Console.WriteLine($"    Process Node: {processNode}");
+
+            if (RuntimeInformation.OSArchitecture == Architecture.Arm64)
+            {
             Console.WriteLine($"    Core Layout: {systemInfo.GetValueOrDefault("CPU Core Breakdown", "Unknown")}");
 
             foreach (var cpu in hardwareInfo.CpuList)
