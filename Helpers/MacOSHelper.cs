@@ -108,14 +108,14 @@ class MacOSHelper
 
             if (RuntimeInformation.OSArchitecture == Architecture.Arm64)
             {
-            Console.WriteLine($"    Core Layout: {systemInfo.GetValueOrDefault("CPU Core Breakdown", "Unknown")}");
+                Console.WriteLine($"    Core Layout: {systemInfo.GetValueOrDefault("CPU Core Breakdown", "Unknown")}");
             }
 
             if (RuntimeInformation.OSArchitecture == Architecture.Arm64)
             {
                 Console.WriteLine("          P-Cores");
                 foreach (var cpu in new[] { hardwareInfo.CpuList.First() })
-            {
+                {
                     var L1Dcache = cpu.L1DataCacheSize / 1024;
                     var L1Icache = cpu.L1InstructionCacheSize / 1024;
                     var L2cache = cpu.L2CacheSize / 1024 / 1024;
@@ -159,11 +159,24 @@ class MacOSHelper
             Console.WriteLine($"    Memory: {systemInfo.GetValueOrDefault("Memory", "Unknown")}");
             Console.WriteLine($"    Type: {systemInfo.GetValueOrDefault("Memory Type", "Unknown")}");
             Console.WriteLine($"    Manufacturer: {systemInfo.GetValueOrDefault("Memory Manufacturer", "Unknown")}");
+            Console.WriteLine("Graphics");
+            if (RuntimeInformation.OSArchitecture == Architecture.Arm64)
+            {
+                Console.WriteLine($"    GPU: {systemInfo.GetValueOrDefault("GPU", "Unknown")}");
+                Console.WriteLine($"    GPU Cores: {systemInfo.GetValueOrDefault("GPU Cores", "Unknown")}");
+                Console.WriteLine($"    Metal support: {systemInfo.GetValueOrDefault("Metal support", "Unknown")}");
+            }
+            else
+            {
+                foreach (var gpu in hardwareInfo.VideoControllerList)
+                {
+                    var vram = gpu.AdapterRAM / 1024 / 1024 / 1024;
 
-            Console.WriteLine("GPU");
-            Console.WriteLine($"    GPU: {systemInfo.GetValueOrDefault("GPU", "Unknown")}");
-            Console.WriteLine($"    GPU Cores: {systemInfo.GetValueOrDefault("GPU Cores", "Unknown")}");
-            Console.WriteLine($"    Metal support: {systemInfo.GetValueOrDefault("Metal support", "Unknown")}");
+                    Console.WriteLine($"    Brand: {gpu.Manufacturer}");
+                    Console.WriteLine($"    GPU: {gpu.Name}");
+                    Console.WriteLine($"    VRAM: {vram} GB");
+                }
+            }
         }
         catch (Exception ex)
         {
