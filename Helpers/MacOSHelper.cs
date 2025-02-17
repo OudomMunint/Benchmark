@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using Hardware.Info;
 
 class MacOSHelper
@@ -102,19 +103,56 @@ class MacOSHelper
             Console.WriteLine($"    Architecture: {architecture}");
 
             Console.WriteLine("CPU");
-            Console.WriteLine($"    CPU: {systemInfo.GetValueOrDefault("CPU", "Unknown")}");
+            Console.WriteLine($"    CPU: {cpuModel}");
             Console.WriteLine($"    Process Node: {processNode}");
 
             if (RuntimeInformation.OSArchitecture == Architecture.Arm64)
             {
             Console.WriteLine($"    Core Layout: {systemInfo.GetValueOrDefault("CPU Core Breakdown", "Unknown")}");
+            }
 
-            foreach (var cpu in hardwareInfo.CpuList)
+            if (RuntimeInformation.OSArchitecture == Architecture.Arm64)
             {
-                Console.WriteLine($"    L1 Data Cache: {cpu.L1DataCacheSize}");
-                Console.WriteLine($"    L1 Instruction Cache: {cpu.L1InstructionCacheSize}");
-                Console.WriteLine($"    L2 Cache: {cpu.L2CacheSize}");
-                Console.WriteLine($"    L3 Cache: {cpu.L3CacheSize}");
+                Console.WriteLine("          P-Cores");
+                foreach (var cpu in new[] { hardwareInfo.CpuList.First() })
+            {
+                    var L1Dcache = cpu.L1DataCacheSize / 1024;
+                    var L1Icache = cpu.L1InstructionCacheSize / 1024;
+                    var L2cache = cpu.L2CacheSize / 1024 / 1024;
+
+                    Console.WriteLine($"               Cores/Threads: {cpu.NumberOfCores} / {cpu.NumberOfLogicalProcessors}");
+                    Console.WriteLine($"               L1 Data Cache: {L1Dcache} KB");
+                    Console.WriteLine($"               L1 Instruction Cache: {L1Icache} KB");
+                    Console.WriteLine($"               L2 Cache: {L2cache} MB");
+                }
+                Console.WriteLine("          E-Cores");
+                foreach (var cpu in new[] { hardwareInfo.CpuList.Skip(1).First() })
+                {
+                    var L1Dcache = cpu.L1DataCacheSize / 1024;
+                    var L1Icache = cpu.L1InstructionCacheSize / 1024;
+                    var L2cache = cpu.L2CacheSize / 1024 / 1024;
+
+                    Console.WriteLine($"               Cores/Threads: {cpu.NumberOfCores} / {cpu.NumberOfLogicalProcessors}");
+                    Console.WriteLine($"               L1 Data Cache: {L1Dcache} KB");
+                    Console.WriteLine($"               L1 Instruction Cache: {L1Icache} KB");
+                    Console.WriteLine($"               L2 Cache: {L2cache} MB");
+                }
+            }
+            else
+            {
+                foreach (var cpu in hardwareInfo.CpuList)
+                {
+                    var L1Dcache = cpu.L1DataCacheSize / 1024;
+                    var L1Icache = cpu.L1InstructionCacheSize / 1024;
+                    var L2cache = cpu.L2CacheSize / 1024 / 1024;
+                    var L3cache = cpu.L3CacheSize / 1024 / 1024;
+
+                    Console.WriteLine($"     Cores/Threads: {cpu.NumberOfCores} / {cpu.NumberOfLogicalProcessors}");
+                    Console.WriteLine($"     L1 Data Cache: {L1Dcache} KB");
+                    Console.WriteLine($"     L1 Instruction Cache: {L1Icache} KB");
+                    Console.WriteLine($"     L2 Cache: {L2cache} MB");
+                    Console.WriteLine($"     L3 Cache: {L3cache} MB");
+                }
             }
 
             Console.WriteLine("Memory");
@@ -136,40 +174,6 @@ class MacOSHelper
         {
             Console.ResetColor();
         }
-    }
-
-    public static void DisplayMacInfo1()
-    {
-        IHardwareInfo hardwareInfo = new HardwareInfo();
-        hardwareInfo.RefreshAll();
-
-        foreach (var cpu in hardwareInfo.CpuList)
-        {
-            Console.WriteLine("{0}MHz", cpu.CurrentClockSpeed);
-
-            Console.WriteLine(cpu.NumberOfCores.ToString());
-
-            foreach (var cpuCore in cpu.CpuCoreList)
-                Console.WriteLine(cpuCore);
-
-            foreach (var hardware in hardwareInfo.MemoryList)
-                Console.WriteLine(hardware);
-
-            foreach (var hardware in hardwareInfo.VideoControllerList)
-                Console.WriteLine(hardware);
-
-            Console.WriteLine(hardwareInfo.OperatingSystem);
-
-            Console.WriteLine(hardwareInfo.MemoryStatus);
-        }
-
-        foreach (var gpu in hardwareInfo.VideoControllerList)
-        {
-            Console.WriteLine(gpu);
-        }
-
-        foreach (var hardware in hardwareInfo.ComputerSystemList)
-            Console.WriteLine(hardware);
     }
 
     static void Powermetrics()
