@@ -70,11 +70,6 @@ class WindowsHelper
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine("{0}MB", Convert.ToInt64(item["L3CacheSize"]) / 1024);
 
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.Write("Voltage: ");
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine("{0}V", item["CurrentVoltage"]);
-
                     Console.ForegroundColor = ConsoleColor.Magenta;
                     Console.WriteLine("-----------------------------------------------------------");
                 }
