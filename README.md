@@ -86,8 +86,8 @@
     <td> <h3>MacOS Sequoia</h3>  </td>
   </tr>
   <tr>
-    <td> <img src="Media/winX64output.png"/> </td>
-    <td> <img src="Media/macos_output.png" width="700"/> </td>
+    <td> <img src="Media/win11.png"/> </td>
+    <td> <img src="Media/macos.png" width="700"/> </td>
   </tr>
 </table>
 

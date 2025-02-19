@@ -44,7 +44,20 @@ class WindowsHelper
 
                     foreach (var cpu in hardwareInfo.CpuList)
                     {
+                        var L1DataCacheSize = cpu.L1DataCacheSize / 1024;
+                        var L1InstructionCacheSize = cpu.L1InstructionCacheSize / 1024;
+
                         Console.WriteLine("{0}MHz", cpu.CurrentClockSpeed);
+
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.Write("L1 Data Cache: ");
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine("{0}KB", L1DataCacheSize);
+
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.Write("L1 Instruction Cache: ");
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine("{0}KB", L1InstructionCacheSize);
                     }
 
                     Console.ForegroundColor = ConsoleColor.White;
@@ -56,11 +69,6 @@ class WindowsHelper
                     Console.Write("L3 Cache: ");
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine("{0}MB", Convert.ToInt64(item["L3CacheSize"]) / 1024);
-
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.Write("Voltage: ");
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine("{0}V", item["CurrentVoltage"]);
 
                     Console.ForegroundColor = ConsoleColor.Magenta;
                     Console.WriteLine("-----------------------------------------------------------");
