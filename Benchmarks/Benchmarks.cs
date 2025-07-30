@@ -4,7 +4,7 @@ using System.Buffers;
 
 public class HashingBenchmark
 {
-    private int N;
+    private readonly int N;
     private readonly byte[] data;
     private readonly SHA256 sha256 = SHA256.Create();
     private readonly SHA512 sha512 = SHA512.Create();
@@ -55,7 +55,7 @@ public class HashingBenchmark
 
 public class EncryptionBenchmark
 {
-    private long TotalSize;
+    private readonly long TotalSize;
     private const int ChunkSize = 100_000_000; // 100MB per operation
     private int Iterations;
     private readonly byte[] dataChunk;
@@ -199,7 +199,7 @@ class CPUBenchmark
 
 class MatrixMultiplicationBenchmark
 {
-    private int N; // Matrix size
+    private readonly int N; // Matrix size
     private readonly double[,] matrixA;
     private readonly double[,] matrixB;
     private readonly double[,] result;
@@ -218,7 +218,7 @@ class MatrixMultiplicationBenchmark
         matrixB = new double[N, N];
         result = new double[N, N];
 
-        Random random = new Random(42);
+        Random random = new(42);
         for (int i = 0; i < N; i++)
         {
             for (int j = 0; j < N; j++)
@@ -269,7 +269,7 @@ class MatrixMultiplicationBenchmark
 // WIP
 public class MemoryBenchmark
 {
-    public string MTMemBandwidth()
+    public static string MTMemBandwidth()
     {
         Console.ForegroundColor = ConsoleColor.White;
         Console.WriteLine("Running Memory Bandwidth Benchmark...");
@@ -283,7 +283,7 @@ public class MemoryBenchmark
             long totalSum = 0;
             var sw = Stopwatch.StartNew();
             int chunkSize = data.Length / Environment.ProcessorCount;
-            object lockObj = new object();
+            object lockObj = new();
 
             Parallel.For(0, Environment.ProcessorCount, threadId =>
             {
@@ -317,7 +317,7 @@ public class MemoryBenchmark
         return benchResult;
     }
 
-    public string STMemBandwidth()
+    public static string STMemBandwidth()
     {
         List<(long Sum, double Bandwidth)> AllResults = new();
         (long Sum, double Bandwidth) BestResult;
