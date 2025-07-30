@@ -78,11 +78,11 @@ class Program
             ["2"] = () => results.Add(EncrypBenchmark.RunEncryptBenchmark()),
             ["3"] = () => results.Add(CPUBenchmark.CpuPrimeCompute()),
             ["4"] = () => results.Add(MMUL.MultiplyMatrix()),
-            ["5"] = () => results.Add(MemoryBenchmark.MTMemBandwidth()),
+            ["5"] = () => results.Add(global::MemoryBenchmark.MTMemBandwidth()),
             ["6"] = () =>
             {
                 results.AddRange(HashBenchmark.CombinedHashingExport(), EncrypBenchmark.RunEncryptBenchmark(),
-                    CPUBenchmark.CpuPrimeCompute(), MMUL.MultiplyMatrix(), MemoryBenchmark.MTMemBandwidth());
+                    CPUBenchmark.CpuPrimeCompute(), MMUL.MultiplyMatrix(), global::MemoryBenchmark.MTMemBandwidth());
             },
 #if DEBUG
             ["7"] = () => BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(new[] { "Benchmarks" }, new DebugInProcessConfig()),
