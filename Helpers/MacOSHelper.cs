@@ -92,6 +92,7 @@ class MacOSHelper
                 var name when name.StartsWith("Apple M2") => "5nm (N5P)",
                 var name when name.StartsWith("Apple M3") => "3nm (N3B)",
                 var name when name.StartsWith("Apple M4") => "3nm (N3E)",
+                var name when name.StartsWith("Apple M5") => "3nm (N3P)",
                 var name when name.StartsWith("Intel") => "14nm",
                 _ => "Unknown"
             };
